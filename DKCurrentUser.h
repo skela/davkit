@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+// Subclass or wrap this in your own CurrentUser / Settings class
+// for maximum potential.
+
 @interface DKCurrentUser : NSObject
 
 + (void)clear;
