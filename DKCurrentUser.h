@@ -13,10 +13,20 @@
 + (void)clear;
 + (BOOL)sync;
 
++ (void)setLong:(long)l withKey:(NSString*)key;
++ (void)setLongLong:(long long)ll withKey:(NSString*)key;
 + (void)setBool:(BOOL)b withKey:(NSString*)key;
-+ (BOOL)getBoolForKey:(NSString*)key defaultValue:(BOOL)def;
 + (void)setInteger:(NSInteger)i withKey:(NSString*)key;
++ (void)setDate:(NSDate*)d withKey:(NSString*)key;
++ (void)setDouble:(double)d withKey:(NSString*)key;
++ (void)setFloat:(CGFloat)f withKey:(NSString*)key;
++ (BOOL)getBoolForKey:(NSString*)key defaultValue:(BOOL)def;
 + (NSInteger)getIntegerForKey:(NSString*)key defaultValue:(NSInteger)def;
++ (long)getLongForKey:(NSString*)key defaultValue:(long)def;
++ (long long)getLongLongForKey:(NSString*)key defaultValue:(long long)def;
++ (double)getDoubleForKey:(NSString*)key defaultValue:(double)def;
++ (NSDate*)getDateForKey:(NSString*)key defaultValue:(NSDate*)def;
++ (CGFloat)getFloatForKey:(NSString*)key defaultValue:(CGFloat)def;
 + (NSArray*)getArrayForKey:(NSString*)key defaultValue:(NSArray*)def;
 + (void)setArray:(NSArray*)ar withKey:(NSString*)key;
 + (NSString*)getStringForKey:(NSString*)key defaultValue:(NSString*)def;

@@ -29,28 +29,72 @@
 
 + (void)setBool:(BOOL)b withKey:(NSString*)key
 {
-    [[DKCurrentUser defaults] setObject:[NSNumber numberWithBool:b] forKey:key];
-}
-
-+ (BOOL)getBoolForKey:(NSString*)key defaultValue:(BOOL)def
-{
-    NSNumber * n =[[DKCurrentUser defaults] objectForKey:key];
-    if (n==nil)
-        return def;
-    return [n boolValue];
+    [DKCurrentUser setObject:[NSNumber numberWithBool:b] ofClass:[NSNumber class] withKey:key];
 }
 
 + (void)setInteger:(NSInteger)i withKey:(NSString*)key
 {
-    [[DKCurrentUser defaults] setObject:[NSNumber numberWithInteger:i] forKey:key];
+    [DKCurrentUser setObject:[NSNumber numberWithInteger:i] ofClass:[NSNumber class] withKey:key];
+}
+
++ (void)setLong:(long)l withKey:(NSString*)key
+{
+    [DKCurrentUser setObject:[NSNumber numberWithLong:l] ofClass:[NSNumber class] withKey:key];
+}
+
++ (void)setLongLong:(long long)ll withKey:(NSString*)key
+{
+    [DKCurrentUser setObject:[NSNumber numberWithLongLong:ll] ofClass:[NSNumber class] withKey:key];
+}
+
++ (void)setDate:(NSDate*)d withKey:(NSString*)key
+{
+    [DKCurrentUser setObject:[NSNumber numberWithDouble:[d timeIntervalSince1970]] ofClass:[NSNumber class] withKey:key];
+}
+
++ (void)setDouble:(double)d withKey:(NSString*)key
+{
+    [DKCurrentUser setObject:[NSNumber numberWithDouble:d] ofClass:[NSNumber class] withKey:key];
+}
+
++ (void)setFloat:(CGFloat)f withKey:(NSString*)key
+{
+    [DKCurrentUser setObject:[NSNumber numberWithFloat:f] ofClass:[NSNumber class] withKey:key];
+}
+
++ (BOOL)getBoolForKey:(NSString*)key defaultValue:(BOOL)def
+{
+    NSNumber *n = [DKCurrentUser getNumberForKey:key defaultValue:nil]; return n==nil ? def : [n boolValue];
 }
 
 + (NSInteger)getIntegerForKey:(NSString*)key defaultValue:(NSInteger)def
 {
-    NSNumber * n =[[DKCurrentUser defaults] objectForKey:key];
-    if (n==nil)
-        return def;
-    return [n integerValue];
+    NSNumber *n = [DKCurrentUser getNumberForKey:key defaultValue:nil]; return n==nil ? def : [n integerValue];
+}
+
++ (long)getLongForKey:(NSString*)key defaultValue:(long)def
+{
+    NSNumber *n = [DKCurrentUser getNumberForKey:key defaultValue:nil]; return n==nil ? def : [n longValue];
+}
+
++ (long long)getLongLongForKey:(NSString*)key defaultValue:(long long)def
+{
+    NSNumber *n = [DKCurrentUser getNumberForKey:key defaultValue:nil]; return n==nil ? def : [n longLongValue];
+}
+
++ (double)getDoubleForKey:(NSString*)key defaultValue:(double)def
+{
+    NSNumber *n = [DKCurrentUser getNumberForKey:key defaultValue:nil]; return n==nil ? def : [n doubleValue];
+}
+
++ (CGFloat)getFloatForKey:(NSString*)key defaultValue:(CGFloat)def
+{
+    NSNumber *n = [DKCurrentUser getNumberForKey:key defaultValue:nil]; return n==nil ? def : [n floatValue];
+}
+
++ (NSDate*)getDateForKey:(NSString*)key defaultValue:(NSDate*)def
+{
+    NSNumber *n = [DKCurrentUser getNumberForKey:key defaultValue:nil]; return n==nil ? def : [NSDate dateWithTimeIntervalSince1970:[n doubleValue]];
 }
 
 + (id)getObjectOfClass:(Class)class forKey:(NSString*)key defaultValue:(id)def
