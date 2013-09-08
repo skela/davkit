@@ -10,12 +10,27 @@
 
 @implementation DKParser
 
++ (id)getObject:(NSDictionary*)d ofClass:(Class)classe forKey:(NSString*)key fallBack:(id)fallBack
+{
+    NSString *obj=[d objectForKey:key];
+    if (obj!=nil && [obj isKindOfClass:classe])
+        return obj;
+    return fallBack;
+}
+
 + (NSString*)getString:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSString*)fallBack
 {
-    NSString *str=[d objectForKey:key];
-    if (str!=nil && [str isKindOfClass:[NSString class]])
-        return str;
-    return fallBack;
+    return [DKParser getObject:d ofClass:[NSString class] forKey:key fallBack:fallBack];
+}
+
++ (NSArray*)getArray:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSArray*)fallBack
+{
+    return [DKParser getObject:d ofClass:[NSArray class] forKey:key fallBack:fallBack];    
+}
+
++ (NSDictionary*)getDictionary:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSDictionary*)fallBack
+{
+    return [DKParser getObject:d ofClass:[NSDictionary class] forKey:key fallBack:fallBack];        
 }
 
 + (NSInteger)getInteger:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSInteger)fallBack
@@ -63,22 +78,6 @@
     NSNumber *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSNumber class]])
         return [n longValue];
-    return fallBack;
-}
-
-+ (NSArray*)getArray:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSArray*)fallBack
-{
-    NSArray *n=[d objectForKey:key];
-    if (n!=nil && [n isKindOfClass:[NSArray class]])
-        return n;
-    return fallBack;
-}
-
-+ (NSDictionary*)getDictionary:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSDictionary*)fallBack
-{
-    NSDictionary *n=[d objectForKey:key];
-    if (n!=nil && [n isKindOfClass:[NSDictionary class]])
-        return n;
     return fallBack;
 }
 
