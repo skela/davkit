@@ -13,3 +13,13 @@
 - (id)initWithTitle:(NSString *)title message:(NSString *)message completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...;
 
 @end
+
+@interface DKAlertInputView : UIAlertView <UIAlertViewDelegate>
+{
+	UITextField *textField;
+}
+@property(nonatomic,strong) UITextField *textField;
+- (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
+- (void)setSecureTextEntry:(BOOL)secure;
+- (NSString*)textFieldText;
+@end
