@@ -26,4 +26,12 @@
 + (BOOL)isString:(id)string;
 + (BOOL)isArray:(id)ar;
 
+// For example a normal string from .NET systems for timestamps could be: "/Date(1378151009864)/"
+// In this case the inputs for this function would be startsWith:@"/Date(" endsWith:@")/"
++ (double)getDoubleFromString:(NSDictionary*)d
+                       forKey:(NSString*)key
+                   startsWith:(NSString*)start
+                     endsWith:(NSString*)end
+                     fallBack:(double)fallBack;
+
 @end

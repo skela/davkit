@@ -109,4 +109,26 @@
     return NO;
 }
 
+// Specials
+
++ (double)getDoubleFromString:(NSDictionary*)d forKey:(NSString*)key startsWith:(NSString*)start endsWith:(NSString*)end fallBack:(double)fallBack
+{
+    NSString *s=[DKParser getString:d forKey:key fallBack:nil];
+    if (s!=nil)
+    {
+        if (start!=nil && end!=nil)
+        {
+            if ([s hasPrefix:start] && [s hasSuffix:end])
+            {
+                NSRange rstart = [s rangeOfString:start];
+                NSRange rend = [s rangeOfString:end];
+                NSRange res; res.location = rstart.location+rstart.length; res.length=rend.location-res.location;
+                NSString *numString = [s substringWithRange:res];
+                return [numString doubleValue];
+            }
+        }
+    }
+    return fallBack;
+}
+
 @end
