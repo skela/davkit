@@ -52,17 +52,16 @@
     if ([alertView isKindOfClass:[DKAlertInputView class]])
     {
         void (^block)(DKAlertInputView *inputView,NSString *text) = objc_getAssociatedObject(self, "blockCallback");
+        UITextField *textField = ((DKAlertInputView *)alertView).safeTextField;
         if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"])
         {
-            BOOL useLegacySupport = [DKAlertInputView useLegacySupport];
-            NSString *text = [NSString stringWithFormat:@"%@",[((DKAlertInputView*)alertView) textFieldText]];
-            if (!useLegacySupport)
-            {
-                text = [NSString stringWithFormat:@"%@",[self textFieldAtIndex:0].text];
-            }
-            
+            NSString *text = [textField text];
             block(((DKAlertInputView*)self),text);
         }
+        if ([textField respondsToSelector:@selector(resignFirstResponder)] && [textField respondsToSelector:@selector(isFirstResponder)])
+            if ([textField isFirstResponder])
+                [textField resignFirstResponder];
+        [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
     }
     else
     {
@@ -75,6 +74,7 @@
 
 @implementation DKAlertInputView
 @synthesize textField;
+@synthesize isSecure;
 
 - (void)prepare:(UITextField*)tf current:(NSString*)current placeHolder:(NSString*)placeHolder
 {
@@ -87,6 +87,7 @@
     
     [tf setPlaceholder:placeHolder];
     [tf setKeyboardAppearance:UIKeyboardAppearanceAlert];
+    tf.secureTextEntry = isSecure;
 }
 
 + (BOOL)useLegacySupport
@@ -96,7 +97,14 @@
 
 - (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block
 {
+    return [self initWithTitle:title current:current placeHolder:placeHolder block:block secure:NO];
+}
+
+- (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block secure:(BOOL)secure
+{
     objc_setAssociatedObject(self, "blockCallback",[block copy],OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    isSecure = secure;
     
     BOOL useLegacySupport = [DKAlertInputView useLegacySupport];
     
@@ -128,14 +136,12 @@
     }
     else
     {
-        tf = [self textFieldAtIndex:0];
+        if (isSecure)
+            tf = [self textFieldAtIndex:1];
+        else
+            tf = [self textFieldAtIndex:0];
     }
     return tf;
-}
-
-- (void)setSecureTextEntry:(BOOL)secure
-{
-    [self.safeTextField setSecureTextEntry:secure];
 }
 
 - (NSString*)textFieldText

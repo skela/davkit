@@ -17,9 +17,12 @@
 @interface DKAlertInputView : UIAlertView <UIAlertViewDelegate>
 {
 	UITextField *textField;
+    BOOL isSecure;
 }
 @property(nonatomic,strong) UITextField *textField;
+@property(nonatomic,readwrite) BOOL isSecure;
 - (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
-- (void)setSecureTextEntry:(BOOL)secure;
+- (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block secure:(BOOL)secure;
 - (NSString*)textFieldText;
+- (UITextField*)safeTextField;
 @end
