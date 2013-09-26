@@ -119,7 +119,7 @@
         }
         else
         {
-            self.alertViewStyle = UIAlertViewStylePlainTextInput;
+            self.alertViewStyle = isSecure ? UIAlertViewStyleSecureTextInput : UIAlertViewStylePlainTextInput;
             UITextField *defaultField = [self textFieldAtIndex:0];
             [self prepare:defaultField current:current placeHolder:placeHolder];
         }
@@ -136,10 +136,7 @@
     }
     else
     {
-        if (isSecure)
-            tf = [self textFieldAtIndex:1];
-        else
-            tf = [self textFieldAtIndex:0];
+        tf = [self textFieldAtIndex:0];
     }
     return tf;
 }
