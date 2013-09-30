@@ -131,4 +131,9 @@
     return fallBack;
 }
 
++ (double)getDoubleFromDotNetDateString:(NSDictionary*)d forKey:(NSString*)key fallBack:(double)fallBack
+{
+    return [DKParser getDoubleFromString:d  forKey:key startsWith:@"/Date(" endsWith:@")/" fallBack:fallBack];
+}
+
 @end
