@@ -12,6 +12,7 @@
 @interface DKAlertInputView (Private)
 
 + (BOOL)useLegacySupport;
+- (UITextField*)safeTextField;
 
 @end
 
@@ -73,7 +74,7 @@
 @end
 
 @implementation DKAlertInputView
-@synthesize textField;
+//@synthesize textField;
 @synthesize isSecure;
 
 - (void)prepare:(UITextField*)tf current:(NSString*)current placeHolder:(NSString*)placeHolder
@@ -127,6 +128,16 @@
     return self;
 }
 
+- (void)setAutocapitalizationType:(UITextAutocapitalizationType)type
+{
+    self.safeTextField.autocapitalizationType = type;
+}
+
+- (void)setAutocorrectionType:(UITextAutocorrectionType)type
+{
+    self.safeTextField.autocorrectionType = type;
+}
+
 - (UITextField*)safeTextField
 {
     UITextField*tf = nil;
@@ -154,7 +165,7 @@
 
 - (void)dealloc
 {
-    self.textField = nil;
+
 }
 
 @end
