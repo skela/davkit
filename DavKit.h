@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "DKApp.h"
 #import "NSString+DavKit.h"
 #import "UIActionSheet+DavKit.h"
 #import "UIAlertView+DavKit.h"
