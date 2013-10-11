@@ -35,5 +35,6 @@
                      fallBack:(double)fallBack;
 
 + (double)getDoubleFromDotNetDateString:(NSDictionary*)d forKey:(NSString*)key fallBack:(double)fallBack;
++ (NSDictionary*)getDictionaryFromUrl:(NSURL*)url;
 
 @end

@@ -136,4 +136,19 @@
     return [DKParser getDoubleFromString:d  forKey:key startsWith:@"/Date(" endsWith:@")/" fallBack:fallBack];
 }
 
++ (NSDictionary*)getDictionaryFromUrl:(NSURL*)url
+{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    NSString *subString = [url query];
+    NSArray *pairs = [subString componentsSeparatedByString:@"&"];
+    for (NSString *pair in pairs)
+    {
+        NSArray *kv = [pair componentsSeparatedByString:@"="];
+        NSString *val =[[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [params setObject:val forKey:[kv objectAtIndex:0]];
+    }
+    NSDictionary *returnDict = [NSDictionary dictionaryWithDictionary:params];
+    return returnDict;
+}
+
 @end
