@@ -34,7 +34,8 @@
                      endsWith:(NSString*)end
                      fallBack:(double)fallBack;
 
-// Convertors
++ (double)getDoubleFromDotNetDateString:(NSDictionary*)d forKey:(NSString*)key fallBack:(double)fallBack;
 + (unsigned int)intFromHexString:(NSString *)hexStr;
++ (NSDictionary*)getDictionaryFromUrl:(NSURL*)url;
 
 @end

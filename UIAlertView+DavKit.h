@@ -19,10 +19,14 @@
 	UITextField *textField;
     BOOL isSecure;
 }
-@property(nonatomic,strong) UITextField *textField;
 @property(nonatomic,readwrite) BOOL isSecure;
+
 - (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
 - (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block secure:(BOOL)secure;
+
+- (void)setAutocapitalizationType:(UITextAutocapitalizationType)type;
+- (void)setAutocorrectionType:(UITextAutocorrectionType)type;
+
 - (NSString*)textFieldText;
-- (UITextField*)safeTextField;
+
 @end
