@@ -34,4 +34,7 @@
                      endsWith:(NSString*)end
                      fallBack:(double)fallBack;
 
+// Convertors
++ (unsigned int)intFromHexString:(NSString *)hexStr;
+
 @end
