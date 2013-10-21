@@ -35,6 +35,7 @@
                      fallBack:(double)fallBack;
 
 + (double)getDoubleFromDotNetDateString:(NSDictionary*)d forKey:(NSString*)key fallBack:(double)fallBack;
++ (unsigned int)intFromHexString:(NSString *)hexStr;
 + (NSDictionary*)getDictionaryFromUrl:(NSURL*)url;
 
 @end
