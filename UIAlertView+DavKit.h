@@ -12,6 +12,12 @@
 
 - (id)initWithTitle:(NSString *)title message:(NSString *)message completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...;
 
+- (id)initWithTitle:(NSString *)title
+            message:(NSString *)message
+  cancelButtonTitle:(NSString *)cancelButtonTitle
+  otherButtonTitles:(NSArray *)otherButtonTitles
+    completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block;
+
 @end
 
 @interface DKAlertInputView : UIAlertView <UIAlertViewDelegate>

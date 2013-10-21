@@ -47,6 +47,29 @@
 	return self;
 }
 
+- (id)initWithTitle:(NSString *)title
+            message:(NSString *)message
+  cancelButtonTitle:(NSString *)cancelButtonTitle
+  otherButtonTitles:(NSArray *)otherButtonTitles
+completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
+{
+    UIAlertView *al = [self initWithTitle:title message:message completionBlock:block cancelButtonTitle:nil otherButtonTitles:nil];
+    
+    if ([otherButtonTitles count]>0)
+    {
+        for (NSString *btnTitle in otherButtonTitles)
+        {
+            if ([btnTitle isKindOfClass:[NSString class]])
+            {
+                [al addButtonWithTitle: btnTitle];
+            }
+        }
+    }
+    
+    [al setCancelButtonIndex:[al addButtonWithTitle:cancelButtonTitle]];
+
+    return al;
+}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
