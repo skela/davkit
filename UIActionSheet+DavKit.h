@@ -10,6 +10,16 @@
 
 @interface UIActionSheet (DavKit) <UIActionSheetDelegate>
 
-- (id)initWithTitle:(NSString *)title completionBlock:(void (^)(NSUInteger buttonIndex, UIActionSheet *actionSheet))block cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButtonTitle:(NSString *)destructiveButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...;
+- (id)initWithTitle:(NSString *)title
+    completionBlock:(void (^)(NSUInteger buttonIndex, UIActionSheet *actionSheet))block
+  cancelButtonTitle:(NSString *)cancelButtonTitle
+destructiveButtonTitle:(NSString *)destructiveButtonTitle
+  otherButtonTitles:(NSString *)otherButtonTitles, ...;
+
+- (id)initWithTitle:(NSString *)title
+  cancelButtonTitle:(NSString *)cancelButtonTitle
+destructiveButtonTitle:(NSString *)destructiveButtonTitle
+  otherButtonTitles:(NSArray *)otherButtonTitles
+    completionBlock:(void (^)(NSUInteger buttonIndex, UIActionSheet *actionSheet))block;
 
 @end

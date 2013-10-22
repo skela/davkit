@@ -19,8 +19,7 @@
         
 		if (destructiveButtonTitle)
         {
-			[self addButtonWithTitle:destructiveButtonTitle];
-			self.destructiveButtonIndex = [self numberOfButtons] - 1;
+			self.destructiveButtonIndex = [self addButtonWithTitle:destructiveButtonTitle];
 		}
         
 		id eachObject;
@@ -38,13 +37,34 @@
         
 		if (cancelButtonTitle)
         {
-			[self addButtonWithTitle:cancelButtonTitle];
-			self.cancelButtonIndex = [self numberOfButtons] - 1;
+			self.cancelButtonIndex = [self addButtonWithTitle:cancelButtonTitle];
 		}
 	}
 	return self;
 }
 
+- (id)initWithTitle:(NSString *)title cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButtonTitle:(NSString *)destructiveButtonTitle otherButtonTitles:(NSArray *)otherButtonTitles completionBlock:(void (^)(NSUInteger buttonIndex, UIActionSheet *actionSheet))block
+{
+	objc_setAssociatedObject(self, "blockCallback", [block copy], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	if (self = [self initWithTitle:title delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil])
+    {
+		if (destructiveButtonTitle)
+        {
+			self.destructiveButtonIndex = [self addButtonWithTitle:destructiveButtonTitle];
+		}
+        
+        for (NSString *btnTitle in otherButtonTitles)
+        {
+            [self addButtonWithTitle:btnTitle];
+        }
+        
+		if (cancelButtonTitle)
+        {
+			self.cancelButtonIndex = [self addButtonWithTitle:cancelButtonTitle];
+		}
+	}
+	return self;
+}
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
