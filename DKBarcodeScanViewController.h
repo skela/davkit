@@ -22,5 +22,6 @@
 @property(nonatomic,assign) id<DKBarcodeScanDelegate> delegate;
 @property(nonatomic,strong) UIView *cameraPreview;
 - (id)initWithDelegate:(id<DKBarcodeScanDelegate>)delegate;
+- (void)displayWarning:(NSString*)warning;
 + (BOOL)canScan;
 @end

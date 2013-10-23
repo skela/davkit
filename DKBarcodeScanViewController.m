@@ -46,6 +46,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
+- (void)displayWarning:(NSString*)warning
+{
+    // TODO: FIll this in.
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
