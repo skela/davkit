@@ -11,5 +11,6 @@
 @interface NSArray (DavKit)
 
 - (NSArray*)subarrayWithCount:(NSUInteger)count;
+- (NSArray*)subarrayFromIndex:(NSUInteger)index;
 
 @end

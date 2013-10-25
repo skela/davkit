@@ -10,4 +10,5 @@
 
 @interface NSString (DavKit)
 - (BOOL)contains:(NSString*)subString;
+- (NSUInteger)numberOfOccurrences:(NSString*)subString;
 @end

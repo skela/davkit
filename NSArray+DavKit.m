@@ -18,4 +18,14 @@
     return [self subarrayWithRange:r];
 }
 
+- (NSArray*)subarrayFromIndex:(NSUInteger)index
+{
+    if (index < self.count)
+    {
+        NSRange r; r.location=index; r.length=self.count-index;
+        return [self subarrayWithRange:r];
+    }
+    return nil;
+}
+
 @end
