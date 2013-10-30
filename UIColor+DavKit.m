@@ -133,4 +133,24 @@
     return c[CGColorGetNumberOfComponents(self.CGColor)-1];
 }
 
+- (UIColor*) inverseColor
+{
+    CGFloat r,g,b,a;
+    
+    [self getRed:&r green:&g blue:&b alpha:&a];
+    
+    if ([self colorSpaceModel] == kCGColorSpaceModelMonochrome)
+        a = 1;
+    
+    if (r>1) r=1;
+    if (g>1) g=1;
+    if (b>1) b=1;
+    
+    r = 1.0f-r;
+    g = 1.0f-g;
+    b = 1.0f-b;
+    
+    return [UIColor colorWithRed:r green:g blue:b alpha:a];
+}
+
 @end

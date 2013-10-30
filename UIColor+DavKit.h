@@ -22,4 +22,6 @@
 - (CGFloat) blue;
 - (CGFloat) alpha;;
 
+- (UIColor*) inverseColor;
+
 @end
