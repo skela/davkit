@@ -16,12 +16,13 @@
 + (UIColor*)colorFromHexRGB:(uint32_t)hex;
 + (UIColor*)colorFromHexRGBAString:(NSString*)hexString;
 + (UIColor*)colorFromHexRGBString:(NSString*)hexString;
+- (NSString*)hexRGBString;
 
 - (CGFloat) red;
 - (CGFloat) green;
 - (CGFloat) blue;
 - (CGFloat) alpha;;
 
-- (UIColor*) inverseColor;
+- (UIColor*)inverseColor;
 
 @end

@@ -54,6 +54,17 @@
     return [UIColor colorFromHexRGB:hexInt];
 }
 
+- (NSString*)hexRGBString
+{
+    CGFloat r = [self red];
+    CGFloat g = [self green];
+    CGFloat b = [self blue];
+    NSInteger ri = (NSInteger)(r*255);
+    NSInteger gi = (NSInteger)(g*255);
+    NSInteger bi = (NSInteger)(b*255);
+    return [NSString stringWithFormat:@"#%02x%02x%02x",ri,gi,bi];
+}
+
 #pragma mark - Channels
 
 - (CGColorSpaceModel) colorSpaceModel
@@ -133,7 +144,7 @@
     return c[CGColorGetNumberOfComponents(self.CGColor)-1];
 }
 
-- (UIColor*) inverseColor
+- (UIColor*)inverseColor
 {
     CGFloat r,g,b,a;
     
