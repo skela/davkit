@@ -34,4 +34,23 @@
     return numberOfMatches>0;
 }
 
+- (NSURL*)URL
+{
+    NSURL *retUrl = nil;
+    if (self.length>0)
+    {
+        @try { retUrl = [NSURL URLWithString:self]; } @catch(NSException *er) { }
+        if (retUrl==nil || [retUrl scheme]==nil)
+        {
+            NSRange r = [self rangeOfString:@"://"];
+            if (r.location==NSNotFound)
+            {
+                NSString *str = [NSString stringWithFormat:@"http://%@",self];
+                @try { retUrl = [NSURL URLWithString:str]; } @catch(NSException *er) { }
+            }
+        }
+    }
+    return retUrl;
+}
+
 @end

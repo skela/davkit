@@ -12,4 +12,5 @@
 - (BOOL)contains:(NSString*)subString;
 - (NSUInteger)numberOfOccurrences:(NSString*)subString;
 - (BOOL)containsPattern:(NSString*)pattern;
+- (NSURL*)URL;
 @end
