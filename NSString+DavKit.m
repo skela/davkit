@@ -26,4 +26,12 @@
     return numberOfMatches;
 }
 
+- (BOOL)containsPattern:(NSString*)pattern
+{
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    NSUInteger numberOfMatches = [regex numberOfMatchesInString:self options:0 range:NSMakeRange(0,[self length])];
+    return numberOfMatches>0;
+}
+
 @end
