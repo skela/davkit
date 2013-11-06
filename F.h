@@ -25,6 +25,9 @@
 +(void)f:(CGRect*)f s:(CGSize)s;
 +(void)f:(CGRect*)f o:(CGPoint)o;
 
++(CGFloat)fdx:(CGRect)f;
++(CGFloat)fdy:(CGRect)f;
+
 +(void)v:(UIView*)v x:(CGFloat)x;
 +(void)v:(UIView*)v h:(CGFloat)h;
 +(void)v:(UIView*)v w:(CGFloat)w;

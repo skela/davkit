@@ -25,6 +25,9 @@
 +(void)f:(CGRect*)f s:(CGSize)s{f->size=s;}
 +(void)f:(CGRect*)f o:(CGPoint)o{f->origin=o;}
 
++(CGFloat)fdx:(CGRect)f{return f.size.width+f.origin.x;}
++(CGFloat)fdy:(CGRect)f{return f.size.height+f.origin.y;}
+
 +(void)v:(UIView*)v x:(CGFloat)x{CGRect f; f=v.frame; [F f:&f x:x]; v.frame=f;}
 +(void)v:(UIView*)v y:(CGFloat)y{CGRect f; f=v.frame; [F f:&f y:y]; v.frame=f;}
 +(void)v:(UIView*)v h:(CGFloat)h{CGRect f; f=v.frame; [F f:&f h:h]; v.frame=f;}
@@ -39,8 +42,8 @@
 +(void)v:(UIView*)v o:(CGPoint)o{CGRect f; f=v.frame; f.origin=o; v.frame=f;}
 +(void)v:(UIView*)v f:(CGRect)f{v.frame=f;}
 
-+(CGFloat)dx:(UIView*)v{return v.frame.size.width+v.frame.origin.x;}
-+(CGFloat)dy:(UIView*)v{return v.frame.size.height+v.frame.origin.y;}
++(CGFloat)dx:(UIView*)v{return [F fdx:v.frame];}
++(CGFloat)dy:(UIView*)v{return [F fdy:v.frame];}
 +(CGFloat)h:(UIView*)v{return v.frame.size.height;}
 +(CGFloat)w:(UIView*)v{return v.frame.size.width;}
 +(CGFloat)y:(UIView*)v{return v.frame.origin.y;}
