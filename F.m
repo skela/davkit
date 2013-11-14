@@ -59,4 +59,24 @@
     v.frame=f;
 }
 
++ (CGRect)aspectFittedRect:(CGSize)imgSize max:(CGRect)maxRect
+{
+    float originalAspectRatio = imgSize.width / imgSize.height;
+	float maxAspectRatio = maxRect.size.width / maxRect.size.height;
+    
+	CGRect newRect = maxRect;
+	if (originalAspectRatio > maxAspectRatio)
+    {
+		newRect.size.height = maxRect.size.width * imgSize.height / imgSize.width;
+		newRect.origin.y += (maxRect.size.height - newRect.size.height)/2.0;
+	}
+    else
+    {
+		newRect.size.width = maxRect.size.height  * imgSize.width / imgSize.height;
+		newRect.origin.x += (maxRect.size.width - newRect.size.width)/2.0;
+	}
+    
+	return CGRectIntegral(newRect);
+}
+
 @end
