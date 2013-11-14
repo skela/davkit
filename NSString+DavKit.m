@@ -53,4 +53,14 @@
     return retUrl;
 }
 
+- (NSString*)dotFilePath
+{
+    NSString *lp = [self lastPathComponent];
+    NSString *r = [self stringByDeletingLastPathComponent];
+    if ([lp hasPrefix:@"."])
+        return self;
+    NSString *res = [NSString stringWithFormat:@".%@",lp];
+    return [r stringByAppendingPathComponent:res];
+}
+
 @end
