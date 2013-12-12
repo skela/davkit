@@ -79,4 +79,13 @@
 	return CGRectIntegral(newRect);
 }
 
++ (CGRect)flipSize:(CGRect)fr
+{
+    CGRect f = fr;
+    float t = f.size.height;
+    f.size.height = f.size.width;
+    f.size.width = t;
+    return f;
+}
+
 @end

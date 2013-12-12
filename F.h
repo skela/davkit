@@ -53,5 +53,6 @@
 
 +(void)round:(UIView*)v;
 + (CGRect)aspectFittedRect:(CGSize)imgSize max:(CGRect)maxRect;
++ (CGRect)flipSize:(CGRect)fr;
 
 @end
