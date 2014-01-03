@@ -11,4 +11,7 @@
 @interface NSString (DavKit)
 - (BOOL)contains:(NSString*)subString;
 - (NSUInteger)numberOfOccurrences:(NSString*)subString;
+- (BOOL)containsPattern:(NSString*)pattern;
+- (NSURL*)URL;
+- (NSString*)dotFilePath;
 @end
