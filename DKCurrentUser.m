@@ -131,6 +131,11 @@
     return [DKCurrentUser getObjectOfClass:[NSArray class] forKey:key defaultValue:def];
 }
 
++ (NSData*)getDataForKey:(NSString*)key defaultValue:(NSData*)def
+{
+    return [DKCurrentUser getObjectOfClass:[NSData class] forKey:key defaultValue:def];
+}
+
 + (NSString*)getStringForKey:(NSString*)key defaultValue:(NSString*)def
 {
     return [DKCurrentUser getObjectOfClass:[NSString class] forKey:key defaultValue:def];
@@ -144,6 +149,11 @@
 + (void)setArray:(NSArray*)ar withKey:(NSString*)key
 {
     [DKCurrentUser setObject:ar ofClass:[NSArray class] withKey:key];
+}
+
++ (void)setData:(NSData*)ar withKey:(NSString*)key
+{
+    [DKCurrentUser setObject:ar ofClass:[NSData class] withKey:key];
 }
 
 + (void)setString:(NSString*)ar withKey:(NSString*)key
