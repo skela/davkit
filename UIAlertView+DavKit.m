@@ -13,6 +13,7 @@
 
 + (BOOL)useLegacySupport;
 - (UITextField*)safeTextField;
+- (void)hideKeyboard;
 
 @end
 
@@ -71,7 +72,7 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
     return al;
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if ([alertView isKindOfClass:[DKAlertInputView class]])
     {
@@ -82,10 +83,8 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
             NSString *text = [textField text];
             block(((DKAlertInputView*)self),text);
         }
-        if ([textField respondsToSelector:@selector(resignFirstResponder)] && [textField respondsToSelector:@selector(isFirstResponder)])
-            if ([textField isFirstResponder])
-                [textField resignFirstResponder];
-        [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+        
+        [((DKAlertInputView *)alertView) hideKeyboard];
     }
     else
     {
@@ -126,13 +125,15 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
 
 - (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block secure:(BOOL)secure
 {
-    objc_setAssociatedObject(self, "blockCallback",[block copy],OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self,"blockCallback",[block copy],OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     isSecure = secure;
     
     BOOL useLegacySupport = [DKAlertInputView useLegacySupport];
     
-    if (self = [super initWithTitle:title message:useLegacySupport ? @"\n\n" : @"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil])
+    self.dkDelegate = [[DKAlertInputViewUIAlertViewDelegate alloc] init];
+    
+    if (self = [super initWithTitle:title message:useLegacySupport ? @"\n\n" : @"" delegate:self.dkDelegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil])
     {
         if (useLegacySupport)
         {
@@ -148,6 +149,7 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
             [self prepare:defaultField current:current placeHolder:placeHolder];
         }
     }
+    
     return self;
 }
 
@@ -159,6 +161,11 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
 - (void)setAutocorrectionType:(UITextAutocorrectionType)type
 {
     self.safeTextField.autocorrectionType = type;
+}
+
+- (void)setKeyboardType:(UIKeyboardType)type
+{
+    self.safeTextField.keyboardType = type;
 }
 
 - (UITextField*)safeTextField
@@ -180,15 +187,38 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
     return [self.safeTextField text];
 }
 
-- (void)show
-{
-    [self.safeTextField becomeFirstResponder];
-    [super show];
-}
-
 - (void)dealloc
 {
 
+}
+
+- (void)finishedWithText:(NSString*)text
+{
+    void (^block)(DKAlertInputView *inputView,NSString *text) = objc_getAssociatedObject(self, "blockCallback");
+    block(((DKAlertInputView*)self),text);
+}
+
+- (void)cancelled
+{
+    
+}
+
+@end
+
+@implementation DKAlertInputViewUIAlertViewDelegate
+
+- (void)didPresentAlertView:(UIAlertView *)alertView
+{
+    [((DKAlertInputView*)alertView).safeTextField becomeFirstResponder];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    DKAlertInputView *input = ((DKAlertInputView*)alertView);
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"])
+        [input finishedWithText:input.safeTextField.text];
+    else
+        [input cancelled];
 }
 
 @end

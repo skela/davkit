@@ -14,4 +14,6 @@
 - (BOOL)containsPattern:(NSString*)pattern;
 - (NSURL*)URL;
 - (NSString*)dotFilePath;
+- (BOOL)isInteger;
+- (BOOL)isNumber;
 @end
