@@ -36,6 +36,8 @@
 + (void)setString:(NSString*)ar withKey:(NSString*)key;
 + (NSNumber*)getNumberForKey:(NSString*)key defaultValue:(NSNumber*)def;
 + (void)setNumber:(NSNumber*)ar withKey:(NSString*)key;
++ (void)setData:(NSData*)ar withKey:(NSString*)key;
++ (NSData*)getDataForKey:(NSString*)key defaultValue:(NSData*)def;
 + (BOOL)hasObjectWithKey:(NSString*)key;
 + (BOOL)hasStringWithKey:(NSString*)key;
 + (BOOL)hasArrayWithKey:(NSString*)key;
