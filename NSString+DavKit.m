@@ -34,6 +34,21 @@
     return numberOfMatches>0;
 }
 
+- (NSData*)stringToBase64EncodedData
+{
+    NSData *data;
+    
+    if ([data respondsToSelector:@selector(initWithBase64EncodedString:options:)])
+    {
+        data = [[NSData alloc] initWithBase64EncodedString:self options:kNilOptions];  // iOS 7+
+    }
+    else
+    {
+        data = [[NSData alloc] initWithBase64Encoding:self];                           // pre iOS7
+    }
+    return data;
+}
+
 - (NSURL*)URL
 {
     NSURL *retUrl = nil;
