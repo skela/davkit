@@ -40,16 +40,22 @@
 
 + (UIColor*)colorFromHexRGBAString:(NSString*)hexString
 {
+    NSString *safeHexString = hexString;
+    if ([hexString hasPrefix:@"#"])
+        safeHexString = [hexString substringFromIndex:1];
     unsigned int hexInt;
-    if (![[NSScanner scannerWithString:hexString] scanHexInt:&hexInt])
+    if (![[NSScanner scannerWithString:safeHexString] scanHexInt:&hexInt])
         return nil;
     return [UIColor colorFromHexRGBA:hexInt];
 }
 
 + (UIColor*)colorFromHexRGBString:(NSString*)hexString
 {
+    NSString *safeHexString = hexString;
+    if ([hexString hasPrefix:@"#"])
+        safeHexString = [hexString substringFromIndex:1];
     unsigned int hexInt;
-    if (![[NSScanner scannerWithString:hexString] scanHexInt:&hexInt])
+    if (![[NSScanner scannerWithString:safeHexString] scanHexInt:&hexInt])
         return nil;
     return [UIColor colorFromHexRGB:hexInt];
 }
@@ -63,6 +69,19 @@
     NSInteger gi = (NSInteger)(g*255);
     NSInteger bi = (NSInteger)(b*255);
     return [NSString stringWithFormat:@"#%02x%02x%02x",ri,gi,bi];
+}
+
+- (NSString*)hexRGBAString
+{
+    CGFloat r = [self red];
+    CGFloat g = [self green];
+    CGFloat b = [self blue];
+    CGFloat a = [self alpha];
+    NSInteger ri = (NSInteger)(r*255);
+    NSInteger gi = (NSInteger)(g*255);
+    NSInteger bi = (NSInteger)(b*255);
+    NSInteger ai = (NSInteger)(a*255);
+    return [NSString stringWithFormat:@"#%02x%02x%02x%02x",ri,gi,bi,ai];
 }
 
 #pragma mark - Channels

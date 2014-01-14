@@ -26,6 +26,22 @@
 + (BOOL)isString:(id)string;
 + (BOOL)isArray:(id)ar;
 
++ (void)setString:(NSString*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setDictionary:(NSDictionary*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setArray:(NSArray*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
+
++ (NSDate*)getDate:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSDate*)fallBack;
++ (UIColor*)getColor:(NSDictionary*)d forKey:(NSString*)key fallBack:(UIColor*)fallBack;
++ (CGRect)getRect:(NSDictionary*)d forKey:(NSString*)key fallBack:(CGRect)fallBack;
++ (UIBezierPath*)getBezierPath:(NSDictionary*)d forKey:(NSString*)key fallBack:(UIBezierPath*)fallBack;
+
++ (void)setColor:(UIColor*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setBezierPath:(UIBezierPath*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setDate:(NSDate*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setRect:(CGRect)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
+
+
 // For example a normal string from .NET systems for timestamps could be: "/Date(1378151009864)/"
 // In this case the inputs for this function would be startsWith:@"/Date(" endsWith:@")/"
 + (double)getDoubleFromString:(NSDictionary*)d

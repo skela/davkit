@@ -16,7 +16,9 @@
 + (UIColor*)colorFromHexRGB:(uint32_t)hex;
 + (UIColor*)colorFromHexRGBAString:(NSString*)hexString;
 + (UIColor*)colorFromHexRGBString:(NSString*)hexString;
+
 - (NSString*)hexRGBString;
+- (NSString*)hexRGBAString;
 
 - (CGFloat) red;
 - (CGFloat) green;
