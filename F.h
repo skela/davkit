@@ -1,6 +1,6 @@
 //
 //  F.h
-//  DAVKIT
+//  DavKit
 //
 //  Created by Alek Slater on 20/01/2012.
 //  Copyright (c) 2013 Davincium. All rights reserved.

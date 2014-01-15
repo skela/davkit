@@ -1,6 +1,6 @@
 //
 //  DKCurrentUser.h
-//  DAVKIT
+//  DavKit
 //
 //  Created by Aleksander Slater on 05/09/2013.
 //  Copyright (c) 2013 Davincium. All rights reserved.
@@ -43,4 +43,5 @@
 + (BOOL)hasArrayWithKey:(NSString*)key;
 + (BOOL)hasDictionaryWithKey:(NSString*)key;
 + (BOOL)hasNumberWithKey:(NSString*)key;
+
 @end

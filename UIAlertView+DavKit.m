@@ -1,6 +1,6 @@
 //
 //  UIAlertView+DavKit.m
-//  DropBeacon
+//  DavKit
 //
 //  Created by Aleksander Slater on 08/09/2013.
 //  Copyright (c) 2013 Davincium. All rights reserved.

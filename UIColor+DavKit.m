@@ -1,9 +1,9 @@
 //
 //  UIColor+DavKit.m
-//  Constructor
+//  DavKit
 //
 //  Created by Aleksander Slater on 26/09/2013.
-//  Copyright (c) 2013 IntroLabs. All rights reserved.
+//  Copyright (c) 2013 Davincium. All rights reserved.
 //
 
 #import "UIColor+DavKit.h"
