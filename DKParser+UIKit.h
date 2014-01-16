@@ -14,5 +14,7 @@
 + (UIBezierPath*)getBezierPath:(NSDictionary*)d forKey:(NSString*)key fallBack:(UIBezierPath*)fallBack;
 + (void)setColor:(UIColor*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 + (void)setBezierPath:(UIBezierPath*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setImage:(UIImage*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (UIImage*)getImage:(NSDictionary*)d forKey:(NSString*)key fallBack:(UIImage*)fallBack;
 
 @end

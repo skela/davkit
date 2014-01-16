@@ -72,6 +72,36 @@ void processPathElement (void *info, const CGPathElement *element)
     return fallBack;
 }
 
++ (void)setImage:(UIImage*)val withCompression:(CGFloat)compression forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    if (val==nil || ![val isKindOfClass:[UIImage class]])
+        [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+    else
+    {
+        NSData *contentData = [NSData dataWithData:UIImageJPEGRepresentation(val,compression)];
+        id content = [contentData encodedBase64String];
+        [DKParser setObject:content forKey:key inDict:dict fallBack:nil];
+    }
+}
+
++ (void)setImage:(UIImage*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setImage:val withCompression:0 forKey:key inDict:dict];
+}
+
++ (UIImage*)getImage:(NSDictionary*)d forKey:(NSString*)key fallBack:(UIImage*)fallBack
+{
+    NSString *n=[d objectForKey:key];
+    if (n!=nil && [n isKindOfClass:[NSString class]])
+    {
+        NSData*data = [n stringToBase64EncodedData];
+        id val = [UIImage imageWithData:data];
+        if (val!=nil && [val isKindOfClass:[UIImage class]])
+            return val;
+    }
+    return fallBack;
+}
+
 + (UIBezierPath*)getBezierPath:(NSDictionary*)d forKey:(NSString*)key fallBack:(UIBezierPath*)fallBack
 {
     NSArray*ops = [DKParser getArray:d forKey:key fallBack:nil];
