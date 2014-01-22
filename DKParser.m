@@ -18,6 +18,11 @@
     return fallBack;
 }
 
++ (NSNumber*)getNumber:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSNumber*)fallBack
+{
+    return [DKParser getObject:d ofClass:[NSNumber class] forKey:key fallBack:fallBack];
+}
+
 + (NSString*)getString:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSString*)fallBack
 {
     return [DKParser getObject:d ofClass:[NSString class] forKey:key fallBack:fallBack];
@@ -128,6 +133,11 @@
     {
         [dict setObject:val forKey:key];
     }
+}
+
++ (void)setNumber:(NSNumber*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
 }
 
 + (void)setString:(NSString*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict

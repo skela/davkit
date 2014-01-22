@@ -16,6 +16,15 @@
     [DKParser setObject:color forKey:key inDict:dict fallBack:nil];
 }
 
+typedef enum
+{
+    BezierPathOperationMoveTo=1,
+    BezierPathOperationAddLine=2,
+    BezierPathOperationAddQuad=3,
+    BezierPathOperationAddCurve=4,
+    BezierPathOperationClose=5
+} BezierPathOperation;
+
 void processPathElement (void *info, const CGPathElement *element)
 {
     NSMutableArray *bezierPoints = (__bridge NSMutableArray *)info;
@@ -27,23 +36,23 @@ void processPathElement (void *info, const CGPathElement *element)
     switch(type)
     {
         case kCGPathElementMoveToPoint: // contains 1 point
-            [bezierPoints addObject:@{@"t":@"move_to",@"p0":NSStringFromCGPoint(points[0])}];
+            [bezierPoints addObject:@{@"t":@1,@"p0":NSStringFromCGPoint(points[0])}];
             break;
             
         case kCGPathElementAddLineToPoint: // contains 1 point
-            [bezierPoints addObject:@{@"t":@"add_line",@"p0":NSStringFromCGPoint(points[0])}];
+            [bezierPoints addObject:@{@"t":@2,@"p0":NSStringFromCGPoint(points[0])}];
             break;
             
         case kCGPathElementAddQuadCurveToPoint: // contains 2 points
-            [bezierPoints addObject:@{@"t":@"add_quad",@"p0":NSStringFromCGPoint(points[0]),@"p1":NSStringFromCGPoint(points[1])}];
+            [bezierPoints addObject:@{@"t":@3,@"p0":NSStringFromCGPoint(points[0]),@"p1":NSStringFromCGPoint(points[1])}];
             break;
             
         case kCGPathElementAddCurveToPoint: // contains 3 points
-            [bezierPoints addObject:@{@"t":@"add_curve",@"p0":NSStringFromCGPoint(points[0]),@"p1":NSStringFromCGPoint(points[1]),@"p2":NSStringFromCGPoint(points[2])}];
+            [bezierPoints addObject:@{@"t":@4,@"p0":NSStringFromCGPoint(points[0]),@"p1":NSStringFromCGPoint(points[1]),@"p2":NSStringFromCGPoint(points[2])}];
             break;
             
         case kCGPathElementCloseSubpath: // contains no point
-            [bezierPoints addObject:@{@"t":@"close"}];
+            [bezierPoints addObject:@{@"t":@5}];
             break;
     }
 }
@@ -113,34 +122,34 @@ void processPathElement (void *info, const CGPathElement *element)
         CGPoint p2;
         for (NSDictionary*op in ops)
         {
-            NSString *t = [DKParser getString:op forKey:@"t" fallBack:nil];
+            NSNumber *t = [DKParser getNumber:op forKey:@"t" fallBack:nil];
             NSString *sp0 = [DKParser getString:op forKey:@"p0" fallBack:nil];
             NSString *sp1 = [DKParser getString:op forKey:@"p1" fallBack:nil];
             NSString *sp2 = [DKParser getString:op forKey:@"p2" fallBack:nil];
-            if ([t isEqualToString:@"move_to"] && sp0.length>0)
+            if ([t integerValue]==BezierPathOperationMoveTo && sp0.length>0)
             {
                 p0 = CGPointFromString(sp0);  // verified
                 [path moveToPoint:p0];
             }
-            else if ([t isEqualToString:@"add_line"] && sp0.length>0)
+            else if ([t integerValue] == BezierPathOperationAddLine && sp0.length>0)
             {
                 p0 = CGPointFromString(sp0);  // verified
                 [path addLineToPoint:p0];
             }
-            else if ([t isEqualToString:@"add_quad"] && sp0.length>0 && sp1.length>0)
+            else if ([t integerValue] == BezierPathOperationAddQuad && sp0.length>0 && sp1.length>0)
             {
                 p0 = CGPointFromString(sp1);  // NOTE: not sure about order here, might be wrong
                 p1 = CGPointFromString(sp0);  // NOTE: not sure about order here, might be wrong
                 [path addQuadCurveToPoint:p0 controlPoint:p1];
             }
-            else if ([t isEqualToString:@"add_curve"] && sp0.length>0 && sp1.length>0 && sp2.length>0)
+            else if ([t integerValue] == BezierPathOperationAddCurve && sp0.length>0 && sp1.length>0 && sp2.length>0)
             {
                 p0 = CGPointFromString(sp2); // verified
                 p1 = CGPointFromString(sp0); // verified
                 p2 = CGPointFromString(sp1); // verified
                 [path addCurveToPoint:p0 controlPoint1:p1 controlPoint2:p2];
             }
-            else if ([t isEqualToString:@"close"])
+            else if ([t integerValue] == BezierPathOperationClose)
             {
                 [path closePath];
             }
