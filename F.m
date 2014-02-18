@@ -51,7 +51,7 @@
 +(CGPoint)o:(UIView*)v{return v.frame.origin;}
 +(CGSize)s:(UIView*)v{return v.frame.size;}
 
-+(void)round:(UIView*)v
++ (void)round:(UIView*)v
 {
     CGRect f=v.frame;
     f.origin.y=roundf(f.origin.y);
@@ -86,6 +86,15 @@
     f.size.height = f.size.width;
     f.size.width = t;
     return f;
+}
+
++ (CGAffineTransform)transformationFromA:(CGRect)a toB:(CGRect)b
+{
+    CGAffineTransform transform = CGAffineTransformTranslate(CGAffineTransformIdentity, -a.origin.x, -a.origin.y);
+    transform = CGAffineTransformScale(transform, 1/a.size.width, 1/a.size.height);
+    transform = CGAffineTransformScale(transform, b.size.width, b.size.height);
+    transform = CGAffineTransformTranslate(transform, b.origin.x, b.origin.y);
+    return transform;
 }
 
 @end

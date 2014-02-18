@@ -51,8 +51,9 @@
 +(CGPoint)o:(UIView*)v;
 +(CGSize)s:(UIView*)v;
 
-+(void)round:(UIView*)v;
++ (void)round:(UIView*)v;
 + (CGRect)aspectFittedRect:(CGSize)imgSize max:(CGRect)maxRect;
 + (CGRect)flipSize:(CGRect)fr;
++ (CGAffineTransform)transformationFromA:(CGRect)a toB:(CGRect)b;
 
 @end
