@@ -12,5 +12,6 @@
 
 - (NSArray*)subarrayWithCount:(NSUInteger)count;
 - (NSArray*)subarrayFromIndex:(NSUInteger)index;
+- (id)randomObject;
 
 @end

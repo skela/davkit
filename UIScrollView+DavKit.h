@@ -1,6 +1,6 @@
 //
 //  UIScrollView+DavKit.h
-//  Constructor
+//  DavKit
 //
 //  Created by Aleksander Slater on 25/02/2014.
 //  Copyright (c) 2014 IntroLabs. All rights reserved.
@@ -11,5 +11,7 @@
 @interface UIScrollView (DavKit)
 
 - (NSString*)scrollDescription;
+- (BOOL)isAtBottom;
+- (BOOL)isAtBottomish:(CGFloat)fudgeFactor;
 
 @end

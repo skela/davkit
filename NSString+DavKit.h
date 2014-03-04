@@ -17,4 +17,9 @@
 - (NSString*)dotFilePath;
 - (BOOL)isInteger;
 - (BOOL)isNumber;
+
+// TODO: Move into UI Category
+- (CGSize)sizeUsingFont:(UIFont *)font;
+- (CGSize)sizeUsingFont:(UIFont*)font constrainedToSize:(CGSize)constraint lineBreakMode:(NSLineBreakMode)lineBreakMode;
+
 @end

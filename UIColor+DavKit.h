@@ -26,5 +26,7 @@
 - (CGFloat) alpha;;
 
 - (UIColor*)inverseColor;
+- (UIColor *)darken;
+- (UIColor *)darkenWithFactor:(CGFloat)amount;
 
 @end

@@ -28,4 +28,13 @@
     return nil;
 }
 
+- (id)randomObject
+{
+    srand([[NSDate date]  timeIntervalSince1970]);
+    NSUInteger myCount = [self count];
+    //if (myCount) return [self objectAtIndex:arc4random() % myCount];
+    if (myCount) return [self objectAtIndex:rand() % myCount];
+    else return nil;
+}
+
 @end

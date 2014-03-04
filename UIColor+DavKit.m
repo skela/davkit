@@ -183,4 +183,24 @@
     return [UIColor colorWithRed:r green:g blue:b alpha:a];
 }
 
+- (UIColor *)darken
+{
+    return [self darkenWithFactor:0.75];
+}
+
+- (UIColor *)darkenWithFactor:(CGFloat)amount
+{
+    CGFloat h,s,b,a;
+    if ([self getHue:&h saturation:&s brightness:&b alpha:&a])
+    {
+        if (b>0.4)
+            b = b*0.75;
+        if (a<=0.5)
+            a = 0.5+a * (2*amount);
+        //NSLog(@"Color with h:%g s:%g b:%g a:%g",h,s,b,a);
+        return [UIColor colorWithHue:h saturation:s brightness:b alpha:a];
+    }
+    return self;
+}
+
 @end
