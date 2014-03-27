@@ -65,9 +65,9 @@
     CGFloat r = [self red];
     CGFloat g = [self green];
     CGFloat b = [self blue];
-    NSInteger ri = (NSInteger)(r*255);
-    NSInteger gi = (NSInteger)(g*255);
-    NSInteger bi = (NSInteger)(b*255);
+    int ri = (int)(r*255);
+    int gi = (int)(g*255);
+    int bi = (int)(b*255);
     return [NSString stringWithFormat:@"#%02x%02x%02x",ri,gi,bi];
 }
 
@@ -77,10 +77,10 @@
     CGFloat g = [self green];
     CGFloat b = [self blue];
     CGFloat a = [self alpha];
-    NSInteger ri = (NSInteger)(r*255);
-    NSInteger gi = (NSInteger)(g*255);
-    NSInteger bi = (NSInteger)(b*255);
-    NSInteger ai = (NSInteger)(a*255);
+    int ri = (int)(r*255);
+    int gi = (int)(g*255);
+    int bi = (int)(b*255);
+    int ai = (int)(a*255);
     return [NSString stringWithFormat:@"#%02x%02x%02x%02x",ri,gi,bi,ai];
 }
 
