@@ -8,6 +8,10 @@
 
 #import "DKCurrentUser.h"
 
+#ifndef DK_CURRENT_USER_SYNC_ON_SET
+#define DK_CURRENT_USER_SYNC_ON_SET NO
+#endif
+
 @implementation DKCurrentUser
 
 + (void)clear
@@ -25,6 +29,11 @@
 + (BOOL)sync
 {
     return [[DKCurrentUser defaults] synchronize];
+}
+
++ (BOOL)syncOnSet
+{
+    return DK_CURRENT_USER_SYNC_ON_SET;
 }
 
 + (void)setBool:(BOOL)b withKey:(NSString*)key
@@ -111,6 +120,8 @@
         [[DKCurrentUser defaults] removeObjectForKey:key];
     else
         [[DKCurrentUser defaults] setObject:obj forKey:key];
+    
+    if ([[self class] syncOnSet]) [self sync];
 }
 
 + (BOOL)hasObjectOfClass:(Class)class withKey:(NSString*)key

@@ -18,6 +18,9 @@
 - (BOOL)isInteger;
 - (BOOL)isNumber;
 
+- (NSString *)extractStringLookingFor:(NSString *)lookFor skipForwardTo:(NSInteger)skipForward andStopBefore:(NSString *)stopBefore;
+- (NSString *)extractStringLookingFor:(NSString *)lookFor andStopBefore:(NSString *)stopBefore;
+
 // TODO: Move into UI Category
 - (CGSize)sizeUsingFont:(UIFont *)font;
 - (CGSize)sizeUsingFont:(UIFont*)font constrainedToSize:(CGSize)constraint lineBreakMode:(NSLineBreakMode)lineBreakMode;

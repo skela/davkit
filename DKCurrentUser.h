@@ -15,6 +15,7 @@
 
 + (void)clear;
 + (BOOL)sync;
++ (BOOL)syncOnSet;
 
 + (void)setLong:(long)l withKey:(NSString*)key;
 + (void)setLongLong:(long long)ll withKey:(NSString*)key;

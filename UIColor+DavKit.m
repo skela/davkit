@@ -38,6 +38,16 @@
     return col;
 }
 
++ (UIColor*)colorFromHexRGBOrRGBAString:(NSString*)hexString
+{
+    NSInteger len = hexString.length;
+    if (len==8 || len==9)
+    {
+        return [UIColor colorFromHexRGBAString:hexString];
+    }
+    return [UIColor colorFromHexRGBString:hexString];
+}
+
 + (UIColor*)colorFromHexRGBAString:(NSString*)hexString
 {
     NSString *safeHexString = hexString;

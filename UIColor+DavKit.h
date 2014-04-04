@@ -14,6 +14,7 @@
 
 + (UIColor*)colorFromHexRGBA:(uint32_t)hex;
 + (UIColor*)colorFromHexRGB:(uint32_t)hex;
++ (UIColor*)colorFromHexRGBOrRGBAString:(NSString*)hexString;
 + (UIColor*)colorFromHexRGBAString:(NSString*)hexString;
 + (UIColor*)colorFromHexRGBString:(NSString*)hexString;
 

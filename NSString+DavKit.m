@@ -34,6 +34,23 @@
     return numberOfMatches>0;
 }
 
+- (NSString *)extractStringLookingFor:(NSString *)lookFor skipForwardTo:(NSInteger)skipForward andStopBefore:(NSString *)stopBefore
+{
+    NSRange firstRange = [self rangeOfString:lookFor];
+    if (firstRange.location == NSNotFound)
+        return nil;
+    NSRange secondRange = [[self substringFromIndex:firstRange.location + skipForward] rangeOfString:stopBefore];
+    if (secondRange.location == NSNotFound)
+        return nil;
+    NSRange finalRange = NSMakeRange(firstRange.location + skipForward, secondRange.location + [stopBefore length]-1);
+    return [self substringWithRange:finalRange];
+}
+
+- (NSString *)extractStringLookingFor:(NSString *)lookFor andStopBefore:(NSString *)stopBefore
+{
+    return [self extractStringLookingFor:lookFor skipForwardTo:lookFor.length andStopBefore:stopBefore];
+}
+
 - (NSData*)stringToBase64EncodedData
 {
     NSData *data;
