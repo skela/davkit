@@ -18,6 +18,7 @@
 {
     AVCaptureSession *session;
     AVCaptureVideoPreviewLayer *previewLayer;
+    BOOL isClosing;
 }
 @property(nonatomic,assign) id<DKBarcodeScanDelegate> delegate;
 @property(nonatomic,strong) UIView *cameraPreview;
