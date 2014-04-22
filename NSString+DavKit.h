@@ -17,7 +17,7 @@
 - (NSString*)dotFilePath;
 - (BOOL)isInteger;
 - (BOOL)isNumber;
-
+- (NSString*)strip;
 - (NSString *)extractStringLookingFor:(NSString *)lookFor skipForwardTo:(NSInteger)skipForward andStopBefore:(NSString *)stopBefore;
 - (NSString *)extractStringLookingFor:(NSString *)lookFor andStopBefore:(NSString *)stopBefore;
 

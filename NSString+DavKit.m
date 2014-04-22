@@ -137,4 +137,10 @@
     return size;
 }
 
+- (NSString*)strip
+{
+    NSString *trimmedString = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return trimmedString;
+}
+
 @end
