@@ -1,9 +1,9 @@
 //
 //  NSString+DavKit.m
-//  Constructor
+//  DavKit
 //
 //  Created by Aleksander Slater on 13/09/2013.
-//  Copyright (c) 2013 IntroLabs. All rights reserved.
+//  Copyright (c) 2013 Davincium. All rights reserved.
 //
 
 #import "NSString+DavKit.h"
@@ -34,6 +34,38 @@
     return numberOfMatches>0;
 }
 
+- (NSString *)extractStringLookingFor:(NSString *)lookFor skipForwardTo:(NSInteger)skipForward andStopBefore:(NSString *)stopBefore
+{
+    NSRange firstRange = [self rangeOfString:lookFor];
+    if (firstRange.location == NSNotFound)
+        return nil;
+    NSRange secondRange = [[self substringFromIndex:firstRange.location + skipForward] rangeOfString:stopBefore];
+    if (secondRange.location == NSNotFound)
+        return nil;
+    NSRange finalRange = NSMakeRange(firstRange.location + skipForward, secondRange.location + [stopBefore length]-1);
+    return [self substringWithRange:finalRange];
+}
+
+- (NSString *)extractStringLookingFor:(NSString *)lookFor andStopBefore:(NSString *)stopBefore
+{
+    return [self extractStringLookingFor:lookFor skipForwardTo:lookFor.length andStopBefore:stopBefore];
+}
+
+- (NSData*)stringToBase64EncodedData
+{
+    NSData *data;
+    
+    if ([data respondsToSelector:@selector(initWithBase64EncodedString:options:)])
+    {
+        data = [[NSData alloc] initWithBase64EncodedString:self options:kNilOptions];  // iOS 7+
+    }
+    else
+    {
+        data = [[NSData alloc] initWithBase64Encoding:self];                           // pre iOS7
+    }
+    return data;
+}
+
 - (NSURL*)URL
 {
     NSURL *retUrl = nil;
@@ -61,6 +93,54 @@
         return self;
     NSString *res = [NSString stringWithFormat:@".%@",lp];
     return [r stringByAppendingPathComponent:res];
+}
+
+#define REGEX_FOR_NUMBERS   @"^([+-]?)(?:|0|[1-9]\\d*)(?:\\.\\d*)?$"
+#define REGEX_FOR_INTEGERS  @"^([+-]?)(?:|0|[1-9]\\d*)?$"
+
+- (BOOL)isInteger
+{
+    return [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", REGEX_FOR_INTEGERS] evaluateWithObject:self];
+}
+
+- (BOOL)isNumber
+{
+    return [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", REGEX_FOR_NUMBERS] evaluateWithObject:self];
+}
+
+- (CGSize)sizeUsingFont:(UIFont *)font
+{
+    if ([self respondsToSelector:@selector(sizeWithAttributes:)])
+    {
+        NSDictionary* attribs = @{NSFontAttributeName:font};
+        return ([self sizeWithAttributes:attribs]);
+    }
+    return ([self sizeWithFont:font]);
+}
+
+- (CGSize)sizeUsingFont:(UIFont*)font constrainedToSize:(CGSize)constraint lineBreakMode:(NSLineBreakMode)lineBreakMode
+{
+    CGSize size;
+    if ([self respondsToSelector:@selector(sizeWithAttributes:)])
+    {
+        NSDictionary *attributes = @{NSFontAttributeName:font};
+        
+        CGSize boundingBox = [self boundingRectWithSize:constraint options: NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+        
+        size = CGSizeMake(ceil(boundingBox.width), ceil(boundingBox.height));
+    }
+    else
+    {
+        size = [self sizeWithFont:font constrainedToSize:constraint lineBreakMode:lineBreakMode];
+    }
+    
+    return size;
+}
+
+- (NSString*)strip
+{
+    NSString *trimmedString = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return trimmedString;
 }
 
 @end

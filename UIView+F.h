@@ -1,6 +1,6 @@
 //
 //  UIView_F.h
-//  DAVKIT
+//  DavKit
 //
 //  Created by Aleksander Slater on 13/06/2013.
 //  Copyright (c) 2013 Davincium. All rights reserved.

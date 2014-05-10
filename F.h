@@ -1,6 +1,6 @@
 //
 //  F.h
-//  DAVKIT
+//  DavKit
 //
 //  Created by Alek Slater on 20/01/2012.
 //  Copyright (c) 2013 Davincium. All rights reserved.
@@ -51,8 +51,9 @@
 +(CGPoint)o:(UIView*)v;
 +(CGSize)s:(UIView*)v;
 
-+(void)round:(UIView*)v;
++ (void)round:(UIView*)v;
 + (CGRect)aspectFittedRect:(CGSize)imgSize max:(CGRect)maxRect;
 + (CGRect)flipSize:(CGRect)fr;
++ (CGAffineTransform)transformationFromA:(CGRect)a toB:(CGRect)b;
 
 @end

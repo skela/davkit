@@ -1,9 +1,9 @@
 //
 //  NSArray+DavKit.m
-//  Constructor
+//  DavKit
 //
 //  Created by Aleksander Slater on 24/10/2013.
-//  Copyright (c) 2013 IntroLabs. All rights reserved.
+//  Copyright (c) 2013 Davincium. All rights reserved.
 //
 
 #import "NSArray+DavKit.h"
@@ -26,6 +26,15 @@
         return [self subarrayWithRange:r];
     }
     return nil;
+}
+
+- (id)randomObject
+{
+    srand([[NSDate date]  timeIntervalSince1970]);
+    NSUInteger myCount = [self count];
+    //if (myCount) return [self objectAtIndex:arc4random() % myCount];
+    if (myCount) return [self objectAtIndex:rand() % myCount];
+    else return nil;
 }
 
 @end

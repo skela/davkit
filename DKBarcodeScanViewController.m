@@ -1,9 +1,9 @@
 //
 //  DKBarcodeScanViewController.m
-//  Constructor
+//  DavKit
 //
 //  Created by Aleksander Slater on 11/10/2013.
-//  Copyright (c) 2013 IntroLabs. All rights reserved.
+//  Copyright (c) 2013 Davincium. All rights reserved.
 //
 
 #import "DKBarcodeScanViewController.h"
@@ -116,6 +116,8 @@
 
 - (BOOL)setupScanSession
 {
+    isClosing = NO;
+    
     session = [[AVCaptureSession alloc]init];
     
     NSError *error = nil;
@@ -173,11 +175,17 @@ didOutputMetadataObjects:(NSArray *)metadataObjects
     for (AVMetadataMachineReadableCodeObject* metadata in metadataObjects)
     {
         code = [metadata stringValue];
-        NSLog(@"scanned code: %@ of type: %@",code,metadata.type);
+        //NSLog(@"scanned code: %@ of type: %@",code,metadata.type);
     }
     
-    if (self.delegate!=nil)
+    if (!isClosing && self.delegate!=nil)
         [self.delegate barcodeScanner:self scannedCode:code];
+}
+
+- (void)dismissViewControllerAnimated: (BOOL)flag completion: (void (^)(void))completion
+{
+    isClosing = YES;
+    [super dismissViewControllerAnimated:flag completion:completion];
 }
 
 @end

@@ -1,9 +1,9 @@
 //
 //  UIColor+DavKit.m
-//  Constructor
+//  DavKit
 //
 //  Created by Aleksander Slater on 26/09/2013.
-//  Copyright (c) 2013 IntroLabs. All rights reserved.
+//  Copyright (c) 2013 Davincium. All rights reserved.
 //
 
 #import "UIColor+DavKit.h"
@@ -38,18 +38,34 @@
     return col;
 }
 
++ (UIColor*)colorFromHexRGBOrRGBAString:(NSString*)hexString
+{
+    NSInteger len = hexString.length;
+    if (len==8 || len==9)
+    {
+        return [UIColor colorFromHexRGBAString:hexString];
+    }
+    return [UIColor colorFromHexRGBString:hexString];
+}
+
 + (UIColor*)colorFromHexRGBAString:(NSString*)hexString
 {
+    NSString *safeHexString = hexString;
+    if ([hexString hasPrefix:@"#"])
+        safeHexString = [hexString substringFromIndex:1];
     unsigned int hexInt;
-    if (![[NSScanner scannerWithString:hexString] scanHexInt:&hexInt])
+    if (![[NSScanner scannerWithString:safeHexString] scanHexInt:&hexInt])
         return nil;
     return [UIColor colorFromHexRGBA:hexInt];
 }
 
 + (UIColor*)colorFromHexRGBString:(NSString*)hexString
 {
+    NSString *safeHexString = hexString;
+    if ([hexString hasPrefix:@"#"])
+        safeHexString = [hexString substringFromIndex:1];
     unsigned int hexInt;
-    if (![[NSScanner scannerWithString:hexString] scanHexInt:&hexInt])
+    if (![[NSScanner scannerWithString:safeHexString] scanHexInt:&hexInt])
         return nil;
     return [UIColor colorFromHexRGB:hexInt];
 }
@@ -59,10 +75,23 @@
     CGFloat r = [self red];
     CGFloat g = [self green];
     CGFloat b = [self blue];
-    NSInteger ri = (NSInteger)(r*255);
-    NSInteger gi = (NSInteger)(g*255);
-    NSInteger bi = (NSInteger)(b*255);
+    int ri = (int)(r*255);
+    int gi = (int)(g*255);
+    int bi = (int)(b*255);
     return [NSString stringWithFormat:@"#%02x%02x%02x",ri,gi,bi];
+}
+
+- (NSString*)hexRGBAString
+{
+    CGFloat r = [self red];
+    CGFloat g = [self green];
+    CGFloat b = [self blue];
+    CGFloat a = [self alpha];
+    int ri = (int)(r*255);
+    int gi = (int)(g*255);
+    int bi = (int)(b*255);
+    int ai = (int)(a*255);
+    return [NSString stringWithFormat:@"#%02x%02x%02x%02x",ri,gi,bi,ai];
 }
 
 #pragma mark - Channels
@@ -162,6 +191,26 @@
     b = 1.0f-b;
     
     return [UIColor colorWithRed:r green:g blue:b alpha:a];
+}
+
+- (UIColor *)darken
+{
+    return [self darkenWithFactor:0.75];
+}
+
+- (UIColor *)darkenWithFactor:(CGFloat)amount
+{
+    CGFloat h,s,b,a;
+    if ([self getHue:&h saturation:&s brightness:&b alpha:&a])
+    {
+        if (b>0.4)
+            b = b*0.75;
+        if (a<=0.5)
+            a = 0.5+a * (2*amount);
+        //NSLog(@"Color with h:%g s:%g b:%g a:%g",h,s,b,a);
+        return [UIColor colorWithHue:h saturation:s brightness:b alpha:a];
+    }
+    return self;
 }
 
 @end

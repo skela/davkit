@@ -1,6 +1,6 @@
 //
 //  DKParser.h
-//  DAVKIT
+//  DavKit
 //
 //  Created by Aleksander Slater on 09/06/2012.
 //  Copyright (c) 2012 Davincium. All rights reserved.
@@ -8,9 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol DKJSON <NSObject>
+
+- (NSDictionary*)jsonSerialized;
++ (id)jsonDeserialize:(NSDictionary*)json;
+
+@end
+
 @interface DKParser : NSObject
 
 + (id)getObject:(NSDictionary*)d ofClass:(Class)classe forKey:(NSString*)key fallBack:(id)fallBack;
++ (NSNumber*)getNumber:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSNumber*)fallBack;
 + (NSString*)getString:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSString*)fallBack;
 + (NSInteger)getInteger:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSInteger)fallBack;
 + (BOOL)getBool:(NSDictionary*)d forKey:(NSString*)key fallBack:(BOOL)fallBack;
@@ -25,6 +33,20 @@
 + (BOOL)isNumber:(id)number;
 + (BOOL)isString:(id)string;
 + (BOOL)isArray:(id)ar;
+
++ (void)setObject:(id)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict fallBack:(id)fallBack;
++ (void)setString:(NSString*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setNumber:(NSNumber*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setDictionary:(NSDictionary*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setArray:(NSArray*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
+
++ (NSDate*)getDate:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSDate*)fallBack;
++ (CGRect)getRect:(NSDictionary*)d forKey:(NSString*)key fallBack:(CGRect)fallBack;
+
++ (void)setDate:(NSDate*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setRect:(CGRect)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
+
 
 // For example a normal string from .NET systems for timestamps could be: "/Date(1378151009864)/"
 // In this case the inputs for this function would be startsWith:@"/Date(" endsWith:@")/"

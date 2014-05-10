@@ -1,6 +1,6 @@
 //
 //  DKParser.m
-//  DAVKIT
+//  DavKit
 //
 //  Created by Aleksander Slater on 09/06/2012.
 //  Copyright (c) 2012 Davincium. All rights reserved.
@@ -16,6 +16,11 @@
     if (obj!=nil && [obj isKindOfClass:classe])
         return obj;
     return fallBack;
+}
+
++ (NSNumber*)getNumber:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSNumber*)fallBack
+{
+    return [DKParser getObject:d ofClass:[NSNumber class] forKey:key fallBack:fallBack];
 }
 
 + (NSString*)getString:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSString*)fallBack
@@ -107,6 +112,91 @@
     if (ar!=nil && [ar isKindOfClass:[NSArray class]])
         return YES;
     return NO;
+}
+
+// Setters
+
++ (void)setObject:(id)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict fallBack:(id)fallBack
+{
+    if (val==nil)
+    {
+        if (fallBack==nil)
+        {
+            [dict removeObjectForKey:key];
+        }
+        else
+        {
+            [dict setObject:fallBack forKey:key];
+        }
+    }
+    else
+    {
+        [dict setObject:val forKey:key];
+    }
+}
+
++ (void)setNumber:(NSNumber*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+}
+
++ (void)setString:(NSString*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+}
+
++ (void)setDictionary:(NSDictionary*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+}
+
++ (void)setArray:(NSArray*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+}
+
++ (void)setInt:(int)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:[NSNumber numberWithInt:val] forKey:key inDict:dict fallBack:nil];
+}
+
++ (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:[NSNumber numberWithInteger:val] forKey:key inDict:dict fallBack:nil];
+}
+
+// Special iOS and Mac
+
++ (void)setDate:(NSDate*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    if (val==nil)
+        [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+    else
+        [DKParser setObject:[NSNumber numberWithDouble:[val timeIntervalSince1970]]
+                     forKey:key
+                     inDict:dict
+                   fallBack:nil];
+}
+
++ (void)setRect:(CGRect)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:NSStringFromCGRect(val) forKey:key inDict:dict fallBack:nil];
+}
+
++ (NSDate*)getDate:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSDate*)fallBack
+{
+    NSNumber *n=[d objectForKey:key];
+    if (n!=nil && [n isKindOfClass:[NSNumber class]])
+        return [NSDate dateWithTimeIntervalSince1970:[n doubleValue]];
+    return fallBack;
+}
+
++ (CGRect)getRect:(NSDictionary*)d forKey:(NSString*)key fallBack:(CGRect)fallBack
+{
+    NSString *n=[d objectForKey:key];
+    if (n!=nil && [n isKindOfClass:[NSString class]])
+        return CGRectFromString(n);
+    return fallBack;
 }
 
 // Specials

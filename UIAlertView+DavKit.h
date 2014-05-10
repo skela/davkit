@@ -1,6 +1,6 @@
 //
 //  UIAlertView+DavKit.h
-//  DropBeacon
+//  DavKit
 //
 //  Created by Aleksander Slater on 08/09/2013.
 //  Copyright (c) 2013 Davincium. All rights reserved.
@@ -20,19 +20,25 @@
 
 @end
 
+@class DKAlertInputViewUIAlertViewDelegate;
 @interface DKAlertInputView : UIAlertView <UIAlertViewDelegate>
 {
 	UITextField *textField;
     BOOL isSecure;
 }
 @property(nonatomic,readwrite) BOOL isSecure;
-
+@property(nonatomic,strong) DKAlertInputViewUIAlertViewDelegate *dkDelegate;
 - (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
 - (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block secure:(BOOL)secure;
 
 - (void)setAutocapitalizationType:(UITextAutocapitalizationType)type;
 - (void)setAutocorrectionType:(UITextAutocorrectionType)type;
+- (void)setKeyboardType:(UIKeyboardType)type;
 
 - (NSString*)textFieldText;
+
+@end
+
+@interface DKAlertInputViewUIAlertViewDelegate : NSObject <UIAlertViewDelegate>
 
 @end
