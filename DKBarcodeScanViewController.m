@@ -7,6 +7,7 @@
 //
 
 #import "DKBarcodeScanViewController.h"
+#import "UIAlertView+DavKit.h"
 
 @interface DKBarcodeScanViewController ()
 
