@@ -60,4 +60,7 @@
 + (unsigned int)intFromHexString:(NSString *)hexStr;
 + (NSDictionary*)getDictionaryFromUrl:(NSURL*)url;
 
++ (NSDictionary*)fromJSONString:(NSString*)jsonString;
++ (NSString*)toJSONString:(NSDictionary*)d;
+
 @end

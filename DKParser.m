@@ -257,4 +257,24 @@
     return returnDict;
 }
 
++ (NSDictionary*)fromJSONString:(NSString*)jsonString
+{
+    NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    return json;
+}
+
++ (NSString*)toJSONString:(NSDictionary*)d
+{
+    NSError *error = nil;
+    
+    NSData *data = [NSJSONSerialization dataWithJSONObject:d options:0 error:&error];
+    if (data!=nil)
+    {
+        NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        return str;
+    }
+    return nil;
+}
+
 @end
