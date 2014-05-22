@@ -114,7 +114,7 @@
     return NO;
 }
 
-// Setters
+#pragma mark - Setters
 
 + (void)setObject:(id)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict fallBack:(id)fallBack
 {
@@ -165,7 +165,7 @@
     [DKParser setObject:[NSNumber numberWithInteger:val] forKey:key inDict:dict fallBack:nil];
 }
 
-// Special iOS and Mac
+#pragma mark - Special iOS and Mac
 
 + (void)setDate:(NSDate*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
@@ -199,7 +199,7 @@
     return fallBack;
 }
 
-// Specials
+#pragma mark - Specials
 
 + (double)getDoubleFromString:(NSDictionary*)d forKey:(NSString*)key startsWith:(NSString*)start endsWith:(NSString*)end fallBack:(double)fallBack
 {
@@ -257,24 +257,46 @@
     return returnDict;
 }
 
-+ (NSDictionary*)fromJSONString:(NSString*)jsonString
+#pragma mark - JSON
+
++ (id)fromJSONString:(NSString*)jsonString
 {
     NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     return json;
 }
 
-+ (NSString*)toJSONString:(NSDictionary*)d
++ (NSString*)toJSONString:(id)object
 {
     NSError *error = nil;
     
-    NSData *data = [NSJSONSerialization dataWithJSONObject:d options:0 error:&error];
+    NSData *data = [NSJSONSerialization dataWithJSONObject:object options:0 error:&error];
     if (data!=nil)
     {
         NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         return str;
     }
     return nil;
+}
+
++ (NSDictionary*)fromJSONToDictionary:(NSString*)jsonString
+{
+    return [DKParser fromJSONString:jsonString];
+}
+
++ (NSArray*)fromJSONToArray:(NSString*)jsonString
+{
+    return [DKParser fromJSONString:jsonString];
+}
+
++ (NSString*)fromDictionaryToJSON:(NSDictionary*)d
+{
+    return [DKParser toJSONString:d];
+}
+
++ (NSString*)fromArrayToJSON:(NSArray*)d
+{
+    return [DKParser toJSONString:d];
 }
 
 @end
