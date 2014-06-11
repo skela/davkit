@@ -33,6 +33,7 @@
 + (BOOL)isNumber:(id)number;
 + (BOOL)isString:(id)string;
 + (BOOL)isArray:(id)ar;
++ (BOOL)isTrue:(id)o;
 
 + (void)setObject:(id)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict fallBack:(id)fallBack;
 + (void)setString:(NSString*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;

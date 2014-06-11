@@ -114,6 +114,23 @@
     return NO;
 }
 
++ (BOOL)isTrue:(id)o
+{
+    if ([o isKindOfClass:[NSString class]])
+    {
+        if ([o isEqualToString:@"1"])
+            return YES;
+        if ([[o lowercaseString] isEqualToString:@"true"])
+            return YES;
+    }
+    if ([o isKindOfClass:[NSNumber class]])
+    {
+        NSInteger numb = [o integerValue];
+        return numb;
+    }
+    return NO;
+}
+
 #pragma mark - Setters
 
 + (void)setObject:(id)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict fallBack:(id)fallBack
