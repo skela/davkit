@@ -14,6 +14,7 @@
 + (NSDictionary*)attributesWithColor:(UIColor*)subStringColor andFont:(UIFont*)subStringFont;
 + (NSDictionary*)attributesWithColor:(UIColor*)subStringColor;
 + (NSDictionary*)attributesWithFont:(UIFont*)subStringFont;
++ (NSDictionary*)attributesWithStrikethrough;
 
 @end
 

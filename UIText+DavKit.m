@@ -49,6 +49,13 @@
     return nil;
 }
 
++ (NSDictionary*)attributesWithStrikethrough
+{
+    if (CAN_ATTR)
+        return @{NSStrikethroughStyleAttributeName:@1};
+    return nil;
+}
+
 @end
 
 @implementation UILabel (DavKit)

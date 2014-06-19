@@ -61,6 +61,11 @@
     [DKCurrentUser setObject:[NSNumber numberWithDouble:[d timeIntervalSince1970]] ofClass:[NSNumber class] withKey:key];
 }
 
++ (void)setDictionary:(NSDictionary*)d withKey:(NSString*)key
+{
+    [DKCurrentUser setObject:d ofClass:[NSDictionary class] withKey:key];
+}
+
 + (void)setDouble:(double)d withKey:(NSString*)key
 {
     [DKCurrentUser setObject:[NSNumber numberWithDouble:d] ofClass:[NSNumber class] withKey:key];
@@ -104,6 +109,11 @@
 + (NSDate*)getDateForKey:(NSString*)key defaultValue:(NSDate*)def
 {
     NSNumber *n = [DKCurrentUser getNumberForKey:key defaultValue:nil]; return n==nil ? def : [NSDate dateWithTimeIntervalSince1970:[n doubleValue]];
+}
+
++ (NSDictionary*)getDictionaryForKey:(NSString*)key defaultValue:(NSDictionary*)def
+{
+    return [DKCurrentUser getObjectOfClass:[NSDictionary class] forKey:key defaultValue:def];
 }
 
 + (id)getObjectOfClass:(Class)class forKey:(NSString*)key defaultValue:(id)def

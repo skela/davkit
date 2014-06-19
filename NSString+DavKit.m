@@ -143,4 +143,29 @@
     return trimmedString;
 }
 
+- (NSString*)first
+{
+    if ([self length]>0)
+    {
+        NSRange r; r.location=0; r.length=1;
+        return [self substringWithRange:r];
+    }
+    return nil;
+}
+
+- (NSAttributedString*)bold:(NSString*)subString
+{
+    return [self bold:subString size:12];
+}
+
+- (NSAttributedString*)bold:(NSString*)subString size:(CGFloat)size
+{
+    return [UITextHelper attributedStringForText:self withSubString:subString withAttributes:[UITextHelper attributesWithFont:[UIFont boldSystemFontOfSize:size]]];
+}
+
+- (NSAttributedString*)strikethrough:(NSString*)subString
+{
+    return [UITextHelper attributedStringForText:self withSubString:subString withAttributes:[UITextHelper attributesWithStrikethrough]];
+}
+
 @end

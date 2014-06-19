@@ -14,6 +14,7 @@
 #import "NSString+DavKit.h"
 #import "NSArray+DavKit.h"
 #import "NSData+DavKit.h"
+#import "NSDate+DavKit.h"
 #import "DKParser.h"
 #import "DKParser+UIKit.h"
 
