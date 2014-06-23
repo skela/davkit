@@ -73,4 +73,27 @@
 	//Block_release(block);
 }
 
+- (void)addButton:(NSString*)title
+{
+    if (title) [self addButtonWithTitle:title];
+}
+
+- (void)addCancel:(NSString*)title
+{
+    if (title) [self setCancelButtonIndex:[self addButtonWithTitle:title]];
+}
+
+- (void)addDestructive:(NSString*)title
+{
+    if (title) [self setDestructiveButtonIndex:[self addButtonWithTitle:title]];
+}
+
+- (void)addButtons:(NSArray*)btns
+{
+    for (NSString *btnTitle in btns)
+    {
+        [self addButtonWithTitle:btnTitle];
+    }
+}
+
 @end

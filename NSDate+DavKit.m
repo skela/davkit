@@ -52,6 +52,11 @@
     return [NSDate dateWithTimeIntervalSince1970:[[NSDate date]timeIntervalSince1970]-86400];
 }
 
++ (NSDate*)ereyesterday
+{
+    return [NSDate dateWithTimeIntervalSince1970:[[NSDate date]timeIntervalSince1970]-86400*2];
+}
+
 + (NSDate*)tomorrow
 {
     return [NSDate dateWithTimeIntervalSince1970:[[NSDate date]timeIntervalSince1970]+86400];

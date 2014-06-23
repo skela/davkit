@@ -17,6 +17,7 @@
 - (BOOL)isPresent;
 
 + (NSDate*)yesterday;
++ (NSDate*)ereyesterday;
 + (NSDate*)tomorrow;
 + (NSDate*)overmorrow;
 
