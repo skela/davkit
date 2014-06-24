@@ -25,7 +25,7 @@
 {
     NSTimeInterval interval = [self timeIntervalSince1970];
     NSDateComponents*comps = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:[NSDate dateWithTimeIntervalSince1970:interval] toDate:[NSDate date] options:0];
-	int val;
+	NSInteger val;
 	val = [comps day];
 	if (val==1)
         return YES;
