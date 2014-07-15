@@ -10,6 +10,29 @@
 
 @implementation DKResources
 
++ (NSArray*)colorNamesHexCodes
+{
+    return
+    @[
+      @"#000080",
+      @"#FF0000",
+      @"#008000",
+      @"#0000FF",
+      @"#800080",      
+      @"#FFFFFF",
+      @"#C0C0C0",
+      @"#808080",
+      @"#000000",
+      @"#800000",
+      @"#FFFF00",
+      @"#808000",
+      @"#00FF00",
+      @"#00FFFF",
+      @"#008080",
+      @"#FF00FF",
+      ];
+}
+
 + (NSArray*)crayonColorHexCodes
 {
     return

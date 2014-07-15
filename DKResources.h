@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface DKResources : NSObject
++ (NSArray*)colorNamesHexCodes;
 + (NSArray*)crayonColorHexCodes;
 @end
