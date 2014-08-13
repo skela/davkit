@@ -28,8 +28,33 @@
 }
 @property(nonatomic,readwrite) BOOL isSecure;
 @property(nonatomic,strong) DKAlertInputViewUIAlertViewDelegate *dkDelegate;
-- (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
-- (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block secure:(BOOL)secure;
+@property(nonatomic,strong) NSString *okTitle;
+
+- (id)initWithTitle:(NSString *)title
+            current:(NSString*)current
+        placeHolder:(NSString*)placeHolder
+              block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
+
+- (id)initWithTitle:(NSString *)title
+            current:(NSString*)current
+        placeHolder:(NSString*)placeHolder
+             secure:(BOOL)secure
+              block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
+
+- (id)initWithTitle:(NSString *)title
+            current:(NSString*)current
+        placeHolder:(NSString*)placeHolder
+                 ok:(NSString*)ok
+             cancel:(NSString*)cancel
+              block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
+
+- (id)initWithTitle:(NSString *)title
+            current:(NSString*)current
+        placeHolder:(NSString*)placeHolder
+             secure:(BOOL)secure
+                 ok:(NSString*)ok
+             cancel:(NSString*)cancel
+              block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
 
 - (void)setAutocapitalizationType:(UITextAutocapitalizationType)type;
 - (void)setAutocorrectionType:(UITextAutocorrectionType)type;

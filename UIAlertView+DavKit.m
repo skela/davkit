@@ -118,12 +118,40 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
     return [[[UIDevice currentDevice] systemVersion] floatValue]<5.0;
 }
 
-- (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block
+- (id)initWithTitle:(NSString *)title
+            current:(NSString*)current
+        placeHolder:(NSString*)placeHolder
+              block:(void (^)(DKAlertInputView *inputView,NSString *text))block
 {
-    return [self initWithTitle:title current:current placeHolder:placeHolder block:block secure:NO];
+    return [self initWithTitle:title current:current placeHolder:placeHolder secure:NO block:block];
 }
 
-- (id)initWithTitle:(NSString *)title current:(NSString*)current placeHolder:(NSString*)placeHolder block:(void (^)(DKAlertInputView *inputView,NSString *text))block secure:(BOOL)secure
+- (id)initWithTitle:(NSString *)title
+            current:(NSString*)current
+        placeHolder:(NSString*)placeHolder
+             secure:(BOOL)secure
+              block:(void (^)(DKAlertInputView *inputView,NSString *text))block
+{
+    return [self initWithTitle:title current:current placeHolder:placeHolder secure:secure ok:@"OK" cancel:@"Cancel" block:block];
+}
+
+- (id)initWithTitle:(NSString *)title
+            current:(NSString*)current
+        placeHolder:(NSString*)placeHolder
+                 ok:(NSString*)ok
+             cancel:(NSString*)cancel
+              block:(void (^)(DKAlertInputView *inputView,NSString *text))block
+{
+    return [self initWithTitle:title current:current placeHolder:placeHolder secure:NO ok:ok cancel:cancel block:block];
+}
+
+- (id)initWithTitle:(NSString *)title
+            current:(NSString*)current
+        placeHolder:(NSString*)placeHolder
+             secure:(BOOL)secure
+                 ok:(NSString*)ok
+             cancel:(NSString*)cancel
+              block:(void (^)(DKAlertInputView *inputView,NSString *text))block
 {
     objc_setAssociatedObject(self,"blockCallback",[block copy],OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
@@ -132,8 +160,9 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
     BOOL useLegacySupport = [DKAlertInputView useLegacySupport];
     
     self.dkDelegate = [[DKAlertInputViewUIAlertViewDelegate alloc] init];
+    self.okTitle = ok;
     
-    if (self = [super initWithTitle:title message:useLegacySupport ? @"\n\n" : @"" delegate:self.dkDelegate cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil])
+    if (self = [super initWithTitle:title message:useLegacySupport ? @"\n\n" : @"" delegate:self.dkDelegate cancelButtonTitle:cancel otherButtonTitles:ok, nil])
     {
         if (useLegacySupport)
         {
@@ -215,7 +244,7 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     DKAlertInputView *input = ((DKAlertInputView*)alertView);
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"OK"])
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:input.okTitle])
         [input finishedWithText:input.safeTextField.text];
     else
         [input cancelled];
