@@ -20,7 +20,10 @@
     }
     else
     {
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         string = [self base64Encoding];                              // pre iOS7
+        #pragma GCC diagnostic pop
     }
     return string;
 }
