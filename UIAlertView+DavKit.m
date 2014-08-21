@@ -99,7 +99,7 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
 //@synthesize textField;
 @synthesize isSecure;
 
-- (void)prepare:(UITextField*)tf current:(NSString*)current placeHolder:(NSString*)placeHolder
+- (void)prepare:(UITextField*)tf current:(NSString*)current hint:(NSString*)placeHolder
 {
     [tf setText:current];
     [tf setAutocapitalizationType:UITextAutocapitalizationTypeNone];
@@ -120,34 +120,34 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
 
 - (id)initWithTitle:(NSString *)title
             current:(NSString*)current
-        placeHolder:(NSString*)placeHolder
+        hint:(NSString*)placeHolder
               block:(void (^)(DKAlertInputView *inputView,NSString *text))block
 {
-    return [self initWithTitle:title current:current placeHolder:placeHolder secure:NO block:block];
+    return [self initWithTitle:title current:current hint:placeHolder secure:NO block:block];
 }
 
 - (id)initWithTitle:(NSString *)title
             current:(NSString*)current
-        placeHolder:(NSString*)placeHolder
+        hint:(NSString*)placeHolder
              secure:(BOOL)secure
               block:(void (^)(DKAlertInputView *inputView,NSString *text))block
 {
-    return [self initWithTitle:title current:current placeHolder:placeHolder secure:secure ok:@"OK" cancel:@"Cancel" block:block];
+    return [self initWithTitle:title current:current hint:placeHolder secure:secure ok:@"OK" cancel:@"Cancel" block:block];
 }
 
 - (id)initWithTitle:(NSString *)title
             current:(NSString*)current
-        placeHolder:(NSString*)placeHolder
+        hint:(NSString*)placeHolder
                  ok:(NSString*)ok
              cancel:(NSString*)cancel
               block:(void (^)(DKAlertInputView *inputView,NSString *text))block
 {
-    return [self initWithTitle:title current:current placeHolder:placeHolder secure:NO ok:ok cancel:cancel block:block];
+    return [self initWithTitle:title current:current hint:placeHolder secure:NO ok:ok cancel:cancel block:block];
 }
 
 - (id)initWithTitle:(NSString *)title
             current:(NSString*)current
-        placeHolder:(NSString*)placeHolder
+        hint:(NSString*)placeHolder
              secure:(BOOL)secure
                  ok:(NSString*)ok
              cancel:(NSString*)cancel
@@ -168,14 +168,14 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
         {
             textField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 55, 260.0, 30.0)];
             [textField setBorderStyle:UITextBorderStyleRoundedRect];
-            [self prepare:textField current:current placeHolder:placeHolder];
+            [self prepare:textField current:current hint:placeHolder];
             [self addSubview:textField];
         }
         else
         {
             self.alertViewStyle = isSecure ? UIAlertViewStyleSecureTextInput : UIAlertViewStylePlainTextInput;
             UITextField *defaultField = [self textFieldAtIndex:0];
-            [self prepare:defaultField current:current placeHolder:placeHolder];
+            [self prepare:defaultField current:current hint:placeHolder];
         }
     }
     

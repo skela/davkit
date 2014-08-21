@@ -32,25 +32,25 @@
 
 - (id)initWithTitle:(NSString *)title
             current:(NSString*)current
-        placeHolder:(NSString*)placeHolder
+        hint:(NSString*)placeHolder
               block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
 
 - (id)initWithTitle:(NSString *)title
             current:(NSString*)current
-        placeHolder:(NSString*)placeHolder
+        hint:(NSString*)placeHolder
              secure:(BOOL)secure
               block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
 
 - (id)initWithTitle:(NSString *)title
             current:(NSString*)current
-        placeHolder:(NSString*)placeHolder
+        hint:(NSString*)placeHolder
                  ok:(NSString*)ok
              cancel:(NSString*)cancel
               block:(void (^)(DKAlertInputView *inputView,NSString *text))block;
 
 - (id)initWithTitle:(NSString *)title
             current:(NSString*)current
-        placeHolder:(NSString*)placeHolder
+        hint:(NSString*)placeHolder
              secure:(BOOL)secure
                  ok:(NSString*)ok
              cancel:(NSString*)cancel

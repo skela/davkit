@@ -42,6 +42,9 @@
 + (void)setArray:(NSArray*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 + (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 
++ (NSInteger)addContentsOfDictInDict:(NSDictionary*)d withKey:(NSString*)key toDict:(NSMutableDictionary*)mdict;
++ (NSInteger)addContentsOfArrayInDict:(NSDictionary*)d withKey:(NSString*)key toArray:(NSMutableArray*)mar;
+
 + (NSDate*)getDate:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSDate*)fallBack;
 + (CGRect)getRect:(NSDictionary*)d forKey:(NSString*)key fallBack:(CGRect)fallBack;
 

@@ -182,6 +182,28 @@
     [DKParser setObject:[NSNumber numberWithInteger:val] forKey:key inDict:dict fallBack:nil];
 }
 
+#pragma mark - Containers
+
++ (NSInteger)addContentsOfDictInDict:(NSDictionary*)d withKey:(NSString*)key toDict:(NSMutableDictionary*)mdict
+{
+    NSDictionary *dict = [DKParser getDictionary:d forKey:@"options" fallBack:nil];
+    if (dict!=nil)
+    {
+        [mdict addEntriesFromDictionary:dict];
+    }
+    return [dict count];
+}
+
++ (NSInteger)addContentsOfArrayInDict:(NSDictionary*)d withKey:(NSString*)key toArray:(NSMutableArray*)mar
+{
+    NSArray *ar = [DKParser getArray:d forKey:@"options" fallBack:nil];
+    if (ar!=nil)
+    {
+        [mar addObjectsFromArray:ar];
+    }
+    return [ar count];
+}
+
 #pragma mark - Special iOS and Mac
 
 + (void)setDate:(NSDate*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
