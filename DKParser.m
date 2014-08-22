@@ -186,7 +186,7 @@
 
 + (NSInteger)addContentsOfDictInDict:(NSDictionary*)d withKey:(NSString*)key toDict:(NSMutableDictionary*)mdict
 {
-    NSDictionary *dict = [DKParser getDictionary:d forKey:@"options" fallBack:nil];
+    NSDictionary *dict = [DKParser getDictionary:d forKey:key fallBack:nil];
     if (dict!=nil)
     {
         [mdict addEntriesFromDictionary:dict];
@@ -196,7 +196,7 @@
 
 + (NSInteger)addContentsOfArrayInDict:(NSDictionary*)d withKey:(NSString*)key toArray:(NSMutableArray*)mar
 {
-    NSArray *ar = [DKParser getArray:d forKey:@"options" fallBack:nil];
+    NSArray *ar = [DKParser getArray:d forKey:key fallBack:nil];
     if (ar!=nil)
     {
         [mar addObjectsFromArray:ar];
