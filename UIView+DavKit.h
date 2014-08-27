@@ -14,3 +14,8 @@
 - (NSString*)viewDescription;
 
 @end
+
+@interface UITableView (DavKit)
+- (NSIndexPath*)nextIndexPath:(NSIndexPath*)indexPath;
+- (NSIndexPath*)previousIndexPath:(NSIndexPath*)indexPath;
+@end

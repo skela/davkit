@@ -21,3 +21,51 @@
 }
 
 @end
+
+@implementation UITableView (DavKit)
+
+- (NSIndexPath*)nextIndexPath:(NSIndexPath*)indexPath
+{
+    int numOfSections = self.numberOfSections;
+    int nextSection = ((indexPath.section + 1) % numOfSections);
+    
+    if ((indexPath.row + 1) == [self numberOfRowsInSection:indexPath.section])
+    {
+        return [NSIndexPath indexPathForRow:0 inSection:nextSection];
+    }
+    else
+    {
+        return [NSIndexPath indexPathForRow:(indexPath.row + 1) inSection:indexPath.section];
+    }
+}
+
+- (NSIndexPath*)previousIndexPath:(NSIndexPath*)indexPath
+{
+    int numOfSections = self.numberOfSections;
+    int nextSection = ((indexPath.section - 1) % numOfSections);
+    
+    if ((indexPath.row - 1) < 0)
+    {
+        if (indexPath.row==0 && indexPath.section==0)
+        {
+            int nextRow = 0;
+            nextSection = numOfSections-1;
+            if (nextSection<0)
+                nextSection = 0;
+            nextRow = [self numberOfRowsInSection:nextSection] - 1;
+            if (nextRow<0)
+                nextRow = 0;
+            return [NSIndexPath indexPathForRow:nextRow inSection:nextSection];
+        }
+        else
+        {
+            return [NSIndexPath indexPathForRow:0 inSection:nextSection];
+        }
+    }
+    else
+    {
+        return [NSIndexPath indexPathForRow:(indexPath.row - 1) inSection:indexPath.section];
+    }
+}
+
+@end
