@@ -42,28 +42,28 @@
     return self;
 }
 
+- (id)initWithView:(UIScrollView*)scrollView
+{
+    self = [self init];
+    if (self)
+    {
+        [self addView:scrollView];
+    }
+    return self;
+}
+
 - (void)dealloc
 {
     [self.adjustableViews removeAllObjects];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)addTextView:(UITextView*)textView
-{
-    [self addScrollView:textView];
-}
-
-- (void)removeTextView:(UITextView*)textView
-{
-    [self removeScrollView:textView];
-}
-
-- (void)addScrollView:(UIScrollView*)scrollView
+- (void)addView:(UIScrollView*)scrollView
 {
     [self.adjustableViews addObject:scrollView];
 }
 
-- (void)removeScrollView:(UIScrollView*)scrollView
+- (void)removeView:(UIScrollView*)scrollView
 {
     [self.adjustableViews removeObject:scrollView];
 }

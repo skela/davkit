@@ -7,14 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface DKKeyboardHelper : NSObject
 @property(nonatomic,strong) NSMutableArray *adjustableViews;
 @property(nonatomic,strong) NSNotification *lastNotification;
 
-- (void)addTextView:(UITextView*)textView;
-- (void)removeTextView:(UITextView*)textView;
-- (void)addScrollView:(UIScrollView*)scrollView;
-- (void)removeScrollView:(UIScrollView*)scrollView;
+- (id)initWithView:(UIScrollView*)scrollView;
+
+- (void)addView:(UIScrollView*)scrollView;
+- (void)removeView:(UIScrollView*)scrollView;
 
 @end

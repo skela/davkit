@@ -7,6 +7,7 @@
 //
 
 #import "DKParser+UIKit.h"
+#import <UIKit/UIKit.h>
 
 @implementation DKParser (UIKit)
 
