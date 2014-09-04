@@ -93,6 +93,7 @@
         case UIInterfaceOrientationPortraitUpsideDown: rotation = M_PI; break;
         case UIInterfaceOrientationLandscapeLeft: rotation = M_PI/2; break;
         case UIInterfaceOrientationLandscapeRight: rotation = -M_PI/2; break;
+        //case UIInterfaceOrientationUnknown: rotation = 0; break;
     }
 
     if (animated)

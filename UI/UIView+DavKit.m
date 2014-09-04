@@ -26,8 +26,8 @@
 
 - (NSIndexPath*)nextIndexPath:(NSIndexPath*)indexPath
 {
-    int numOfSections = self.numberOfSections;
-    int nextSection = ((indexPath.section + 1) % numOfSections);
+    NSInteger numOfSections = self.numberOfSections;
+    NSInteger nextSection = ((indexPath.section + 1) % numOfSections);
     
     if ((indexPath.row + 1) == [self numberOfRowsInSection:indexPath.section])
     {
@@ -41,14 +41,14 @@
 
 - (NSIndexPath*)previousIndexPath:(NSIndexPath*)indexPath
 {
-    int numOfSections = self.numberOfSections;
-    int nextSection = ((indexPath.section - 1) % numOfSections);
+    NSInteger numOfSections = self.numberOfSections;
+    NSInteger nextSection = ((indexPath.section - 1) % numOfSections);
     
     if ((indexPath.row - 1) < 0)
     {
         if (indexPath.row==0 && indexPath.section==0)
         {
-            int nextRow = 0;
+            NSInteger nextRow = 0;
             nextSection = numOfSections-1;
             if (nextSection<0)
                 nextSection = 0;
