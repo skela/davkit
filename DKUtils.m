@@ -113,4 +113,14 @@
     free(plist);
 }
 
++ (void)setBlock:(id)block withKey:(const void *)key forObject:(id)object
+{
+    objc_setAssociatedObject(object,key,[block copy],OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
++ (id)getBlockForObject:(id)object withKey:(const void *)key
+{
+    return objc_getAssociatedObject(object, key);
+}
+
 @end

@@ -12,4 +12,7 @@
 
 + (void)listMethodsForObject:(id)obj;
 
++ (void)setBlock:(id)block withKey:(const void *)key forObject:(id)object;
++ (id)getBlockForObject:(id)object withKey:(const void *)key;
+
 @end

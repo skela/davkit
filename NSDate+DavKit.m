@@ -67,4 +67,9 @@
     return [NSDate dateWithTimeIntervalSince1970:[[NSDate date]timeIntervalSince1970]+86400*2];
 }
 
++ (NSDate*)lastWeek
+{
+    return [NSDate dateWithTimeIntervalSince1970:[[NSDate date]timeIntervalSince1970]-604800];
+}
+
 @end

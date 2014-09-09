@@ -20,5 +20,6 @@
 + (NSDate*)ereyesterday;
 + (NSDate*)tomorrow;
 + (NSDate*)overmorrow;
++ (NSDate*)lastWeek;
 
 @end

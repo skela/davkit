@@ -18,6 +18,7 @@
 #import "NSData+DavKit.h"
 #import "NSDate+DavKit.h"
 #import "DKParser.h"
+#import "DKUtils.h"
 
 // UIKit Dependant
 
