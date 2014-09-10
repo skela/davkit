@@ -18,6 +18,7 @@
 @interface DKParser : NSObject
 
 + (id)getObject:(NSDictionary*)d ofClass:(Class)classe forKey:(NSString*)key fallBack:(id)fallBack;
++ (NSValue*)getValue:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSValue*)fallBack;
 + (NSNumber*)getNumber:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSNumber*)fallBack;
 + (NSString*)getString:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSString*)fallBack;
 + (NSInteger)getInteger:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSInteger)fallBack;
@@ -28,6 +29,7 @@
 + (NSDictionary*)getDictionary:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSDictionary*)fallBack;
 + (long)getLong:(NSDictionary*)d forKey:(NSString*)key fallBack:(long)fallBack;
 + (long long)getLongLong:(NSDictionary*)d forKey:(NSString*)key fallBack:(long long)fallBack;
++ (SEL)getSelector:(NSDictionary*)d forKey:(NSString*)key fallBack:(SEL)fallBack;
 
 + (BOOL)isDictionary:(id)d;
 + (BOOL)isNumber:(id)number;
@@ -41,6 +43,7 @@
 + (void)setDictionary:(NSDictionary*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 + (void)setArray:(NSArray*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 + (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setSelector:(SEL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 
 + (NSInteger)addContentsOfDictInDict:(NSDictionary*)d withKey:(NSString*)key toDict:(NSMutableDictionary*)mdict;
 + (NSInteger)addContentsOfArrayInDict:(NSDictionary*)d withKey:(NSString*)key toArray:(NSMutableArray*)mar;

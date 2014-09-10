@@ -18,6 +18,11 @@
     return fallBack;
 }
 
++ (NSValue*)getValue:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSValue*)fallBack
+{
+    return [DKParser getObject:d ofClass:[NSValue class] forKey:key fallBack:fallBack];
+}
+
 + (NSNumber*)getNumber:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSNumber*)fallBack
 {
     return [DKParser getObject:d ofClass:[NSNumber class] forKey:key fallBack:fallBack];
@@ -83,6 +88,23 @@
     NSNumber *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSNumber class]])
         return [n longValue];
+    return fallBack;
+}
+
++ (SEL)getSelector:(NSDictionary*)d forKey:(NSString*)key fallBack:(SEL)fallBack
+{
+    NSValue *obj=[d objectForKey:key];
+    if (obj!=nil && [obj isKindOfClass:[NSValue class]])
+    {
+        SEL sel = [obj pointerValue];
+        return sel;
+    }
+    else if (obj!=nil && [obj isKindOfClass:[NSString class]])
+    {
+        NSString *str = (NSString*)obj;
+        SEL sel = NSSelectorFromString(str);
+        return sel;
+    }
     return fallBack;
 }
 
@@ -180,6 +202,11 @@
 + (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
     [DKParser setObject:[NSNumber numberWithInteger:val] forKey:key inDict:dict fallBack:nil];
+}
+
++ (void)setSelector:(SEL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:NSStringFromSelector(val) forKey:key inDict:dict fallBack:nil];
 }
 
 #pragma mark - Containers
