@@ -22,9 +22,11 @@ destructiveButtonTitle:(NSString *)destructiveButtonTitle
   otherButtonTitles:(NSArray *)otherButtonTitles
     completionBlock:(void (^)(NSUInteger buttonIndex, UIActionSheet *actionSheet))block;
 
+@end
+
+@interface UIActionSheet (DKDavKit)
 - (void)addButton:(NSString*)title;
 - (void)addCancel:(NSString*)title;
 - (void)addDestructive:(NSString*)title;
 - (void)addButtons:(NSArray*)btns;
-
 @end

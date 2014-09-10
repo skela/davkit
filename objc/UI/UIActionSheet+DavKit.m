@@ -70,8 +70,11 @@
 {
 	void (^block)(NSUInteger buttonIndex, UIActionSheet *actionSheet) = objc_getAssociatedObject(self, "blockCallback");
 	block(buttonIndex, self);
-	//Block_release(block);
 }
+
+@end
+
+@implementation UIActionSheet (DKDavKit)
 
 - (void)addButton:(NSString*)title
 {
@@ -92,7 +95,7 @@
 {
     for (NSString *btnTitle in btns)
     {
-        [self addButtonWithTitle:btnTitle];
+        [self addButton:btnTitle];
     }
 }
 
