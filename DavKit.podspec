@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.name         = "DavKit"
   s.version      = "0.0.1"
-  s.summary      = "A short description of DavKit."
+  s.summary      = "Utility classes that let you work with the iOS frameworks (mostly) with a little less boiler plate."
 
   s.description  = <<-DESC
                    A longer description of DavKit in Markdown format.
@@ -29,9 +29,7 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "http://github.com/skela/DavKit.git"
-  # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
-
-
+  
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
   #  Licensing your code is important. See http://choosealicense.com for more info.
@@ -60,7 +58,6 @@ Pod::Spec.new do |s|
   #  the deployment target. You can optionally include the target after the platform.
   #
 
-  # s.platform     = :ios
   s.platform     = :ios, "6.0"
 
   #  When using multiple platforms
@@ -74,7 +71,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/skela/DavKit.git", :tag => "0.0.1" }
+  s.source       = { :git => "git@github.com:skela/DavKit.git", :tag => "0.0.1" }
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
