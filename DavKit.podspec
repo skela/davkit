@@ -1,11 +1,3 @@
-#
-#  Be sure to run `pod spec lint DavKit.podspec' to ensure this is a
-#  valid spec and to remove all comments including this before submitting the spec.
-#
-#  To learn more about Podspec attributes see http://docs.cocoapods.org/specification.html
-#  To see working Podspecs in the CocoaPods repo see https://github.com/CocoaPods/Specs/
-#
-
 Pod::Spec.new do |s|
 
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -20,12 +12,10 @@ Pod::Spec.new do |s|
   s.summary      = "Utility classes that let you work with the iOS frameworks (mostly) with a little less boiler plate."
 
   s.description  = <<-DESC
-                   A longer description of DavKit in Markdown format.
+                   Utility classes that let you work with the iOS frameworks (mostly) with a little less boiler plate.
 
-                   * Think: Why did you write this? What is the focus? What does it do?
-                   * CocoaPods will be using this to generate tags, and improve search results.
-                   * Try to keep it short, snappy and to the point.
-                   * Finally, don't worry about the indent, CocoaPods strips it!
+                   * Various Classes and Categories that make life a little bit easier for iOS development.
+                   * The DKParser methods  along with the DKCurrentUser classes the most useful.
                    DESC
 
   s.homepage     = "http://github.com/skela/DavKit.git"
@@ -71,7 +61,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "git@github.com:skela/DavKit.git", :tag => "0.0.1" }
+  s.source       = { :git => "git@github.com:skela/DavKit.git", :tag => s.version }
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
