@@ -8,6 +8,9 @@
 
 #import "DKParser+UIKit.h"
 #import <UIKit/UIKit.h>
+#import "UIColor+DavKit.h"
+#import "NSString+DavKit.h"
+#import "NSData+DavKit.h"
 
 @implementation DKParser (UIKit)
 
