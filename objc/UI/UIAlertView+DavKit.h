@@ -65,5 +65,26 @@
 @end
 
 @interface DKAlertInputViewUIAlertViewDelegate : NSObject <UIAlertViewDelegate>
+@end
 
+// Note: This doesn't work on iOS7->
+@class DKAlertSliderUIAlertViewDelegate;
+@interface DKAlertSliderView : UIAlertView <UIAlertViewDelegate>
+@property(nonatomic,strong) DKAlertSliderUIAlertViewDelegate *dkDelegate;
+@property(nonatomic,strong) UISlider *slider;
+@property(nonatomic,strong) NSString *okTitle;
+
+- (id)initWithTitle:(NSString *)title
+            current:(NSNumber*)value
+              block:(void (^)(DKAlertSliderView *inputView,NSNumber *value))block;
+
+- (id)initWithTitle:(NSString *)title
+            current:(NSNumber*)value
+                 ok:(NSString*)ok
+             cancel:(NSString*)cancel
+              block:(void (^)(DKAlertSliderView *inputView,NSNumber *value))block;
+
+@end
+
+@interface DKAlertSliderUIAlertViewDelegate : NSObject <UIAlertViewDelegate>
 @end

@@ -96,7 +96,6 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
 @end
 
 @implementation DKAlertInputView
-//@synthesize textField;
 @synthesize isSecure;
 
 - (void)prepare:(UITextField*)tf current:(NSString*)current hint:(NSString*)placeHolder
@@ -252,3 +251,65 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
 
 @end
 
+
+@implementation DKAlertSliderView
+@synthesize slider;
+
+- (id)initWithTitle:(NSString *)title
+            current:(NSNumber*)value
+              block:(void (^)(DKAlertSliderView *inputView,NSNumber *value))block
+{
+    return [self initWithTitle:title current:value ok:@"OK" cancel:@"Cancel" block:block];
+}
+
+- (id)initWithTitle:(NSString *)title
+            current:(NSNumber*)value
+                 ok:(NSString*)ok
+             cancel:(NSString*)cancel
+              block:(void (^)(DKAlertSliderView *inputView,NSNumber *value))block
+{
+    objc_setAssociatedObject(self,"blockCallback",[block copy],OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    self.dkDelegate = [[DKAlertSliderUIAlertViewDelegate alloc] init];
+    self.okTitle = ok;
+    
+    if (self = [super initWithTitle:title message:@"\n\n" delegate:self.dkDelegate cancelButtonTitle:cancel otherButtonTitles:ok, nil])
+    {
+        self.slider = [[UISlider alloc] initWithFrame:CGRectMake(12.0, 55, 260.0, 30.0)];
+        slider.value = [value floatValue];
+        [self addSubview:slider];
+    }
+    
+    return self;
+}
+
+- (void)finished
+{
+    void (^block)(DKAlertSliderView *inputView,NSNumber *value) = objc_getAssociatedObject(self, "blockCallback");
+    block(((DKAlertSliderView*)self), @([slider value]));
+}
+
+- (void)cancelled
+{
+    
+}
+
+@end
+
+@implementation DKAlertSliderUIAlertViewDelegate
+
+- (void)didPresentAlertView:(UIAlertView *)alertView
+{
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    DKAlertSliderView *input = ((DKAlertSliderView*)alertView);
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:input.okTitle])
+        [input finished];
+    else
+        [input cancelled];
+}
+
+@end
