@@ -10,7 +10,7 @@
 
 @implementation DKParser
 
-+ (id)getObject:(NSDictionary*)d ofClass:(Class)classe forKey:(NSString*)key fallBack:(id)fallBack
++ (id)getObject:(NSDictionary*)d ofClass:(Class)classe forKey:(NSString*)key fallback:(id)fallBack
 {
     NSString *obj=[d objectForKey:key];
     if (obj!=nil && [obj isKindOfClass:classe])
@@ -18,32 +18,32 @@
     return fallBack;
 }
 
-+ (NSValue*)getValue:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSValue*)fallBack
++ (NSValue*)getValue:(NSDictionary*)d forKey:(NSString*)key fallback:(NSValue*)fallBack
 {
-    return [DKParser getObject:d ofClass:[NSValue class] forKey:key fallBack:fallBack];
+    return [DKParser getObject:d ofClass:[NSValue class] forKey:key fallback:fallBack];
 }
 
-+ (NSNumber*)getNumber:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSNumber*)fallBack
++ (NSNumber*)getNumber:(NSDictionary*)d forKey:(NSString*)key fallback:(NSNumber*)fallBack
 {
-    return [DKParser getObject:d ofClass:[NSNumber class] forKey:key fallBack:fallBack];
+    return [DKParser getObject:d ofClass:[NSNumber class] forKey:key fallback:fallBack];
 }
 
-+ (NSString*)getString:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSString*)fallBack
++ (NSString*)getString:(NSDictionary*)d forKey:(NSString*)key fallback:(NSString*)fallBack
 {
-    return [DKParser getObject:d ofClass:[NSString class] forKey:key fallBack:fallBack];
+    return [DKParser getObject:d ofClass:[NSString class] forKey:key fallback:fallBack];
 }
 
-+ (NSArray*)getArray:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSArray*)fallBack
++ (NSArray*)getArray:(NSDictionary*)d forKey:(NSString*)key fallback:(NSArray*)fallBack
 {
-    return [DKParser getObject:d ofClass:[NSArray class] forKey:key fallBack:fallBack];    
+    return [DKParser getObject:d ofClass:[NSArray class] forKey:key fallback:fallBack];    
 }
 
-+ (NSDictionary*)getDictionary:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSDictionary*)fallBack
++ (NSDictionary*)getDictionary:(NSDictionary*)d forKey:(NSString*)key fallback:(NSDictionary*)fallBack
 {
-    return [DKParser getObject:d ofClass:[NSDictionary class] forKey:key fallBack:fallBack];        
+    return [DKParser getObject:d ofClass:[NSDictionary class] forKey:key fallback:fallBack];        
 }
 
-+ (NSInteger)getInteger:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSInteger)fallBack
++ (NSInteger)getInteger:(NSDictionary*)d forKey:(NSString*)key fallback:(NSInteger)fallBack
 {
     NSNumber *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSNumber class]])
@@ -51,7 +51,7 @@
     return fallBack;
 }
 
-+ (long long)getLongLong:(NSDictionary*)d forKey:(NSString*)key fallBack:(long long)fallBack
++ (long long)getLongLong:(NSDictionary*)d forKey:(NSString*)key fallback:(long long)fallBack
 {
     NSNumber *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSNumber class]])
@@ -59,7 +59,7 @@
     return fallBack;
 }
 
-+ (BOOL)getBool:(NSDictionary*)d forKey:(NSString*)key fallBack:(BOOL)fallBack
++ (BOOL)getBool:(NSDictionary*)d forKey:(NSString*)key fallback:(BOOL)fallBack
 {
     NSNumber *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSNumber class]])
@@ -67,7 +67,7 @@
     return fallBack;
 }
 
-+ (double)getDouble:(NSDictionary*)d forKey:(NSString*)key fallBack:(double)fallBack
++ (double)getDouble:(NSDictionary*)d forKey:(NSString*)key fallback:(double)fallBack
 {
     NSNumber *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSNumber class]])
@@ -75,7 +75,7 @@
     return fallBack;
 }
 
-+ (CGFloat)getFloat:(NSDictionary*)d forKey:(NSString*)key fallBack:(CGFloat)fallBack
++ (CGFloat)getFloat:(NSDictionary*)d forKey:(NSString*)key fallback:(CGFloat)fallBack
 {
     NSNumber *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSNumber class]])
@@ -83,7 +83,7 @@
     return fallBack;
 }
 
-+ (long)getLong:(NSDictionary*)d forKey:(NSString*)key fallBack:(long)fallBack
++ (long)getLong:(NSDictionary*)d forKey:(NSString*)key fallback:(long)fallBack
 {
     NSNumber *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSNumber class]])
@@ -91,7 +91,7 @@
     return fallBack;
 }
 
-+ (SEL)getSelector:(NSDictionary*)d forKey:(NSString*)key fallBack:(SEL)fallBack
++ (SEL)getSelector:(NSDictionary*)d forKey:(NSString*)key fallback:(SEL)fallBack
 {
     NSValue *obj=[d objectForKey:key];
     if (obj!=nil && [obj isKindOfClass:[NSValue class]])
@@ -155,7 +155,7 @@
 
 #pragma mark - Setters
 
-+ (void)setObject:(id)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict fallBack:(id)fallBack
++ (void)setObject:(id)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict fallback:(id)fallBack
 {
     if (val==nil)
     {
@@ -176,44 +176,44 @@
 
 + (void)setNumber:(NSNumber*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
-    [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+    [DKParser setObject:val forKey:key inDict:dict fallback:nil];
 }
 
 + (void)setString:(NSString*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
-    [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+    [DKParser setObject:val forKey:key inDict:dict fallback:nil];
 }
 
 + (void)setDictionary:(NSDictionary*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
-    [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+    [DKParser setObject:val forKey:key inDict:dict fallback:nil];
 }
 
 + (void)setArray:(NSArray*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
-    [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+    [DKParser setObject:val forKey:key inDict:dict fallback:nil];
 }
 
 + (void)setInt:(int)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
-    [DKParser setObject:[NSNumber numberWithInt:val] forKey:key inDict:dict fallBack:nil];
+    [DKParser setObject:[NSNumber numberWithInt:val] forKey:key inDict:dict fallback:nil];
 }
 
 + (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
-    [DKParser setObject:[NSNumber numberWithInteger:val] forKey:key inDict:dict fallBack:nil];
+    [DKParser setObject:[NSNumber numberWithInteger:val] forKey:key inDict:dict fallback:nil];
 }
 
 + (void)setSelector:(SEL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
-    [DKParser setObject:NSStringFromSelector(val) forKey:key inDict:dict fallBack:nil];
+    [DKParser setObject:NSStringFromSelector(val) forKey:key inDict:dict fallback:nil];
 }
 
 #pragma mark - Containers
 
 + (NSInteger)addContentsOfDictInDict:(NSDictionary*)d withKey:(NSString*)key toDict:(NSMutableDictionary*)mdict
 {
-    NSDictionary *dict = [DKParser getDictionary:d forKey:key fallBack:nil];
+    NSDictionary *dict = [DKParser getDictionary:d forKey:key fallback:nil];
     if (dict!=nil)
     {
         [mdict addEntriesFromDictionary:dict];
@@ -223,7 +223,7 @@
 
 + (NSInteger)addContentsOfArrayInDict:(NSDictionary*)d withKey:(NSString*)key toArray:(NSMutableArray*)mar
 {
-    NSArray *ar = [DKParser getArray:d forKey:key fallBack:nil];
+    NSArray *ar = [DKParser getArray:d forKey:key fallback:nil];
     if (ar!=nil)
     {
         [mar addObjectsFromArray:ar];
@@ -236,20 +236,20 @@
 + (void)setDate:(NSDate*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
     if (val==nil)
-        [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+        [DKParser setObject:val forKey:key inDict:dict fallback:nil];
     else
         [DKParser setObject:[NSNumber numberWithDouble:[val timeIntervalSince1970]]
                      forKey:key
                      inDict:dict
-                   fallBack:nil];
+                   fallback:nil];
 }
 
 + (void)setRect:(CGRect)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
-    [DKParser setObject:NSStringFromCGRect(val) forKey:key inDict:dict fallBack:nil];
+    [DKParser setObject:NSStringFromCGRect(val) forKey:key inDict:dict fallback:nil];
 }
 
-+ (NSDate*)getDate:(NSDictionary*)d forKey:(NSString*)key fallBack:(NSDate*)fallBack
++ (NSDate*)getDate:(NSDictionary*)d forKey:(NSString*)key fallback:(NSDate*)fallBack
 {
     NSNumber *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSNumber class]])
@@ -257,7 +257,7 @@
     return fallBack;
 }
 
-+ (CGRect)getRect:(NSDictionary*)d forKey:(NSString*)key fallBack:(CGRect)fallBack
++ (CGRect)getRect:(NSDictionary*)d forKey:(NSString*)key fallback:(CGRect)fallBack
 {
     NSString *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSString class]])
@@ -267,9 +267,9 @@
 
 #pragma mark - Specials
 
-+ (double)getDoubleFromString:(NSDictionary*)d forKey:(NSString*)key startsWith:(NSString*)start endsWith:(NSString*)end fallBack:(double)fallBack
++ (double)getDoubleFromString:(NSDictionary*)d forKey:(NSString*)key startsWith:(NSString*)start endsWith:(NSString*)end fallback:(double)fallBack
 {
-    NSString *s=[DKParser getString:d forKey:key fallBack:nil];
+    NSString *s=[DKParser getString:d forKey:key fallback:nil];
     if (s!=nil)
     {
         if (start!=nil && end!=nil)
@@ -287,9 +287,9 @@
     return fallBack;
 }
 
-+ (double)getDoubleFromDotNetDateString:(NSDictionary*)d forKey:(NSString*)key fallBack:(double)fallBack
++ (double)getDoubleFromDotNetDateString:(NSDictionary*)d forKey:(NSString*)key fallback:(double)fallBack
 {
-    return [DKParser getDoubleFromString:d  forKey:key startsWith:@"/Date(" endsWith:@")/" fallBack:fallBack];
+    return [DKParser getDoubleFromString:d  forKey:key startsWith:@"/Date(" endsWith:@")/" fallback:fallBack];
 }
 
 + (unsigned int)intFromHexString:(NSString *)hexStr

@@ -17,7 +17,7 @@
 + (void)setColor:(UIColor*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
     NSString *color = [val hexRGBAString];
-    [DKParser setObject:color forKey:key inDict:dict fallBack:nil];
+    [DKParser setObject:color forKey:key inDict:dict fallback:nil];
 }
 
 typedef enum
@@ -64,12 +64,12 @@ void processPathElement (void *info, const CGPathElement *element)
 + (void)setBezierPath:(UIBezierPath*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
     if (val==nil || ![val isKindOfClass:[UIBezierPath class]])
-        [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+        [DKParser setObject:val forKey:key inDict:dict fallback:nil];
     else
     {
         NSMutableArray *bezierPoints = [NSMutableArray array];
         CGPathApply(val.CGPath,(__bridge void *)bezierPoints,processPathElement);
-        [DKParser setObject:bezierPoints forKey:key inDict:dict fallBack:nil];
+        [DKParser setObject:bezierPoints forKey:key inDict:dict fallback:nil];
     }
 }
 
@@ -88,12 +88,12 @@ void processPathElement (void *info, const CGPathElement *element)
 + (void)setImage:(UIImage*)val withCompression:(CGFloat)compression forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
     if (val==nil || ![val isKindOfClass:[UIImage class]])
-        [DKParser setObject:val forKey:key inDict:dict fallBack:nil];
+        [DKParser setObject:val forKey:key inDict:dict fallback:nil];
     else
     {
         NSData *contentData = [NSData dataWithData:UIImageJPEGRepresentation(val,compression)];
         id content = [contentData encodedBase64String];
-        [DKParser setObject:content forKey:key inDict:dict fallBack:nil];
+        [DKParser setObject:content forKey:key inDict:dict fallback:nil];
     }
 }
 
@@ -117,7 +117,7 @@ void processPathElement (void *info, const CGPathElement *element)
 
 + (UIBezierPath*)getBezierPath:(NSDictionary*)d forKey:(NSString*)key fallBack:(UIBezierPath*)fallBack
 {
-    NSArray*ops = [DKParser getArray:d forKey:key fallBack:nil];
+    NSArray*ops = [DKParser getArray:d forKey:key fallback:nil];
     if (ops!=nil && [ops isKindOfClass:[NSArray class]])
     {
         UIBezierPath *path = [UIBezierPath bezierPath];
@@ -126,10 +126,10 @@ void processPathElement (void *info, const CGPathElement *element)
         CGPoint p2;
         for (NSDictionary*op in ops)
         {
-            NSNumber *t = [DKParser getNumber:op forKey:@"t" fallBack:nil];
-            NSString *sp0 = [DKParser getString:op forKey:@"p0" fallBack:nil];
-            NSString *sp1 = [DKParser getString:op forKey:@"p1" fallBack:nil];
-            NSString *sp2 = [DKParser getString:op forKey:@"p2" fallBack:nil];
+            NSNumber *t = [DKParser getNumber:op forKey:@"t" fallback:nil];
+            NSString *sp0 = [DKParser getString:op forKey:@"p0" fallback:nil];
+            NSString *sp1 = [DKParser getString:op forKey:@"p1" fallback:nil];
+            NSString *sp2 = [DKParser getString:op forKey:@"p2" fallback:nil];
             if ([t integerValue]==BezierPathOperationMoveTo && sp0.length>0)
             {
                 p0 = CGPointFromString(sp0);  // verified
