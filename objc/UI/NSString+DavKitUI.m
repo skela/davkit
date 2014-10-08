@@ -7,6 +7,7 @@
 //
 
 #import "NSString+DavKitUI.h"
+#import "UIText+DavKit.h"
 
 @implementation NSString (DavKitUI)
 

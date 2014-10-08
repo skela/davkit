@@ -7,6 +7,7 @@
 //
 
 #import "UIScrollView+DavKit.h"
+#import "UIView+DavKit.h"
 
 @implementation UIScrollView (DavKit)
 
