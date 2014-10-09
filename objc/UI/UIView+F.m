@@ -52,6 +52,16 @@
     return [F s:self];
 }
 
+- (CGFloat)cy
+{
+    return self.center.y;
+}
+
+- (CGFloat)cx
+{
+    return self.center.x;
+}
+
 - (void)setW:(CGFloat)w
 {
     [F v:self w:w];
@@ -80,6 +90,16 @@
 - (void)setS:(CGSize)s
 {
     [F v:self s:s];
+}
+
+- (void)setCy:(CGFloat)cy
+{
+    [F v:self cy:cy];
+}
+
+- (void)setCx:(CGFloat)cx
+{
+    [F v:self cx:cx];
 }
 
 @end

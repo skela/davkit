@@ -17,6 +17,8 @@
 - (CGFloat)h;
 - (CGPoint)o;
 - (CGSize)s;
+- (CGFloat)cy;
+- (CGFloat)cx;
 
 - (void)setW:(CGFloat)w;
 - (void)setH:(CGFloat)h;
@@ -24,5 +26,7 @@
 - (void)setX:(CGFloat)x;
 - (void)setO:(CGPoint)o;
 - (void)setS:(CGSize)s;
+- (void)setCy:(CGFloat)cy;
+- (void)setCx:(CGFloat)cx;
 
 @end
