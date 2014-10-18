@@ -11,6 +11,7 @@
 // Foundation
 
 #import "DKApp.h"
+#import "DKDevice.h"
 #import "DKCurrentUser.h"
 #import "DKResources.h"
 #import "NSString+DavKit.h"
