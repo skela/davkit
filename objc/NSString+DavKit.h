@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CommonCrypto/CommonDigest.h>
 
 @interface NSString (DavKit)
 - (BOOL)contains:(NSString*)subString;
@@ -21,5 +22,6 @@
 - (NSString *)extractStringLookingFor:(NSString *)lookFor skipForwardTo:(NSInteger)skipForward andStopBefore:(NSString *)stopBefore;
 - (NSString *)extractStringLookingFor:(NSString *)lookFor andStopBefore:(NSString *)stopBefore;
 - (NSString*)first;
+- (NSString*)MD5;
 
 @end
