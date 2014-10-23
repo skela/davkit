@@ -9,6 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonDigest.h>
 
+typedef enum
+{
+    HashingMethodMD5,
+    HashingMethodSHA1,
+    HashingMethodSHA224,
+    HashingMethodSHA256,
+    HashingMethodSHA384,
+    HashingMethodSHA512,
+} HashingMethod;
+
 @interface NSString (DavKit)
 - (BOOL)contains:(NSString*)subString;
 - (NSUInteger)numberOfOccurrences:(NSString*)subString;
@@ -24,4 +34,12 @@
 - (NSString*)first;
 - (NSString*)MD5;
 
+- (NSString *)stringByHashing:(HashingMethod)hashMethod;
+
+@end
+
+@interface DKStringHelper : NSObject
++ (NSString*)hexDataToString:(NSData*)data;
++ (int)digestLengthForHashingMethod:(HashingMethod)hashingMethod;
++ (NSData*)hexDataForString:(NSString*)string usingHashMethod:(HashingMethod)hashMethod;
 @end
