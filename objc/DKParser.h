@@ -44,7 +44,9 @@
 + (void)setDictionary:(NSDictionary*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 + (void)setArray:(NSArray*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 + (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setBool:(BOOL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 + (void)setSelector:(SEL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setInt:(int)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 
 + (NSInteger)addContentsOfDictInDict:(NSDictionary*)d withKey:(NSString*)key toDict:(NSMutableDictionary*)mdict;
 + (NSInteger)addContentsOfArrayInDict:(NSDictionary*)d withKey:(NSString*)key toArray:(NSMutableArray*)mar;

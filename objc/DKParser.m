@@ -204,6 +204,11 @@
     [DKParser setObject:[NSNumber numberWithInteger:val] forKey:key inDict:dict fallback:nil];
 }
 
++ (void)setBool:(BOOL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:[NSNumber numberWithBool:val] forKey:key inDict:dict fallback:nil];
+}
+
 + (void)setSelector:(SEL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
     [DKParser setObject:NSStringFromSelector(val) forKey:key inDict:dict fallback:nil];
