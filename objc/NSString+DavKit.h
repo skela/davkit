@@ -33,7 +33,7 @@ typedef enum
 - (NSString *)extractStringLookingFor:(NSString *)lookFor andStopBefore:(NSString *)stopBefore;
 - (NSString*)first;
 - (NSString*)MD5;
-
+- (NSString*)SHA256;
 - (NSString *)stringByHashing:(HashingMethod)hashMethod;
 
 @end
