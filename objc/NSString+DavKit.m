@@ -101,6 +101,7 @@
 
 #define REGEX_FOR_NUMBERS   @"^([+-]?)(?:|0|[1-9]\\d*)(?:\\.\\d*)?$"
 #define REGEX_FOR_INTEGERS  @"^([+-]?)(?:|0|[1-9]\\d*)?$"
+#define REGEX_FOR_EMAIL @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,5}"
 
 - (BOOL)isInteger
 {
@@ -110,6 +111,11 @@
 - (BOOL)isNumber
 {
     return [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", REGEX_FOR_NUMBERS] evaluateWithObject:self];
+}
+
+- (BOOL)isEmail
+{
+    return [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", REGEX_FOR_EMAIL] evaluateWithObject:self];
 }
 
 - (NSString*)strip
