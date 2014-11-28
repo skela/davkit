@@ -21,4 +21,9 @@ typedef enum
 
 @interface DKDevice : NSObject
 + (BOOL)isTablet;
++ (BOOL)isPhone;
++ (BOOL)isPhone4OrLess;
++ (BOOL)isPhone5OrLess;
++ (BOOL)isPhone6OrLess;
++ (DKDeviceType)type;
 @end
