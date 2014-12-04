@@ -93,6 +93,24 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
     }
 }
 
+- (void)addButton:(NSString*)title
+{
+    if (title) [self addButtonWithTitle:title];
+}
+
+- (void)addCancel:(NSString*)title
+{
+    if (title) [self setCancelButtonIndex:[self addButtonWithTitle:title]];
+}
+
+- (void)addButtons:(NSArray*)btns
+{
+    for (NSString *btnTitle in btns)
+    {
+        [self addButton:btnTitle];
+    }
+}
+
 @end
 
 @implementation DKAlertInputView

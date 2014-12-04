@@ -18,6 +18,10 @@
   otherButtonTitles:(NSArray *)otherButtonTitles
     completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block;
 
+- (void)addButton:(NSString*)title;
+- (void)addCancel:(NSString*)title;
+- (void)addButtons:(NSArray*)btns;
+
 @end
 
 @class DKAlertInputViewUIAlertViewDelegate;
