@@ -333,8 +333,12 @@
 + (id)fromJSONString:(NSString*)jsonString
 {
     NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    return json;
+    if (data!=nil)
+    {
+        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        return json;
+    }
+    return nil;
 }
 
 + (NSString*)toJSONString:(id)object
