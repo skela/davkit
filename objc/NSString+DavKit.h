@@ -36,6 +36,7 @@ typedef enum
 - (NSString*)MD5;
 - (NSString*)SHA256;
 - (NSString *)stringByHashing:(HashingMethod)hashMethod;
+- (NSString *)stringForPath;
 
 @end
 
@@ -43,4 +44,5 @@ typedef enum
 + (NSString*)hexDataToString:(NSData*)data;
 + (int)digestLengthForHashingMethod:(HashingMethod)hashingMethod;
 + (NSData*)hexDataForString:(NSString*)string usingHashMethod:(HashingMethod)hashMethod;
++ (NSString *)stringForPath:(NSString *)fileName;
 @end

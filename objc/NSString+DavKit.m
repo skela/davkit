@@ -179,6 +179,11 @@
     return [DKStringHelper hexDataToString:hexData];
 }
 
+- (NSString *)stringForPath
+{
+    return [DKStringHelper stringForPath:self];
+}
+
 @end
 
 @implementation DKStringHelper
@@ -242,6 +247,14 @@
             break;
     }
     return [NSData dataWithBytes:buffer length:len];
+}
+
++ (NSString *)stringForPath:(NSString *)fileName
+{
+    if (fileName==nil || fileName.length==0)
+        return fileName;
+    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
+    return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
 }
 
 @end
