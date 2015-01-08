@@ -7,6 +7,7 @@
 //
 
 #import "NSDictionary+DavKit.h"
+#import "DKParser.h"
 
 @implementation NSDictionary (DavKit)
 

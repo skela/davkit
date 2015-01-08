@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 // These methods use DKParser internally.
 // Please be aware, that its probably better to use DKParser directly instead of these,
