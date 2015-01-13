@@ -92,3 +92,29 @@
 
 @interface DKAlertSliderUIAlertViewDelegate : NSObject <UIAlertViewDelegate>
 @end
+
+@interface DKAlertController : NSObject
+
+- (instancetype)initWithTitle:(NSString*)title;
+- (instancetype)initWithTitle:(NSString*)title andMessage:(NSString*)msg;
+
+- (void)show:(UIViewController*)parent;
+- (void)show:(UIViewController*)parent container:(id)container;
+- (void)show:(UIViewController*)parent container:(id)container animated:(BOOL)animated;
+
+@end
+
+@interface DKAlert : DKAlertController <UIAlertViewDelegate>
+
+- (void)button:(NSString*)btn action:(void (^)())action;
+- (void)cancel:(NSString*)cancel action:(void (^)())action;
+
+@end
+
+@interface DKSheet : DKAlertController <UIActionSheetDelegate>
+
+- (void)button:(NSString*)btn action:(void (^)())action;
+- (void)cancel:(NSString*)cancel action:(void (^)())action;
+- (void)destructive:(NSString*)destructive action:(void (^)())action;
+
+@end
