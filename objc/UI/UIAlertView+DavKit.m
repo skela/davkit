@@ -381,7 +381,7 @@ static NSMutableArray *legacy = nil;
     self.actions = [NSMutableDictionary new];
 }
 
-- (void)addButton:(DKAlertButton)type title:(NSString*)title action:(void (^)())action
+- (void)addButton:(DKAlertButton)type title:(NSString*)title action:(void (^)(NSString *btn))action
 {
     if (self.alert!=nil)
     {
@@ -396,10 +396,10 @@ static NSMutableArray *legacy = nil;
             style = UIAlertActionStyleDefault;
         
         [self.alert addAction:[UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *act)
-                               {
-                                   if (action!=NULL)
-                                       action();
-                               }]];
+        {
+           if (action!=NULL)
+               action(act.title);
+        }]];
     }
     if (self.view!=nil)
     {
@@ -419,6 +419,42 @@ static NSMutableArray *legacy = nil;
     }
 }
 
+- (void)addButton:(NSString*)btn action:(void (^)(NSString *btn))action
+{
+    [self button:btn action:action];
+}
+
+- (void)button:(NSString*)btn action:(void (^)(NSString *btn))action
+{
+    [self addButton:DKAlertButtonDefault title:btn action:action];
+}
+
+- (void)addCancel:(NSString*)cancel
+{
+    [self cancel:cancel action:nil];
+}
+
+- (void)addCancel:(NSString*)cancel action:(void (^)(NSString *btn))action
+{
+    [self cancel:cancel action:action];
+}
+
+- (void)cancel:(NSString*)cancel action:(void (^)(NSString *btn))action
+{
+    [self addButton:DKAlertButtonCancel title:cancel action:action];
+}
+
+- (void)legacyDismissedWithButtonIndex:(NSInteger)buttonIndex andButtonTitle:(NSString*)btnTitle
+{
+    id obj = [self.actions objectForKey:@(buttonIndex)];
+    if (obj!=nil)
+    {
+        void (^action)()  = obj;
+        action(btnTitle);
+    }
+    [legacy removeObject:self];
+}
+
 - (void)show:(UIViewController*)parent container:(id)container animated:(BOOL)animated
 {
     if (self.alert!=nil)
@@ -432,16 +468,26 @@ static NSMutableArray *legacy = nil;
     {
         [legacy addObject:self];
         
-        if ([container isKindOfClass:[UIBarButtonItem class]])
-            [self.sheet showFromBarButtonItem:container animated:YES];
-        else if ([container isKindOfClass:[UITabBar class]])
-            [self.sheet showFromTabBar:container];
-        else if ([container isKindOfClass:[UIToolbar class]])
-            [self.sheet showFromToolbar:container];
-        else if ([container isKindOfClass:[UIView class]])
-            [self.sheet showInView:container];
+        if (container!=nil)
+        {
+            if ([container isKindOfClass:[UIBarButtonItem class]])
+                [self.sheet showFromBarButtonItem:container animated:YES];
+            else if ([container isKindOfClass:[UITabBar class]])
+                [self.sheet showFromTabBar:container];
+            else if ([container isKindOfClass:[UIToolbar class]])
+                [self.sheet showFromToolbar:container];
+            else if ([container isKindOfClass:[UIView class]])
+                [self.sheet showInView:container];
+            else
+                [self.sheet showInView:parent.view];
+        }
         else
-            [self.sheet showInView:parent.view];
+        {
+            if (parent.tabBarController.tabBar!=nil)
+                [self.sheet showFromTabBar:parent.tabBarController.tabBar];
+            else
+                [self.sheet showInView:parent.view];
+        }
     }
 }
 
@@ -469,26 +515,12 @@ static NSMutableArray *legacy = nil;
         self.view = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
 }
 
-- (void)button:(NSString*)btn action:(void (^)())action
-{
-    [self addButton:DKAlertButtonDefault title:btn action:action];
-}
-
-- (void)cancel:(NSString*)cancel action:(void (^)())action
-{
-    [self addButton:DKAlertButtonCancel title:cancel action:action];
-}
-
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    id obj = [self.actions objectForKey:@(buttonIndex)];
-    if (obj!=nil)
-    {
-        void (^action)(void)  = obj;
-        action();
-    }
-    
-    [legacy removeObject:self];
+    NSString *btnTitle = nil;
+    if (buttonIndex!=alertView.cancelButtonIndex)
+        btnTitle = [alertView buttonTitleAtIndex:buttonIndex];
+    [self legacyDismissedWithButtonIndex:buttonIndex andButtonTitle:btnTitle];
 }
 
 @end
@@ -505,30 +537,38 @@ static NSMutableArray *legacy = nil;
         self.sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
 }
 
-- (void)button:(NSString*)btn action:(void (^)())action
+- (void)addDestructive:(NSString*)destructive
 {
-    [self addButton:DKAlertButtonDefault title:btn action:action];
+    [self destructive:destructive action:nil];
 }
 
-- (void)cancel:(NSString*)cancel action:(void (^)())action
+- (void)addDestructive:(NSString*)destructive action:(void (^)(NSString *btn))action
 {
-    [self addButton:DKAlertButtonCancel title:cancel action:action];
+    [self destructive:destructive action:action];
 }
 
-- (void)destructive:(NSString*)destructive action:(void (^)())action
+- (void)destructive:(NSString*)destructive action:(void (^)(NSString *btn))action
 {
     [self addButton:DKAlertButtonDestructive title:destructive action:action];
 }
 
+- (void)addButtons:(NSArray*)btns action:(void (^)(NSString *btn))action
+{
+    [self buttons:btns action:action];
+}
+
+- (void)buttons:(NSArray*)btns action:(void (^)(NSString *btn))action
+{
+    for (NSString *btn in btns)
+        [self addButton:DKAlertButtonDefault title:btn action:action];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    id obj = [self.actions objectForKey:@(buttonIndex)];
-    if (obj!=nil)
-    {
-        void (^action)(void)  = obj;
-        action();
-    }
-    [legacy removeObject:self];
+    NSString *btnTitle = nil;
+    if (buttonIndex!=actionSheet.cancelButtonIndex && buttonIndex!=actionSheet.destructiveButtonIndex)
+        btnTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    [self legacyDismissedWithButtonIndex:buttonIndex andButtonTitle:btnTitle];
 }
 
 @end

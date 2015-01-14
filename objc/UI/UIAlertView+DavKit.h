@@ -98,6 +98,13 @@
 - (instancetype)initWithTitle:(NSString*)title;
 - (instancetype)initWithTitle:(NSString*)title andMessage:(NSString*)msg;
 
+- (void)addButton:(NSString*)btn action:(void (^)(NSString *btn))action;
+- (void)addCancel:(NSString*)cancel;
+- (void)addCancel:(NSString*)cancel action:(void (^)(NSString *btn))action;
+
+- (void)button:(NSString*)btn action:(void (^)(NSString *btn))action;
+- (void)cancel:(NSString*)cancel action:(void (^)(NSString *btn))action;
+
 - (void)show:(UIViewController*)parent;
 - (void)show:(UIViewController*)parent container:(id)container;
 - (void)show:(UIViewController*)parent container:(id)container animated:(BOOL)animated;
@@ -106,15 +113,14 @@
 
 @interface DKAlert : DKAlertController <UIAlertViewDelegate>
 
-- (void)button:(NSString*)btn action:(void (^)())action;
-- (void)cancel:(NSString*)cancel action:(void (^)())action;
-
 @end
 
 @interface DKSheet : DKAlertController <UIActionSheetDelegate>
 
-- (void)button:(NSString*)btn action:(void (^)())action;
-- (void)cancel:(NSString*)cancel action:(void (^)())action;
-- (void)destructive:(NSString*)destructive action:(void (^)())action;
+- (void)addDestructive:(NSString*)destructive;
+- (void)addButtons:(NSArray*)btns action:(void (^)(NSString *btn))action;
+
+- (void)destructive:(NSString*)destructive action:(void (^)(NSString *btn))action;
+- (void)buttons:(NSArray*)btns action:(void (^)(NSString *btn))action;
 
 @end
