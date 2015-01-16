@@ -118,6 +118,7 @@
 @interface DKSheet : DKAlertController <UIActionSheetDelegate>
 
 - (void)addDestructive:(NSString*)destructive;
+- (void)addDestructive:(NSString*)destructive action:(void (^)(NSString *btn))action;
 - (void)addButtons:(NSArray*)btns action:(void (^)(NSString *btn))action;
 
 - (void)destructive:(NSString*)destructive action:(void (^)(NSString *btn))action;
