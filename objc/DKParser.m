@@ -259,6 +259,8 @@
     NSNumber *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSNumber class]])
         return [NSDate dateWithTimeIntervalSince1970:[n doubleValue]];
+    if (n!=nil && [n isKindOfClass:[NSDate class]])
+        return (NSDate*)n;
     return fallBack;
 }
 
