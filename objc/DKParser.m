@@ -18,6 +18,17 @@
     return fallBack;
 }
 
++ (id)getObject:(NSDictionary*)d ofClass:(Class)classe forKeys:(NSArray*)keys fallback:(id)fallBack
+{
+    for (NSString *key in keys)
+    {
+        NSString *obj=[d objectForKey:key];
+        if (obj!=nil && [obj isKindOfClass:classe])
+            return obj;
+    }
+    return fallBack;
+}
+
 + (NSValue*)getValue:(NSDictionary*)d forKey:(NSString*)key fallback:(NSValue*)fallBack
 {
     return [DKParser getObject:d ofClass:[NSValue class] forKey:key fallback:fallBack];
@@ -45,50 +56,87 @@
 
 + (NSInteger)getInteger:(NSDictionary*)d forKey:(NSString*)key fallback:(NSInteger)fallBack
 {
-    NSNumber *n=[d objectForKey:key];
-    if (n!=nil && [n isKindOfClass:[NSNumber class]])
-        return [n integerValue];
-    return fallBack;
+    return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] integerValue];
 }
 
 + (long long)getLongLong:(NSDictionary*)d forKey:(NSString*)key fallback:(long long)fallBack
 {
-    NSNumber *n=[d objectForKey:key];
-    if (n!=nil && [n isKindOfClass:[NSNumber class]])
-        return [n longLongValue];
-    return fallBack;
+    return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] longLongValue];
 }
 
 + (BOOL)getBool:(NSDictionary*)d forKey:(NSString*)key fallback:(BOOL)fallBack
 {
-    NSNumber *n=[d objectForKey:key];
-    if (n!=nil && [n isKindOfClass:[NSNumber class]])
-        return [n boolValue];
-    return fallBack;
+    return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] boolValue];
 }
 
 + (double)getDouble:(NSDictionary*)d forKey:(NSString*)key fallback:(double)fallBack
 {
-    NSNumber *n=[d objectForKey:key];
-    if (n!=nil && [n isKindOfClass:[NSNumber class]])
-        return [n doubleValue];
-    return fallBack;
+    return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] doubleValue];
 }
 
 + (CGFloat)getFloat:(NSDictionary*)d forKey:(NSString*)key fallback:(CGFloat)fallBack
 {
-    NSNumber *n=[d objectForKey:key];
-    if (n!=nil && [n isKindOfClass:[NSNumber class]])
-        return [n floatValue];
-    return fallBack;
+    return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] floatValue];
 }
 
 + (long)getLong:(NSDictionary*)d forKey:(NSString*)key fallback:(long)fallBack
 {
-    NSNumber *n=[d objectForKey:key];
-    if (n!=nil && [n isKindOfClass:[NSNumber class]])
-        return [n longValue];
-    return fallBack;
+    return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] longValue];
+}
+
++ (NSValue*)getValue:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSValue*)fallBack
+{
+    return [DKParser getObject:d ofClass:[NSValue class] forKeys:keys fallback:fallBack];
+}
+
++ (NSNumber*)getNumber:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSNumber*)fallBack
+{
+    return [DKParser getObject:d ofClass:[NSNumber class] forKeys:keys fallback:fallBack];
+}
+
++ (NSString*)getString:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSString*)fallBack
+{
+    return [DKParser getObject:d ofClass:[NSString class] forKeys:keys fallback:fallBack];
+}
+
++ (NSArray*)getArray:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSArray*)fallBack
+{
+    return [DKParser getObject:d ofClass:[NSArray class] forKeys:keys fallback:fallBack];
+}
+
++ (NSDictionary*)getDictionary:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSDictionary*)fallBack
+{
+    return [DKParser getObject:d ofClass:[NSDictionary class] forKeys:keys fallback:fallBack];
+}
+
++ (NSInteger)getInteger:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSInteger)fallBack
+{
+    return [[DKParser getNumber:d forKeys:keys fallback:@(fallBack)] integerValue];
+}
+
++ (long long)getLongLong:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(long long)fallBack
+{
+    return [[DKParser getNumber:d forKeys:keys fallback:@(fallBack)] longLongValue];
+}
+
++ (BOOL)getBool:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(BOOL)fallBack
+{
+    return [[DKParser getNumber:d forKeys:keys fallback:@(fallBack)] boolValue];
+}
+
++ (double)getDouble:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(double)fallBack
+{
+    return [[DKParser getNumber:d forKeys:keys fallback:@(fallBack)] doubleValue];
+}
+
++ (CGFloat)getFloat:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(CGFloat)fallBack
+{
+    return [[DKParser getNumber:d forKeys:keys fallback:@(fallBack)] floatValue];
+}
+
++ (long)getLong:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(long)fallBack
+{
+    return [[DKParser getNumber:d forKeys:keys fallback:@(fallBack)] longValue];
 }
 
 + (SEL)getSelector:(NSDictionary*)d forKey:(NSString*)key fallback:(SEL)fallBack
