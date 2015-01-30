@@ -458,7 +458,16 @@ static NSMutableArray *legacy = nil;
 - (void)show:(UIViewController*)parent container:(id)container animated:(BOOL)animated
 {
     if (self.alert!=nil)
+    {
+        if (self.alert.popoverPresentationController!=nil)
+        {
+            if (container!=nil && [container isKindOfClass:[UIBarButtonItem class]])
+                self.alert.popoverPresentationController.barButtonItem = (UIBarButtonItem*)container;
+            else
+                self.alert.popoverPresentationController.sourceView = parent.view;
+        }        
         [parent presentViewController:self.alert animated:YES completion:nil];
+    }
     if (self.view!=nil)
     {
         [legacy addObject:self];
@@ -493,7 +502,7 @@ static NSMutableArray *legacy = nil;
 
 - (void)show:(UIViewController*)parent container:(id)container
 {
-    [self show:parent container:nil animated:YES];
+    [self show:parent container:container animated:YES];
 }
 
 - (void)show:(UIViewController*)parent
