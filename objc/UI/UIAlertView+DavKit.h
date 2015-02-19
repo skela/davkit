@@ -109,6 +109,10 @@
 - (void)show:(UIViewController*)parent container:(id)container;
 - (void)show:(UIViewController*)parent container:(id)container animated:(BOOL)animated;
 
+- (void)addTextField:(void (^)(UITextField *textField))configurator;
+- (void)addTextDone:(NSString*)button done:(void (^)(id sender,NSString *text))done;
+- (UITextField*)textField:(NSInteger)index;
+
 @end
 
 @interface DKAlert : DKAlertController <UIAlertViewDelegate>
