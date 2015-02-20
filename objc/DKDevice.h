@@ -26,4 +26,5 @@ typedef enum
 + (BOOL)isPhone5OrLess;
 + (BOOL)isPhone6OrLess;
 + (DKDeviceType)type;
++ (NSString*)model;
 @end

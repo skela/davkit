@@ -7,6 +7,7 @@
 //
 
 #import "DKDevice.h"
+#import <sys/utsname.h>
 
 @implementation DKDevice
 
@@ -48,5 +49,14 @@
 + (BOOL)isPhone4OrLess { return self.isPhone && self.screenMax < 568; }
 + (BOOL)isPhone5OrLess { return self.isPhone && self.screenMax <= 568; }
 + (BOOL)isPhone6OrLess { return self.isPhone && self.screenMax <= 667; }
+
++ (NSString*)model
+{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    return [NSString stringWithCString:systemInfo.machine
+                              encoding:NSUTF8StringEncoding];
+}
 
 @end
