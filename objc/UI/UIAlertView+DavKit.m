@@ -510,6 +510,49 @@ static NSMutableArray *legacy = nil;
     [self show:parent container:nil];
 }
 
+- (void)addTextField:(void (^)(UITextField *textField))configurator
+{
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
+    {
+        [self.alert addTextFieldWithConfigurationHandler:configurator];
+    }
+    else
+    {
+        self.view.alertViewStyle = UIAlertViewStylePlainTextInput;
+        UITextField *defaultField = [self.view textFieldAtIndex:0];
+        if (configurator != nil)
+            configurator (defaultField);
+    }
+}
+
+
+- (void)addTextDone:(NSString*)button done:(void (^)(id sender,NSString *text))done
+{
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
+    {
+        [self.alert addAction:[UIAlertAction actionWithTitle:button style:UIAlertActionStyleDefault handler:^(UIAlertAction*action)
+        {
+            done(self,[self textField:0].text);
+        }]];
+    }
+    else
+    {
+        // TODO: Figure out how to do this for ios7
+    }
+}
+
+- (UITextField*)textField:(NSInteger)index
+{
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
+    {
+        return self.alert.textFields[index];
+    }
+    else
+    {
+        return [self.view textFieldAtIndex:index];
+    }
+}
+
 @end
 
 @implementation DKAlert
