@@ -78,7 +78,7 @@ void processPathElement (void *info, const CGPathElement *element)
     NSString *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSString class]])
     {
-        id val = [UIColor colorFromHexRGBAString:n];
+        id val = [UIColor colorFromHexRGBOrRGBAString:n];
         if (val!=nil && [val isKindOfClass:[UIColor class]])
             return val;
     }

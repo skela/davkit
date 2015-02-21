@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @protocol DKJSON <NSObject>
 
@@ -31,6 +32,19 @@
 + (long long)getLongLong:(NSDictionary*)d forKey:(NSString*)key fallback:(long long)fallBack;
 + (SEL)getSelector:(NSDictionary*)d forKey:(NSString*)key fallback:(SEL)fallBack;
 
++ (id)getObject:(NSDictionary*)d ofClass:(Class)classe forKeys:(NSArray*)keys fallback:(id)fallBack;
++ (NSValue*)getValue:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSValue*)fallBack;
++ (NSNumber*)getNumber:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSNumber*)fallBack;
++ (NSString*)getString:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSString*)fallBack;
++ (NSArray*)getArray:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSArray*)fallBack;
++ (NSDictionary*)getDictionary:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSDictionary*)fallBack;
++ (NSInteger)getInteger:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSInteger)fallBack;
++ (long long)getLongLong:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(long long)fallBack;
++ (BOOL)getBool:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(BOOL)fallBack;
++ (double)getDouble:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(double)fallBack;
++ (CGFloat)getFloat:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(CGFloat)fallBack;
++ (long)getLong:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(long)fallBack;
+
 + (BOOL)isDictionary:(id)d;
 + (BOOL)isNumber:(id)number;
 + (BOOL)isString:(id)string;
@@ -43,7 +57,9 @@
 + (void)setDictionary:(NSDictionary*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 + (void)setArray:(NSArray*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 + (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setBool:(BOOL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 + (void)setSelector:(SEL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setInt:(int)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
 
 + (NSInteger)addContentsOfDictInDict:(NSDictionary*)d withKey:(NSString*)key toDict:(NSMutableDictionary*)mdict;
 + (NSInteger)addContentsOfArrayInDict:(NSDictionary*)d withKey:(NSString*)key toArray:(NSMutableArray*)mar;

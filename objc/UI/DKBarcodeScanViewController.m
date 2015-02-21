@@ -108,7 +108,7 @@
     }
 }
 
-- (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self updateInterfaceOrientation:toInterfaceOrientation animated:YES duration:duration];
 }
@@ -165,6 +165,11 @@
     if (previewLayer!=nil)
         [previewLayer removeFromSuperlayer];
     previewLayer = nil;
+}
+
+- (void)terminate
+{
+    [self setdownScanSession];
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput

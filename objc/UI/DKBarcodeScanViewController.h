@@ -24,5 +24,6 @@
 @property(nonatomic,strong) UIView *cameraPreview;
 - (id)initWithDelegate:(id<DKBarcodeScanDelegate>)delegate;
 - (void)displayWarning:(NSString*)warning;
+- (void)terminate;
 + (BOOL)canScan;
 @end
