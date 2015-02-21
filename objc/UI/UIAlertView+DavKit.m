@@ -9,11 +9,10 @@
 #import "UIAlertView+DavKit.h"
 #import <objc/runtime.h>
 
-@interface DKAlertInputView (Private)
+@interface DKAlertInputView (Internal)
 
 + (BOOL)useLegacySupport;
 - (UITextField*)safeTextField;
-- (void)hideKeyboard;
 
 @end
 
@@ -83,8 +82,6 @@ completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block
             NSString *text = [textField text];
             block(((DKAlertInputView*)self),text);
         }
-        
-        [((DKAlertInputView *)alertView) hideKeyboard];
     }
     else
     {
