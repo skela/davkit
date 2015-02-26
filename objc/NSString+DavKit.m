@@ -184,6 +184,14 @@
     return [DKStringHelper stringForPath:self];
 }
 
++ (NSString*)uuid
+{
+    CFUUIDRef newUniqueId = CFUUIDCreate(kCFAllocatorDefault);
+    NSString * uuidString = (__bridge_transfer NSString*)CFUUIDCreateString(kCFAllocatorDefault, newUniqueId);
+    CFRelease(newUniqueId);
+    return uuidString;
+}
+
 @end
 
 @implementation DKStringHelper

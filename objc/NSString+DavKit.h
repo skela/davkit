@@ -37,6 +37,7 @@ typedef enum
 - (NSString*)SHA256;
 - (NSString *)stringByHashing:(HashingMethod)hashMethod;
 - (NSString *)stringForPath;
++ (NSString*)uuid;
 
 @end
 
