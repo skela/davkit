@@ -87,11 +87,12 @@
                  ok:(NSString*)ok
              cancel:(NSString*)cancel
               block:(void (^)(DKAlertSliderView *inputView,NSNumber *value))block;
-
 @end
 
 @interface DKAlertSliderUIAlertViewDelegate : NSObject <UIAlertViewDelegate>
 @end
+
+extern NSString* const DKAlertSheetDisappeared;
 
 @interface DKAlertController : NSObject
 
@@ -112,6 +113,9 @@
 - (void)addTextField:(void (^)(UITextField *textField))configurator;
 - (void)addTextDone:(NSString*)button done:(void (^)(id sender,NSString *text))done;
 - (UITextField*)textField:(NSInteger)index;
+
+- (void)dismiss;
+- (void)dismissAnimated:(BOOL)animated;
 
 @end
 

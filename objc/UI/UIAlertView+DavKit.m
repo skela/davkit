@@ -336,6 +336,22 @@ typedef enum
     DKAlertButtonDestructive,
 } DKAlertButton;
 
+@interface DKAlertUIViewController : UIAlertController
+
+@end
+
+NSString* const DKAlertSheetDisappeared = @"com.davkit.dkalertdisappeared";
+
+@implementation DKAlertUIViewController
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:DKAlertSheetDisappeared object:nil];
+}
+
+@end
+
 @interface DKAlertController()
 @property(nonatomic,strong) UIAlertController *alert;
 @property(nonatomic,strong) UIAlertView *view;
@@ -391,6 +407,9 @@ static NSMutableArray *legacy = nil;
         }
         if (style==UIAlertActionStyleDestructive && self.view!=nil)
             style = UIAlertActionStyleDefault;
+        
+        if (style==UIAlertActionStyleCancel)
+            if (action!=nil) [self.actions setObject:action forKey:@(UIAlertActionStyleCancel)];
         
         [self.alert addAction:[UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *act)
         {
@@ -550,6 +569,47 @@ static NSMutableArray *legacy = nil;
     }
 }
 
+- (void)dismiss
+{
+    [self dismissAnimated:NO];
+}
+
+- (void)dismissAnimated:(BOOL)animated
+{
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
+    {
+        UIAlertAction *cancel = nil;
+        for (UIAlertAction *action in self.alert.actions)
+        {
+            if (action.style == UIAlertActionStyleCancel)
+            {
+                cancel = action;
+                break;
+            }
+        }
+        NSString *btnTitle = nil;
+        if (cancel!=nil)
+            btnTitle = [cancel title];
+        
+        id obj = [self.actions objectForKey:@(UIAlertActionStyleCancel)];
+
+        [self.alert dismissViewControllerAnimated:animated completion:nil];
+        
+        if (obj!=nil)
+        {
+            void (^action)()  = obj;
+            action(btnTitle);
+        }
+    }
+    else
+    {
+        if (self.view!=nil)
+            [self.view dismissWithClickedButtonIndex:self.view.cancelButtonIndex animated:animated];
+        if (self.sheet!=nil)
+            [self.sheet dismissWithClickedButtonIndex:self.sheet.cancelButtonIndex animated:animated];
+    }
+}
+
 @end
 
 @implementation DKAlert
@@ -559,7 +619,7 @@ static NSMutableArray *legacy = nil;
     [super setup:title message:message];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
-        self.alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        self.alert = [DKAlertUIViewController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     else
         self.view = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
 }
@@ -581,7 +641,7 @@ static NSMutableArray *legacy = nil;
     [super setup:title message:message];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
-        self.alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
+        self.alert = [DKAlertUIViewController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
     else
         self.sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
 }
