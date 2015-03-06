@@ -312,10 +312,11 @@
     NSData *keyData = [DKStringHelper dataFromHexString:key];
     NSData *myKey = [NSMutableData dataWithBytes:keyData.bytes length:kCCKeySizeMinBlowfish];
     
+    NSInteger stringLength = [string lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
     NSString *myData = string;
     NSData *myData2 = [myData dataUsingEncoding:NSUTF8StringEncoding];
     
-    NSMutableData *myEnc = [NSMutableData dataWithLength:kCCKeySizeMinBlowfish+myData.length];
+    NSMutableData *myEnc = [NSMutableData dataWithLength:kCCKeySizeMinBlowfish+stringLength];
     
     CCOptions options = kCCOptionPKCS7Padding|kCCOptionECBMode;
     
