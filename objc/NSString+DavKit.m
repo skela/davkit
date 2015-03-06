@@ -8,6 +8,7 @@
 
 #import "NSString+DavKit.h"
 #import "UIText+DavKit.h"
+#import "NSData+DavKit.h"
 
 @implementation NSString (DavKit)
 
@@ -136,16 +137,7 @@
 
 - (NSString*)MD5
 {
-    const char *cStr = [self UTF8String];
-    unsigned char result[16];
-    CC_MD5( cStr, (CC_LONG)strlen(cStr), result ); // This is the md5 call
-    return [NSString stringWithFormat:
-            @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
-            result[0], result[1], result[2], result[3],
-            result[4], result[5], result[6], result[7],
-            result[8], result[9], result[10], result[11],
-            result[12], result[13], result[14], result[15]
-            ];
+    return [self stringByHashing:HashingMethodMD5];
 }
 
 - (NSString*)SHA1
@@ -192,6 +184,16 @@
     return uuidString;
 }
 
+- (NSString *)stringByEncrypting:(EncryptionMethod)encryptionMethod withKey:(NSString*)key
+{
+    return [DKEncryptor encryptString:self usingMethod:encryptionMethod withKey:key];
+}
+
+- (NSString *)stringByDecrypting:(EncryptionMethod)encryptionMethod withKey:(NSString*)key
+{
+    return [DKEncryptor decryptString:self usingMethod:encryptionMethod withKey:key];
+}
+
 @end
 
 @implementation DKStringHelper
@@ -206,6 +208,34 @@
     for (NSUInteger i = 0; i < length; i++)
         [mstr appendFormat:@"%02x", buffer[i]];
     return [NSString stringWithString:mstr];
+}
+
++ (NSData *)dataFromHexString:(NSString*)string
+{
+    const char *chars = [string UTF8String];
+    NSInteger i = 0, len = string.length;
+    
+    NSMutableData *data = [NSMutableData dataWithCapacity:len / 2];
+    char byteChars[3] = {'\0','\0','\0'};
+    unsigned long wholeByte;
+    
+    while (i < len)
+    {
+        byteChars[0] = chars[i++];
+        byteChars[1] = chars[i++];
+        wholeByte = strtoul(byteChars, NULL, 16);
+        [data appendBytes:&wholeByte length:1];
+    }
+    
+    return data;
+}
+
++ (NSString *)stringForPath:(NSString *)fileName
+{
+    if (fileName==nil || fileName.length==0)
+        return fileName;
+    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
+    return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
 }
 
 + (int)digestLengthForHashingMethod:(HashingMethod)hashingMethod
@@ -257,12 +287,100 @@
     return [NSData dataWithBytes:buffer length:len];
 }
 
-+ (NSString *)stringForPath:(NSString *)fileName
+@end
+
+@implementation DKEncryptor
+
++ (NSString *)encryptString:(NSString*)string usingMethod:(EncryptionMethod)encryptionMethod withKey:(NSString*)key
 {
-    if (fileName==nil || fileName.length==0)
-        return fileName;
-    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>"];
-    return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+    switch(encryptionMethod)
+    {
+        case EncryptionMethodBlowfish: return [DKEncryptor encryptString:string usingBlowfishWithKey:key];
+    }
+}
+
++ (NSString *)decryptString:(NSString*)string usingMethod:(EncryptionMethod)encryptionMethod withKey:(NSString*)key
+{
+    switch(encryptionMethod)
+    {
+        case EncryptionMethodBlowfish: return [DKEncryptor decryptString:string usingBlowfishWithKey:key];
+    }
+}
+
++ (NSData*)encryptedDataForString:(NSString*)string usingBlowfishWithKey:(NSString*)key
+{
+    NSData *keyData = [DKStringHelper dataFromHexString:key];
+    NSData *myKey = [NSMutableData dataWithBytes:keyData.bytes length:kCCKeySizeMinBlowfish];
+    
+    NSString *myData = string;
+    NSData *myData2 = [myData dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableData *myEnc = [NSMutableData dataWithLength:kCCKeySizeMinBlowfish+myData.length];
+    
+    CCOptions options = kCCOptionPKCS7Padding|kCCOptionECBMode;
+    
+    size_t myOut;
+    
+    CCCryptorStatus retEnc = CCCrypt(kCCEncrypt, kCCAlgorithmBlowfish, options,
+                                     myKey.bytes, myKey.length, NULL,
+                                     myData2.bytes, myData2.length,
+                                     myEnc.mutableBytes, myEnc.length, &myOut);
+    if (retEnc == kCCSuccess)
+    {
+        // encryption succeeded
+        myEnc.length = myOut;
+        return myEnc;
+    }
+    else
+    {
+        // encryption failed
+        return nil;
+    }
+}
+
++ (NSString*)encryptString:(NSString*)string usingBlowfishWithKey:(NSString*)key
+{
+    NSData *encryptedData = [DKEncryptor encryptedDataForString:string usingBlowfishWithKey:key];
+    if (encryptedData!=nil) return [encryptedData encodedBase64String];
+    return nil;
+}
+
++ (NSData*)decryptedDataForString:(NSString*)string usingBlowfishWithKey:(NSString*)key
+{
+    NSString *myData = string;
+    NSData *myData2 = [myData stringToBase64EncodedData];
+    
+    NSData *keyData = [DKStringHelper dataFromHexString:key];
+    NSData *myKey = [NSMutableData dataWithBytes:keyData.bytes length:kCCKeySizeMinBlowfish];
+    
+    NSMutableData *myEnc = [NSMutableData dataWithLength:kCCKeySizeMinBlowfish+myData.length];
+    size_t myOut;
+    
+    CCOptions options = kCCOptionPKCS7Padding|kCCOptionECBMode;
+    
+    CCCryptorStatus retEnc = CCCrypt(kCCDecrypt, kCCAlgorithmBlowfish, options,
+                                     myKey.bytes, myKey.length, NULL,
+                                     myData2.bytes, myData2.length,
+                                     myEnc.mutableBytes, myEnc.length, &myOut);
+    
+    if (retEnc == kCCSuccess)
+    {
+        // encryption succeeded
+        myEnc.length = myOut;
+        return myEnc;
+    }
+    else
+    {
+        // encryption failed
+        return nil;
+    }
+}
+
++ (NSString*)decryptString:(NSString*)string usingBlowfishWithKey:(NSString*)key
+{
+    NSData *decryptedData = [DKEncryptor decryptedDataForString:string usingBlowfishWithKey:key];
+    if (decryptedData!=nil) return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+    return nil;
 }
 
 @end
