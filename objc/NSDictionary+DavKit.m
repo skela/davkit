@@ -71,4 +71,9 @@
     return [DKParser getSelector:self forKey:key fallback:fallBack];
 }
 
+- (NSString*)toJSON
+{
+    return [DKParser fromDictionaryToJSON:self];
+}
+
 @end

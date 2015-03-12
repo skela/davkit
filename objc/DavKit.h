@@ -16,6 +16,7 @@
 #import "DKResources.h"
 #import "NSString+DavKit.h"
 #import "NSArray+DavKit.h"
+#import "NSDictionary+DavKit.h"
 #import "NSData+DavKit.h"
 #import "NSDate+DavKit.h"
 #import "DKParser.h"
