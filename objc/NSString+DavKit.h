@@ -36,6 +36,7 @@ typedef enum
 - (BOOL)isInteger;
 - (BOOL)isNumber;
 - (BOOL)isEmail;
+- (NSDictionary*)fromJSON;
 - (NSString*)strip;
 - (NSString *)extractStringLookingFor:(NSString *)lookFor skipForwardTo:(NSInteger)skipForward andStopBefore:(NSString *)stopBefore;
 - (NSString *)extractStringLookingFor:(NSString *)lookFor andStopBefore:(NSString *)stopBefore;

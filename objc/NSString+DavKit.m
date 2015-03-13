@@ -9,6 +9,7 @@
 #import "NSString+DavKit.h"
 #import "UIText+DavKit.h"
 #import "NSData+DavKit.h"
+#import "DKParser.h"
 
 @implementation NSString (DavKit)
 
@@ -51,6 +52,11 @@
 - (NSString *)extractStringLookingFor:(NSString *)lookFor andStopBefore:(NSString *)stopBefore
 {
     return [self extractStringLookingFor:lookFor skipForwardTo:lookFor.length andStopBefore:stopBefore];
+}
+
+- (NSDictionary*)fromJSON
+{
+    return [DKParser fromJSONString:self];
 }
 
 - (NSData*)stringToBase64EncodedData
