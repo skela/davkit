@@ -8,6 +8,9 @@
 
 #import "DKBarcodeScanViewController.h"
 #import "UIAlertView+DavKit.h"
+#import "DKUtils.h"
+
+#define kScanBlock "com.davincium.dkbarcodescannerblock"
 
 @interface DKBarcodeScanViewController ()
 
@@ -28,6 +31,16 @@
     if (self)
     {
         self.delegate = delegate;
+    }
+    return self;
+}
+
+- (id)initWithBlock:(void (^)(DKBarcodeScanViewController*scanner,NSString *code))aBlock
+{
+    self = [super init];
+    if (self)
+    {
+        [DKUtils setBlock:aBlock withKey:kScanBlock forObject:self];
     }
     return self;
 }
@@ -185,7 +198,20 @@ didOutputMetadataObjects:(NSArray *)metadataObjects
     }
     
     if (!isClosing && self.delegate!=nil)
-        [self.delegate barcodeScanner:self scannedCode:code];
+    {
+        if (self.delegate!=nil)
+        {
+            [self.delegate barcodeScanner:self scannedCode:code];
+        }
+        else
+        {
+            void (^block)(DKBarcodeScanViewController*scanner,NSString *code) = [DKUtils getBlockForObject:self withKey:kScanBlock];
+            if (block!=NULL)
+            {
+                block(self,code);
+            }
+        }
+    }
 }
 
 - (void)dismissViewControllerAnimated: (BOOL)flag completion: (void (^)(void))completion

@@ -23,6 +23,7 @@
 @property(nonatomic,assign) id<DKBarcodeScanDelegate> delegate;
 @property(nonatomic,strong) UIView *cameraPreview;
 - (id)initWithDelegate:(id<DKBarcodeScanDelegate>)delegate;
+- (id)initWithBlock:(void (^)(DKBarcodeScanViewController*scanner,NSString *code))aBlock;
 - (void)displayWarning:(NSString*)warning;
 - (void)terminate;
 + (BOOL)canScan;
