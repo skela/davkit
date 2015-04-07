@@ -221,3 +221,42 @@ didOutputMetadataObjects:(NSArray *)metadataObjects
 }
 
 @end
+
+@implementation DKBarcodes
+
++ (UIImage*)createQRcode:(NSString*)text size:(CGFloat)size
+{
+    CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
+    
+    [filter setDefaults];
+    
+    NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
+    [filter setValue:data forKey:@"inputMessage"];
+    
+    CIImage *input = [filter outputImage];
+    
+    CGFloat scale = 1;
+    CGFloat h = [input extent].size.height;
+    if (h < size)
+    {
+        scale = size / h;
+    }
+    
+    CGAffineTransform transform = CGAffineTransformMakeScale(scale,scale);
+    
+    CIImage *outputImage = [input imageByApplyingTransform: transform];
+    
+    CIContext *context = [CIContext contextWithOptions:nil];
+    
+    CGRect fromRect = [outputImage extent];
+    
+    CGImageRef cgImage = [context createCGImage:outputImage fromRect:fromRect];
+    
+    UIImage *img = [UIImage imageWithCGImage:cgImage];
+    
+    CGImageRelease(cgImage);
+    
+    return img;
+}
+
+@end
