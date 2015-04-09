@@ -122,8 +122,8 @@
         if (scrollView != nil)
         {
             UIEdgeInsets contentInsets = UIEdgeInsetsMake (0.0f, 0.0f, kbSize.height, 0.0f);
-            scrollView.ContentInset = contentInsets;
-            scrollView.ScrollIndicatorInsets = contentInsets;
+            scrollView.contentInset = contentInsets;
+            scrollView.scrollIndicatorInsets = contentInsets;
         }
     }
 }
@@ -134,8 +134,8 @@
     if (scrollView != nil)
     {
         UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-        scrollView.ContentInset = contentInsets;
-        scrollView.ScrollIndicatorInsets = contentInsets;
+        scrollView.contentInset = contentInsets;
+        scrollView.scrollIndicatorInsets = contentInsets;
     }
 }
 
