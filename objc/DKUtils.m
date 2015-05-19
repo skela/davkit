@@ -3,10 +3,11 @@
 //  Constructor
 //
 //  Created by Aleksander Slater on 14/08/2014.
-//  Copyright (c) 2014 IntroLabs. All rights reserved.
+//  Copyright (c) 2014 Davincium. All rights reserved.
 //
 
 #import "DKUtils.h"
+
 #import <objc/runtime.h>
 
 @implementation DKUtils

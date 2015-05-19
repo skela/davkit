@@ -3,7 +3,7 @@
 //  winetubemap
 //
 //  Created by Aleksander Slater on 18/10/2014.
-//  Copyright (c) 2014 Appetise. All rights reserved.
+//  Copyright (c) 2014 Davincium. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
