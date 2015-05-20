@@ -20,6 +20,12 @@
     [DKParser setObject:color forKey:key inDict:dict fallback:nil];
 }
 
++ (void)setPoint:(CGPoint)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    NSString *point = NSStringFromCGPoint(val);
+    [DKParser setObject:point forKey:key inDict:dict fallback:nil];
+}
+
 typedef enum
 {
     BezierPathOperationMoveTo=1,
@@ -73,7 +79,51 @@ void processPathElement (void *info, const CGPathElement *element)
     }
 }
 
-+ (UIColor*)getColor:(NSDictionary*)d forKey:(NSString*)key fallBack:(UIColor*)fallBack
++ (CGPoint)getPoint:(NSDictionary*)d forKey:(NSString*)key fallback:(CGPoint)fallBack
+{
+    return [DKParser getPoint:d forKeys:@[key] fallback:fallBack];
+}
+
++ (CGPoint)getPoint:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(CGPoint)fallBack
+{
+    CGPoint p = fallBack;
+    for (NSString *key in keys)
+    {
+        NSObject *obj = [d objectForKey:key];
+        if ([obj isKindOfClass:[NSString class]])
+        {
+            NSString *s = ((NSString*)obj);
+            if ([s hasPrefix:@"{"])
+            {
+                NSDictionary *jd = [DKParser fromJSONToDictionary:s];
+                p.x = [DKParser getFloat:jd forKeys:@[@"x",@"a"] fallback:p.x];
+                p.y = [DKParser getFloat:jd forKeys:@[@"y",@"b"] fallback:p.y];
+            }
+            else
+            {
+                p = CGPointFromString(s);
+            }
+        }
+        else if ([obj isKindOfClass:[NSNumber class]])
+        {
+            if ([key isEqualToString:@"x"] || [key isEqualToString:@"a"])
+            {
+                p.x = [((NSNumber*)obj) floatValue];
+            }
+            else if ([key isEqualToString:@"y"] || [key isEqualToString:@"b"])
+            {
+                p.y = [((NSNumber*)obj) floatValue];
+            }
+        }
+        else if ([obj isKindOfClass:[NSValue class]])
+        {
+            p = [((NSValue*)obj) CGPointValue];
+        }
+    }
+    return p;
+}
+
++ (UIColor*)getColor:(NSDictionary*)d forKey:(NSString*)key fallback:(UIColor*)fallBack
 {
     NSString *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSString class]])
@@ -102,7 +152,7 @@ void processPathElement (void *info, const CGPathElement *element)
     [DKParser setImage:val withCompression:0 forKey:key inDict:dict];
 }
 
-+ (UIImage*)getImage:(NSDictionary*)d forKey:(NSString*)key fallBack:(UIImage*)fallBack
++ (UIImage*)getImage:(NSDictionary*)d forKey:(NSString*)key fallback:(UIImage*)fallBack
 {
     NSString *n=[d objectForKey:key];
     if (n!=nil && [n isKindOfClass:[NSString class]])
@@ -115,7 +165,7 @@ void processPathElement (void *info, const CGPathElement *element)
     return fallBack;
 }
 
-+ (UIBezierPath*)getBezierPath:(NSDictionary*)d forKey:(NSString*)key fallBack:(UIBezierPath*)fallBack
++ (UIBezierPath*)getBezierPath:(NSDictionary*)d forKey:(NSString*)key fallback:(UIBezierPath*)fallBack
 {
     NSArray*ops = [DKParser getArray:d forKey:key fallback:nil];
     if (ops!=nil && [ops isKindOfClass:[NSArray class]])
