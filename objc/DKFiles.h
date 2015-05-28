@@ -11,4 +11,8 @@
 @interface DKFiles : NSObject
 + (NSString*)md5ForFileAtPath:(NSString*)path;
 + (NSString*)md5ForFileAtURL:(NSURL*)url;
++ (NSString*)sha1ForFileAtPath:(NSString *)filePath;
++ (NSString*)sha1ForFileAtURL:(NSURL*)url;
++ (NSString*)sha512ForFileAtPath:(NSString *)filePath;
++ (NSString*)sha512ForFileAtURL:(NSURL*)url;
 @end

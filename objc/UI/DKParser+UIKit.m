@@ -96,8 +96,15 @@ void processPathElement (void *info, const CGPathElement *element)
             if ([s hasPrefix:@"{"])
             {
                 NSDictionary *jd = [DKParser fromJSONToDictionary:s];
-                p.x = [DKParser getFloat:jd forKeys:@[@"x",@"a"] fallback:p.x];
-                p.y = [DKParser getFloat:jd forKeys:@[@"y",@"b"] fallback:p.y];
+                if (jd==nil)
+                {
+                    p = CGPointFromString(s);
+                }
+                else
+                {
+                    p.x = [DKParser getFloat:jd forKeys:@[@"x",@"a"] fallback:p.x];
+                    p.y = [DKParser getFloat:jd forKeys:@[@"y",@"b"] fallback:p.y];
+                }
             }
             else
             {

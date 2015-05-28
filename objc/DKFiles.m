@@ -14,94 +14,141 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define FileHashDefaultChunkSizeForReadingData 4096
+// FROM : https://raw.githubusercontent.com/JoeKun/FileMD5Hash/master/Library/FileHash.m
 
-// https://github.com/JoeKun/FileMD5Hash
-CFStringRef FileMD5HashCreateWithPath(CFStringRef filePath,size_t chunkSizeForReadingData)
-{
-    // Declare needed variables
-    CFStringRef result = NULL;
-    CFReadStreamRef readStream = NULL;
-    
-    // Get the file URL
-    CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault,(CFStringRef)filePath,kCFURLPOSIXPathStyle,(Boolean)false);
-    if (!fileURL) goto done;
-    
-    // Create and open the read stream
-    readStream = CFReadStreamCreateWithFile(kCFAllocatorDefault,
-                                            (CFURLRef)fileURL);
-    if (!readStream) goto done;
-    bool didSucceed = (bool)CFReadStreamOpen(readStream);
-    if (!didSucceed) goto done;
-    
-    // Initialize the hash object
-    CC_MD5_CTX hashObject;
-    CC_MD5_Init(&hashObject);
-    
-    // Make sure chunkSizeForReadingData is valid
-    if (!chunkSizeForReadingData)
-    {
-        chunkSizeForReadingData = FileHashDefaultChunkSizeForReadingData;
-    }
-    
-    // Feed the data to the hash object
-    bool hasMoreData = true;
-    while (hasMoreData)
-    {
-        uint8_t buffer[chunkSizeForReadingData];
-        CFIndex readBytesCount = CFReadStreamRead(readStream,(UInt8 *)buffer,(CFIndex)sizeof(buffer));
-        if (readBytesCount == -1) break;
-        if (readBytesCount == 0)
-        {
-            hasMoreData = false;
-            continue;
-        }
-        CC_MD5_Update(&hashObject,(const void *)buffer,(CC_LONG)readBytesCount);
-    }
-    
-    // Check if the read operation succeeded
-    didSucceed = !hasMoreData;
-    
-    // Compute the hash digest
-    unsigned char digest[CC_MD5_DIGEST_LENGTH];
-    CC_MD5_Final(digest, &hashObject);
-    
-    // Abort if the read operation failed
-    if (!didSucceed) goto done;
-    
-    // Compute the string result
-    char hash[2 * sizeof(digest) + 1];
-    for (size_t i = 0; i < sizeof(digest); ++i) {
-        snprintf(hash + (2 * i), 3, "%02x", (int)(digest[i]));
-    }
-    result = CFStringCreateWithCString(kCFAllocatorDefault,(const char *)hash,kCFStringEncodingUTF8);
-    
-done:
-    
-    if (readStream)
-    {
-        CFReadStreamClose(readStream);
-        CFRelease(readStream);
-    }
-    if (fileURL)
-    {
-        CFRelease(fileURL);
-    }
-    return result;
-}
+/*
+ *  FileHash.m
+ *  FileMD5Hash
+ *
+ *  Copyright © 2010-2014 Joel Lopes Da Silva. All rights reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+
+// Constants
+static const size_t FileHashDefaultChunkSizeForReadingData = 4096;
+
+// Function pointer types for functions used in the computation
+// of a cryptographic hash.
+typedef int (*FileHashInitFunction)   (uint8_t *hashObjectPointer[]);
+typedef int (*FileHashUpdateFunction) (uint8_t *hashObjectPointer[], const void *data, CC_LONG len);
+typedef int (*FileHashFinalFunction)  (unsigned char *md, uint8_t *hashObjectPointer[]);
+
+// Structure used to describe a hash computation context.
+typedef struct _FileHashComputationContext {
+    FileHashInitFunction initFunction;
+    FileHashUpdateFunction updateFunction;
+    FileHashFinalFunction finalFunction;
+    size_t digestLength;
+    uint8_t **hashObjectPointer;
+} FileHashComputationContext;
+
+#define FileHashComputationContextInitialize(context, hashAlgorithmName)                    \
+CC_##hashAlgorithmName##_CTX hashObjectFor##hashAlgorithmName;                          \
+context.initFunction      = (FileHashInitFunction)&CC_##hashAlgorithmName##_Init;       \
+context.updateFunction    = (FileHashUpdateFunction)&CC_##hashAlgorithmName##_Update;   \
+context.finalFunction     = (FileHashFinalFunction)&CC_##hashAlgorithmName##_Final;     \
+context.digestLength      = CC_##hashAlgorithmName##_DIGEST_LENGTH;                     \
+context.hashObjectPointer = (uint8_t **)&hashObjectFor##hashAlgorithmName
 
 @implementation DKFiles
 
-+ (NSString*)md5ForFileAtPath:(NSString*)path
++ (NSString *)hashOfFileAtPath:(NSString *)filePath withComputationContext:(FileHashComputationContext *)context
 {
-    CFStringRef cfPath = (__bridge CFStringRef)path;
-    return (__bridge NSString*)FileMD5HashCreateWithPath(cfPath,FileHashDefaultChunkSizeForReadingData);
+    NSString *result = nil;
+    CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)filePath, kCFURLPOSIXPathStyle, (Boolean)false);
+    CFReadStreamRef readStream = fileURL ? CFReadStreamCreateWithFile(kCFAllocatorDefault, fileURL) : NULL;
+    BOOL didSucceed = readStream ? (BOOL)CFReadStreamOpen(readStream) : NO;
+    if (didSucceed) {
+        
+        // Use default value for the chunk size for reading data.
+        const size_t chunkSizeForReadingData = FileHashDefaultChunkSizeForReadingData;
+        
+        // Initialize the hash object
+        (*context->initFunction)(context->hashObjectPointer);
+        
+        // Feed the data to the hash object.
+        BOOL hasMoreData = YES;
+        while (hasMoreData) {
+            uint8_t buffer[chunkSizeForReadingData];
+            CFIndex readBytesCount = CFReadStreamRead(readStream, (UInt8 *)buffer, (CFIndex)sizeof(buffer));
+            if (readBytesCount == -1) {
+                break;
+            } else if (readBytesCount == 0) {
+                hasMoreData = NO;
+            } else {
+                (*context->updateFunction)(context->hashObjectPointer, (const void *)buffer, (CC_LONG)readBytesCount);
+            }
+        }
+        
+        // Compute the hash digest
+        unsigned char digest[context->digestLength];
+        (*context->finalFunction)(digest, context->hashObjectPointer);
+        
+        // Close the read stream.
+        CFReadStreamClose(readStream);
+        
+        // Proceed if the read operation succeeded.
+        didSucceed = !hasMoreData;
+        if (didSucceed) {
+            char hash[2 * sizeof(digest) + 1];
+            for (size_t i = 0; i < sizeof(digest); ++i) {
+                snprintf(hash + (2 * i), 3, "%02x", (int)(digest[i]));
+            }
+            result = [NSString stringWithUTF8String:hash];
+        }
+        
+    }
+    if (readStream) CFRelease(readStream);
+    if (fileURL)    CFRelease(fileURL);
+    return result;
+}
+
++ (NSString *)md5ForFileAtPath:(NSString *)filePath
+{
+    FileHashComputationContext context;
+    FileHashComputationContextInitialize(context, MD5);
+    return [self hashOfFileAtPath:filePath withComputationContext:&context];
+}
+
++ (NSString *)sha1ForFileAtPath:(NSString *)filePath
+{
+    FileHashComputationContext context;
+    FileHashComputationContextInitialize(context, SHA1);
+    return [self hashOfFileAtPath:filePath withComputationContext:&context];
+}
+
++ (NSString *)sha512ForFileAtPath:(NSString *)filePath
+{
+    FileHashComputationContext context;
+    FileHashComputationContextInitialize(context, SHA512);
+    return [self hashOfFileAtPath:filePath withComputationContext:&context];
 }
 
 + (NSString*)md5ForFileAtURL:(NSURL*)url
 {
-    NSString *path = [url path];
-    return [DKFiles md5ForFileAtPath:path];
+    return [DKFiles md5ForFileAtPath:[url path]];
+}
+
++ (NSString*)sha1ForFileAtURL:(NSURL*)url
+{
+    return [DKFiles sha1ForFileAtPath:[url path]];
+}
+
++ (NSString*)sha512ForFileAtURL:(NSURL*)url
+{
+    return [DKFiles sha512ForFileAtPath:[url path]];
 }
 
 @end
