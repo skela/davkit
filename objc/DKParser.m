@@ -383,6 +383,11 @@
 + (id)fromJSONString:(NSString*)jsonString
 {
     NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    return [DKParser fromJSONData:data];
+}
+
++ (id)fromJSONData:(NSData*)data
+{
     if (data!=nil)
     {
         id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -390,6 +395,7 @@
     }
     return nil;
 }
+
 
 + (NSString*)toJSONString:(id)object
 {

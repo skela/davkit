@@ -83,6 +83,7 @@
 + (unsigned int)intFromHexString:(NSString *)hexStr;
 + (NSDictionary*)getDictionaryFromUrl:(NSURL*)url;
 
++ (id)fromJSONData:(NSData*)data;
 + (id)fromJSONString:(NSString*)jsonString;
 + (NSString*)toJSONString:(id)object;
 + (NSDictionary*)fromJSONToDictionary:(NSString*)jsonString;
