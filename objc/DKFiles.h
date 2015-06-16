@@ -15,4 +15,7 @@
 + (NSString*)sha1ForFileAtURL:(NSURL*)url;
 + (NSString*)sha512ForFileAtPath:(NSString *)filePath;
 + (NSString*)sha512ForFileAtURL:(NSURL*)url;
++ (NSString*)md5ForFileWithHandle:(NSFileHandle*)fileHandle;
++ (NSString*)sha1ForFileWithHandle:(NSFileHandle*)fileHandle;
++ (NSString*)sha512ForFileWithHandle:(NSFileHandle*)fileHandle;
 @end
