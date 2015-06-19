@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "DavKit"
+  s.name         = "davkit"
   s.version      = "0.0.1"
   s.summary      = "Utility classes that let you work with the iOS frameworks (mostly) with a little less boiler plate."
 
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
                    * The DKParser methods  along with the DKCurrentUser classes the most useful.
                    DESC
 
-  s.homepage     = "http://github.com/skela/DavKit.git"
+  s.homepage     = "http://github.com/skela/davkit.git"
   
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -61,7 +61,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "git@github.com:skela/DavKit.git", :tag => s.version }
+  s.source       = { :git => "git@github.com:skela/davkit.git", :tag => s.version }
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
