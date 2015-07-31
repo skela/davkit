@@ -124,10 +124,15 @@
     return obj;
 }
 
++ (void)removeObjectForKey:(NSString*)key
+{
+    [[DKCurrentUser defaults] removeObjectForKey:key];
+}
+
 + (void)setObject:(id)obj ofClass:(Class)class withKey:(NSString*)key
 {
     if (obj==nil || ![obj isKindOfClass:class])
-        [[DKCurrentUser defaults] removeObjectForKey:key];
+        [self removeObjectForKey:key];
     else
         [[DKCurrentUser defaults] setObject:obj forKey:key];
     
