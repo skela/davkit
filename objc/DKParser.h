@@ -23,6 +23,7 @@
 + (NSNumber*)getNumber:(NSDictionary*)d forKey:(NSString*)key fallback:(NSNumber*)fallBack;
 + (NSString*)getString:(NSDictionary*)d forKey:(NSString*)key fallback:(NSString*)fallBack;
 + (NSInteger)getInteger:(NSDictionary*)d forKey:(NSString*)key fallback:(NSInteger)fallBack;
++ (int)getInt:(NSDictionary*)d forKey:(NSString*)keys fallback:(int)fallBack;
 + (BOOL)getBool:(NSDictionary*)d forKey:(NSString*)key fallback:(BOOL)fallBack;
 + (double)getDouble:(NSDictionary*)d forKey:(NSString*)key fallback:(double)fallBack;
 + (CGFloat)getFloat:(NSDictionary*)d forKey:(NSString*)key fallback:(CGFloat)fallBack;
@@ -39,6 +40,7 @@
 + (NSArray*)getArray:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSArray*)fallBack;
 + (NSDictionary*)getDictionary:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSDictionary*)fallBack;
 + (NSInteger)getInteger:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSInteger)fallBack;
++ (int)getInt:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(int)fallBack;
 + (long long)getLongLong:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(long long)fallBack;
 + (BOOL)getBool:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(BOOL)fallBack;
 + (double)getDouble:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(double)fallBack;

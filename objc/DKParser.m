@@ -54,6 +54,11 @@
     return [DKParser getObject:d ofClass:[NSDictionary class] forKey:key fallback:fallBack];        
 }
 
++ (int)getInt:(NSDictionary*)d forKey:(NSString*)key fallback:(int)fallBack
+{
+    return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] intValue];
+}
+
 + (NSInteger)getInteger:(NSDictionary*)d forKey:(NSString*)key fallback:(NSInteger)fallBack
 {
     return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] integerValue];
@@ -112,6 +117,11 @@
 + (NSInteger)getInteger:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSInteger)fallBack
 {
     return [[DKParser getNumber:d forKeys:keys fallback:@(fallBack)] integerValue];
+}
+
++ (int)getInt:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(int)fallBack
+{
+    return [[DKParser getNumber:d forKeys:keys fallback:@(fallBack)] intValue];
 }
 
 + (long long)getLongLong:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(long long)fallBack
