@@ -16,8 +16,15 @@
 
 + (void)setColor:(UIColor*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
-    NSString *color = [val hexRGBAString];
-    [DKParser setObject:color forKey:key inDict:dict fallback:nil];
+    if (val!=nil)
+    {
+        NSString *color = [val hexRGBAString];
+        [DKParser setObject:color forKey:key inDict:dict fallback:nil];
+    }
+    else
+    {
+        [DKParser setObject:nil forKey:key inDict:dict fallback:nil];
+    }
 }
 
 + (void)setPoint:(CGPoint)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict

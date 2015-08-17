@@ -495,6 +495,12 @@ static NSMutableArray *legacy = nil;
         
         if (container!=nil)
         {
+            if (parent.tabBarController!=nil && [DKDevice isPhone])
+            {
+                [self.sheet showFromTabBar:parent.tabBarController.tabBar];
+                return;
+            }
+            
             if ([container isKindOfClass:[UIBarButtonItem class]])
                 [self.sheet showFromBarButtonItem:container animated:YES];
             else if ([container isKindOfClass:[UITabBar class]])
