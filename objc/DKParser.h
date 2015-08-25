@@ -11,86 +11,86 @@
 
 @protocol DKJSON <NSObject>
 
-- (NSDictionary*)jsonSerialized;
-+ (id)jsonDeserialize:(NSDictionary*)json;
+- (nonnull NSDictionary*)jsonSerialized;
++ (nonnull id)jsonDeserialize:(nullable NSDictionary*)json;
 
 @end
 
 @interface DKParser : NSObject
 
-+ (id)getObject:(NSDictionary*)d ofClass:(Class)classe forKey:(NSString*)key fallback:(id)fallBack;
-+ (NSValue*)getValue:(NSDictionary*)d forKey:(NSString*)key fallback:(NSValue*)fallBack;
-+ (NSNumber*)getNumber:(NSDictionary*)d forKey:(NSString*)key fallback:(NSNumber*)fallBack;
-+ (NSString*)getString:(NSDictionary*)d forKey:(NSString*)key fallback:(NSString*)fallBack;
-+ (NSInteger)getInteger:(NSDictionary*)d forKey:(NSString*)key fallback:(NSInteger)fallBack;
-+ (int)getInt:(NSDictionary*)d forKey:(NSString*)key fallback:(int)fallBack;
-+ (BOOL)getBool:(NSDictionary*)d forKey:(NSString*)key fallback:(BOOL)fallBack;
-+ (double)getDouble:(NSDictionary*)d forKey:(NSString*)key fallback:(double)fallBack;
-+ (CGFloat)getFloat:(NSDictionary*)d forKey:(NSString*)key fallback:(CGFloat)fallBack;
-+ (NSArray*)getArray:(NSDictionary*)d forKey:(NSString*)key fallback:(NSArray*)fallBack;
-+ (NSDictionary*)getDictionary:(NSDictionary*)d forKey:(NSString*)key fallback:(NSDictionary*)fallBack;
-+ (long)getLong:(NSDictionary*)d forKey:(NSString*)key fallback:(long)fallBack;
-+ (long long)getLongLong:(NSDictionary*)d forKey:(NSString*)key fallback:(long long)fallBack;
-+ (SEL)getSelector:(NSDictionary*)d forKey:(NSString*)key fallback:(SEL)fallBack;
++ (nullable id)getObject:(nullable NSDictionary*)d ofClass:(nonnull Class)classe forKey:(nonnull NSString*)key fallback:(nullable id)fallBack;
++ (nullable NSValue*)getValue:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable NSValue*)fallBack;
++ (nullable NSNumber*)getNumber:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable NSNumber*)fallBack;
++ (nullable NSString*)getString:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable NSString*)fallBack;
++ (NSInteger)getInteger:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(NSInteger)fallBack;
++ (int)getInt:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(int)fallBack;
++ (BOOL)getBool:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(BOOL)fallBack;
++ (double)getDouble:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(double)fallBack;
++ (CGFloat)getFloat:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(CGFloat)fallBack;
++ (nullable NSArray*)getArray:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable NSArray*)fallBack;
++ (nullable NSDictionary*)getDictionary:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable NSDictionary*)fallBack;
++ (long)getLong:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(long)fallBack;
++ (long long)getLongLong:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(long long)fallBack;
++ (nullable SEL)getSelector:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable SEL)fallBack;
 
-+ (id)getObject:(NSDictionary*)d ofClass:(Class)classe forKeys:(NSArray*)keys fallback:(id)fallBack;
-+ (NSValue*)getValue:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSValue*)fallBack;
-+ (NSNumber*)getNumber:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSNumber*)fallBack;
-+ (NSString*)getString:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSString*)fallBack;
-+ (NSArray*)getArray:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSArray*)fallBack;
-+ (NSDictionary*)getDictionary:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSDictionary*)fallBack;
-+ (NSInteger)getInteger:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(NSInteger)fallBack;
-+ (int)getInt:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(int)fallBack;
-+ (long long)getLongLong:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(long long)fallBack;
-+ (BOOL)getBool:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(BOOL)fallBack;
-+ (double)getDouble:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(double)fallBack;
-+ (CGFloat)getFloat:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(CGFloat)fallBack;
-+ (long)getLong:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(long)fallBack;
++ (nullable id)getObject:(nullable NSDictionary*)d ofClass:(nonnull Class)classe forKeys:(nonnull NSArray*)keys fallback:(nullable id)fallBack;
++ (nullable NSValue*)getValue:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(nullable NSValue*)fallBack;
++ (nullable NSNumber*)getNumber:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(nullable NSNumber*)fallBack;
++ (nullable NSString*)getString:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(nullable NSString*)fallBack;
++ (nullable NSArray*)getArray:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(nullable NSArray*)fallBack;
++ (nullable NSDictionary*)getDictionary:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(nullable NSDictionary*)fallBack;
++ (NSInteger)getInteger:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(NSInteger)fallBack;
++ (int)getInt:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(int)fallBack;
++ (long long)getLongLong:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(long long)fallBack;
++ (BOOL)getBool:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(BOOL)fallBack;
++ (double)getDouble:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(double)fallBack;
++ (CGFloat)getFloat:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(CGFloat)fallBack;
++ (long)getLong:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(long)fallBack;
 
-+ (BOOL)isDictionary:(id)d;
-+ (BOOL)isNumber:(id)number;
-+ (BOOL)isString:(id)string;
-+ (BOOL)isArray:(id)ar;
-+ (BOOL)isTrue:(id)o;
++ (BOOL)isDictionary:(nullable id)d;
++ (BOOL)isNumber:(nullable id)number;
++ (BOOL)isString:(nullable id)string;
++ (BOOL)isArray:(nullable id)ar;
++ (BOOL)isTrue:(nullable id)o;
 
-+ (void)setObject:(id)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict fallback:(id)fallBack;
-+ (void)setString:(NSString*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
-+ (void)setNumber:(NSNumber*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
-+ (void)setDictionary:(NSDictionary*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
-+ (void)setArray:(NSArray*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
-+ (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
-+ (void)setBool:(BOOL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
-+ (void)setSelector:(SEL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
-+ (void)setInt:(int)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setObject:(nullable id)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict fallback:(nullable id)fallBack;
++ (void)setString:(nullable NSString*)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
++ (void)setNumber:(nullable NSNumber*)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
++ (void)setDictionary:(nullable NSDictionary*)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
++ (void)setArray:(nullable NSArray*)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
++ (void)setInteger:(NSInteger)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
++ (void)setBool:(BOOL)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
++ (void)setSelector:(nullable SEL)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
++ (void)setInt:(int)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
 
-+ (NSInteger)addContentsOfDictInDict:(NSDictionary*)d withKey:(NSString*)key toDict:(NSMutableDictionary*)mdict;
-+ (NSInteger)addContentsOfArrayInDict:(NSDictionary*)d withKey:(NSString*)key toArray:(NSMutableArray*)mar;
++ (NSInteger)addContentsOfDictInDict:(nullable NSDictionary*)d withKey:(nonnull NSString*)key toDict:(nullable NSMutableDictionary*)mdict;
++ (NSInteger)addContentsOfArrayInDict:(nullable NSDictionary*)d withKey:(nonnull NSString*)key toArray:(nullable NSMutableArray*)mar;
 
-+ (NSDate*)getDate:(NSDictionary*)d forKey:(NSString*)key fallback:(NSDate*)fallBack;
-+ (CGRect)getRect:(NSDictionary*)d forKey:(NSString*)key fallback:(CGRect)fallBack;
++ (nullable NSDate*)getDate:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable NSDate*)fallBack;
++ (CGRect)getRect:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(CGRect)fallBack;
 
-+ (void)setDate:(NSDate*)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
-+ (void)setRect:(CGRect)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict;
++ (void)setDate:(nullable NSDate*)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
++ (void)setRect:(CGRect)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
 
 
 // For example a normal string from .NET systems for timestamps could be: "/Date(1378151009864)/"
 // In this case the inputs for this function would be startsWith:@"/Date(" endsWith:@")/"
-+ (double)getDoubleFromString:(NSDictionary*)d
-                       forKey:(NSString*)key
-                   startsWith:(NSString*)start
-                     endsWith:(NSString*)end
++ (double)getDoubleFromString:(nullable NSDictionary*)d
+                       forKey:(nonnull NSString*)key
+                   startsWith:(nonnull NSString*)start
+                     endsWith:(nonnull NSString*)end
                      fallback:(double)fallBack;
 
-+ (double)getDoubleFromDotNetDateString:(NSDictionary*)d forKey:(NSString*)key fallback:(double)fallBack;
-+ (unsigned int)intFromHexString:(NSString *)hexStr;
-+ (NSDictionary*)getDictionaryFromUrl:(NSURL*)url;
++ (double)getDoubleFromDotNetDateString:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(double)fallBack;
++ (unsigned int)intFromHexString:(nonnull NSString *)hexStr;
++ (nonnull NSDictionary*)getDictionaryFromUrl:(nullable NSURL*)url;
 
-+ (id)fromJSONData:(NSData*)data;
-+ (id)fromJSONString:(NSString*)jsonString;
-+ (NSString*)toJSONString:(id)object;
-+ (NSDictionary*)fromJSONToDictionary:(NSString*)jsonString;
-+ (NSString*)fromDictionaryToJSON:(NSDictionary*)d;
-+ (NSArray*)fromJSONToArray:(NSString*)jsonString;
-+ (NSString*)fromArrayToJSON:(NSArray*)d;
++ (nullable id)fromJSONData:(nullable NSData*)data;
++ (nullable id)fromJSONString:(nullable NSString*)jsonString;
++ (nullable NSString*)toJSONString:(nullable id)object;
++ (nullable NSDictionary*)fromJSONToDictionary:(nullable NSString*)jsonString;
++ (nullable NSString*)fromDictionaryToJSON:(nullable NSDictionary*)d;
++ (nullable NSArray*)fromJSONToArray:(nullable NSString*)jsonString;
++ (nullable NSString*)fromArrayToJSON:(nullable NSArray*)d;
 
 @end
