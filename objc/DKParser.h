@@ -92,5 +92,6 @@
 + (nullable NSString*)fromDictionaryToJSON:(nullable NSDictionary*)d;
 + (nullable NSArray*)fromJSONToArray:(nullable NSString*)jsonString;
 + (nullable NSString*)fromArrayToJSON:(nullable NSArray*)d;
++ (nullable NSDictionary*)jsonSafeDictionary:(nullable NSDictionary*)d;
 
 @end

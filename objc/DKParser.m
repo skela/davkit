@@ -406,7 +406,6 @@
     return nil;
 }
 
-
 + (NSString*)toJSONString:(id)object
 {
     NSError *error = nil;
@@ -438,6 +437,29 @@
 + (NSString*)fromArrayToJSON:(NSArray*)d
 {
     return [DKParser toJSONString:d];
+}
+
++ (NSDictionary*)jsonSafeDictionary:(NSDictionary*)d
+{
+    if (d==nil) return nil;
+    NSMutableDictionary *md = [[NSMutableDictionary alloc] init];
+    for (id key in d.allKeys)
+    {
+        id val = [d objectForKey:key];
+        if ([val isKindOfClass:[NSDate class]])
+        {
+            [md setObject:@([((NSDate*)val) timeIntervalSince1970]) forKey:key];
+        }
+        else if ([val isKindOfClass:[UIColor class]])
+        {
+            [md setObject:[val hexRGBAString] forKey:key];
+        }
+        else
+        {
+            [md setObject:val forKey:key];
+        }
+    }
+    return md;
 }
 
 @end

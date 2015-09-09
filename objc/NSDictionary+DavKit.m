@@ -73,7 +73,8 @@
 
 - (NSString*)toJSON
 {
-    return [DKParser fromDictionaryToJSON:self];
+    NSDictionary *sd = [DKParser jsonSafeDictionary:self];
+    return [DKParser fromDictionaryToJSON:sd];
 }
 
 @end
