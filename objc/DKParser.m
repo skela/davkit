@@ -454,6 +454,10 @@
         {
             [md setObject:[val hexRGBAString] forKey:key];
         }
+        else if ([val isKindOfClass:NSClassFromString(@"DBList")])
+        {
+            [md setObject:[val values] forKey:key];
+        }
         else
         {
             [md setObject:val forKey:key];
