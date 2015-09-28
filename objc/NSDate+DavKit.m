@@ -8,12 +8,31 @@
 
 #import "NSDate+DavKit.h"
 
+
+#ifdef DKCalendarForiOS7
+#define DKCalendarUnitSecond NSSecondCalendarUnit
+#define DKCalendarUnitMinute NSMinuteCalendarUnit
+#define DKCalendarUnitHour NSHourCalendarUnit
+#define DKCalendarUnitDay NSDayCalendarUnit
+#define DKCalendarUnitMonth NSMonthCalendarUnit
+#define DKCalendarUnitYear NSYearCalendarUnit
+#define DKCalendarUnitEra NSEraCalendarUnit
+#else
+#define DKCalendarUnitSecond NSCalendarUnitSecond
+#define DKCalendarUnitMinute NSCalendarUnitMinute
+#define DKCalendarUnitHour NSCalendarUnitHour
+#define DKCalendarUnitDay NSCalendarUnitDay
+#define DKCalendarUnitMonth NSCalendarUnitMonth
+#define DKCalendarUnitYear NSCalendarUnitYear
+#define DKCalendarUnitEra NSCalendarUnitEra
+#endif
+
 @implementation NSDate (DavKit)
 
 - (BOOL)isToday
 {
-    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:self];
-    NSDateComponents *today = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+    NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:DKCalendarUnitEra|DKCalendarUnitYear|DKCalendarUnitMonth|DKCalendarUnitDay fromDate:self];
+    NSDateComponents *today = [[NSCalendar currentCalendar] components:DKCalendarUnitEra|DKCalendarUnitYear|DKCalendarUnitMonth|DKCalendarUnitDay fromDate:[NSDate date]];
     if([today day] == [otherDay day] && [today month] == [otherDay month] && [today year] == [otherDay year] && [today era] == [otherDay era])
     {
         return YES;
@@ -24,7 +43,7 @@
 - (BOOL)isYesterday
 {
     NSTimeInterval interval = [self timeIntervalSince1970];
-    NSDateComponents*comps = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:[NSDate dateWithTimeIntervalSince1970:interval] toDate:[NSDate date] options:0];
+    NSDateComponents*comps = [[NSCalendar currentCalendar] components:DKCalendarUnitDay|DKCalendarUnitHour|DKCalendarUnitMinute|DKCalendarUnitSecond fromDate:[NSDate dateWithTimeIntervalSince1970:interval] toDate:[NSDate date] options:0];
 	NSInteger val;
 	val = [comps day];
 	if (val==1)
