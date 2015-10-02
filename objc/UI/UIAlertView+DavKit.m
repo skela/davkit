@@ -478,10 +478,22 @@ static NSMutableArray *legacy = nil;
         if (self.alert.popoverPresentationController!=nil)
         {
             if (container!=nil && [container isKindOfClass:[UIBarButtonItem class]])
+            {
                 self.alert.popoverPresentationController.barButtonItem = (UIBarButtonItem*)container;
+            }
+            else if (container!=nil && [container isKindOfClass:[UIView class]])
+            {
+                UIView *v = (UIView*)container;
+                self.alert.popoverPresentationController.sourceView = v;
+                self.alert.popoverPresentationController.sourceRect = v.bounds;
+            }
             else
+            {
+                self.alert.popoverPresentationController.permittedArrowDirections = 0;
                 self.alert.popoverPresentationController.sourceView = parent.view;
-        }        
+                self.alert.popoverPresentationController.sourceRect = parent.view.frame;
+            }
+        }
         [parent presentViewController:self.alert animated:YES completion:nil];
     }
     if (self.view!=nil)
