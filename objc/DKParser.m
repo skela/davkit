@@ -466,4 +466,25 @@
     return md;
 }
 
++ (NSDictionary*)convertDictValues:(NSDictionary*)d usingFormatters:(NSDictionary*)formatters
+{
+    if (formatters==nil || d==nil)
+        return d;
+    
+    NSMutableDictionary *md = [[NSMutableDictionary alloc] initWithDictionary:d];
+    for (id fkey in formatters.allKeys)
+    {
+        Class c = [d objectForKey:fkey];
+        if ([NSDate class] == c)
+        {
+            NSDate *date = [DKParser getDate:md forKey:fkey fallback:nil];
+            if (date!=nil)
+            {
+                [md setObject:date forKey:fkey];
+            }
+        }
+    }
+    return md;
+}
+
 @end

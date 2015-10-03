@@ -93,5 +93,6 @@
 + (nullable NSArray*)fromJSONToArray:(nullable NSString*)jsonString;
 + (nullable NSString*)fromArrayToJSON:(nullable NSArray*)d;
 + (nullable NSDictionary*)jsonSafeDictionary:(nullable NSDictionary*)d;
++ (nullable NSDictionary*)convertDictValues:(nullable NSDictionary*)d usingFormatters:(nullable NSDictionary*)formatters;
 
 @end
