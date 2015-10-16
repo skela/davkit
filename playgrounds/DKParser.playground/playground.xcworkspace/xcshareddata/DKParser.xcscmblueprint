@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "E9822636393A145EC785292CDB763336A69666B2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E9822636393A145EC785292CDB763336A69666B2" : 0,
+    "602F40AC3B98757174164DE43ED915670E2399B6" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "5CFE86CF-3ED7-4AAE-B424-B39FD0E3E296",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E9822636393A145EC785292CDB763336A69666B2" : "DavKit\/",
+    "602F40AC3B98757174164DE43ED915670E2399B6" : ".."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "DKParser",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "playgrounds\/DKParser.playground",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/bitbucket.org\/construct-mobile-team\/construct-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "602F40AC3B98757174164DE43ED915670E2399B6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:skela\/davkit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E9822636393A145EC785292CDB763336A69666B2"
+    }
+  ]
+}
