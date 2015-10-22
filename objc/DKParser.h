@@ -16,6 +16,7 @@
 
 @end
 
+@class DKDateId;
 @interface DKParser : NSObject
 
 + (nullable id)getObject:(nullable NSDictionary*)d ofClass:(nonnull Class)classe forKey:(nonnull NSString*)key fallback:(nullable id)fallBack;
@@ -32,6 +33,7 @@
 + (long)getLong:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(long)fallBack;
 + (long long)getLongLong:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(long long)fallBack;
 + (nullable SEL)getSelector:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable SEL)fallBack;
++ (nullable DKDateId*)getDateId:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable DKDateId*)fallBack;
 
 + (nullable id)getObject:(nullable NSDictionary*)d ofClass:(nonnull Class)classe forKeys:(nonnull NSArray*)keys fallback:(nullable id)fallBack;
 + (nullable NSValue*)getValue:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(nullable NSValue*)fallBack;
@@ -72,6 +74,8 @@
 + (void)setDate:(nullable NSDate*)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
 + (void)setRect:(CGRect)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
 
++ (void)setDateId:(nullable NSDate*)date withId:(nullable NSString*)Id forKey:(nonnull NSString*)key inDict:(nonnull NSMutableDictionary*)dict;
++ (void)setDateId:(nullable DKDateId*)dateId forKey:(nonnull NSString*)key inDict:(nonnull NSMutableDictionary*)dict;
 
 // For example a normal string from .NET systems for timestamps could be: "/Date(1378151009864)/"
 // In this case the inputs for this function would be startsWith:@"/Date(" endsWith:@")/"
@@ -95,4 +99,13 @@
 + (nullable NSDictionary*)jsonSafeDictionary:(nullable NSDictionary*)d;
 + (nullable NSDictionary*)convertDictValues:(nullable NSDictionary*)d usingFormatters:(nullable NSDictionary*)formatters;
 
+@end
+
+@interface DKDateId : NSObject
+@property(nonatomic,strong,nullable) NSString *value;
+- (nullable instancetype)initWithString:(nullable NSString*)s;
+- (nonnull instancetype)initWithDate:(nonnull NSDate*)aDate andId:(nonnull NSString*)anId;
+- (void)setDate:(nonnull NSDate*)aDate andId:(nonnull NSString*)anId;
+- (nullable NSString*)Id;
+- (nullable NSDate*)date;
 @end
