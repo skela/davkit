@@ -7,6 +7,7 @@
 //
 
 #import "UIAlertView+DavKit.h"
+#import "DKDevice.h"
 #import <objc/runtime.h>
 
 @interface DKAlertInputView (Internal)
