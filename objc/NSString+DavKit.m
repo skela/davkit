@@ -200,6 +200,24 @@
     return [DKEncryptor decryptString:self usingMethod:encryptionMethod withKey:key];
 }
 
+- (NSString *)base64
+{
+    NSData *plainData = [self dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64String;
+    if ([plainData respondsToSelector:@selector(base64EncodedStringWithOptions:)])
+    {
+        base64String = [plainData base64EncodedStringWithOptions:kNilOptions];
+    }
+    else
+    {
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+        base64String = [plainData base64Encoding];
+        #pragma GCC diagnostic pop
+    }
+    return base64String;
+}
+
 @end
 
 @implementation DKStringHelper

@@ -51,6 +51,7 @@ typedef enum
 - (NSString*)SHA1;
 - (NSString*)SHA224;
 - (NSString*)SHA256;
+- (NSString *)base64;
 
 @end
 
