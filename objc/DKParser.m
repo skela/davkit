@@ -7,6 +7,7 @@
 //
 
 #import "DKParser.h"
+#import "UIColor+DavKit.h"
 
 @implementation DKParser
 

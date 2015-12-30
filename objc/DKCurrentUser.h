@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 // Subclass or wrap this in your own CurrentUser / Settings class
 // for maximum potential.

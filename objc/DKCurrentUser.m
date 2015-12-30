@@ -9,7 +9,7 @@
 #import "DKCurrentUser.h"
 
 #ifndef DK_CURRENT_USER_SYNC_ON_SET
-#define DK_CURRENT_USER_SYNC_ON_SET NO
+#define DK_CURRENT_USER_SYNC_ON_SET YES
 #endif
 
 @implementation DKCurrentUser

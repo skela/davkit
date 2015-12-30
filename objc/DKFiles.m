@@ -7,7 +7,7 @@
 //
 
 #import "DKFiles.h"
-
+#import "NSString+DavKit.h"
 #import <CoreFoundation/CoreFoundation.h>
 #import <CommonCrypto/CommonDigest.h>
 
