@@ -22,4 +22,6 @@
 + (NSDate*)overmorrow;
 + (NSDate*)lastWeek;
 
+- (NSString*)ISO8601String;
+
 @end

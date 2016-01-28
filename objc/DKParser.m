@@ -492,6 +492,33 @@
     return md;
 }
 
++ (NSDictionary*)jsonSafeDictionaryISO:(NSDictionary*)d
+{
+    if (d==nil) return nil;
+    NSMutableDictionary *md = [[NSMutableDictionary alloc] init];
+    for (id key in d.allKeys)
+    {
+        id val = [d objectForKey:key];
+        if ([val isKindOfClass:[NSDate class]])
+        {
+            [md setObject:[val ISO8601String] forKey:key];
+        }
+        else if ([val isKindOfClass:[UIColor class]])
+        {
+            [md setObject:[val hexRGBAString] forKey:key];
+        }
+        else if ([val isKindOfClass:NSClassFromString(@"DBList")])
+        {
+            [md setObject:[val values] forKey:key];
+        }
+        else
+        {
+            [md setObject:val forKey:key];
+        }
+    }
+    return md;
+}
+
 + (NSDictionary*)convertDictValues:(NSDictionary*)d usingFormatters:(NSDictionary*)formatters
 {
     if (formatters==nil || d==nil)

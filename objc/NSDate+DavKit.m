@@ -91,4 +91,12 @@
     return [NSDate dateWithTimeIntervalSince1970:[[NSDate date]timeIntervalSince1970]-604800];
 }
 
+- (NSString*)ISO8601String
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
+    [df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+    return [df stringFromDate:self];
+}
+
 @end
