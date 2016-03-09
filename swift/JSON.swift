@@ -25,15 +25,41 @@ public class JSON
             let js = try NSJSONSerialization.JSONObjectWithData(data!,options:optns)
             guard let jsdict : NSDictionary = js as? NSDictionary else
             {
-                print("JSON: Not a Dictionary")
+                print("DavKit.JSON: Not a Dictionary")
                 return nil
             }
-            print("JSONDictionary! \(jsdict)")
             return jsdict
         }
         catch let JSONError as NSError
         {
-            print("JSON: \(JSONError)")
+            print("DavKit.JSON: \(JSONError)")
+        }
+        return nil
+    }
+    
+    class func fromStringToArray(str:String?,encoding:NSStringEncoding=NSUTF8StringEncoding) -> NSArray?
+    {
+        if str == nil { return nil }
+        return fromDataToArray(str!.dataUsingEncoding(encoding))
+    }
+    
+    class func fromDataToArray(data:NSData?) -> NSArray?
+    {
+        if data == nil { return nil }
+        do
+        {
+            let optns = NSJSONReadingOptions(rawValue:0)
+            let js = try NSJSONSerialization.JSONObjectWithData(data!,options:optns)
+            guard let jsarr : NSArray = js as? NSArray else
+            {
+                print("DavKit.JSON: Not an Array")
+                return nil
+            }
+            return jsarr
+        }
+        catch let JSONError as NSError
+        {
+            print("DavKit.JSON: \(JSONError)")
         }
         return nil
     }
@@ -48,7 +74,7 @@ public class JSON
         }
         catch let er as NSError
         {
-            print("JSON Serialization Failed: \(er)")
+            print("DavKit.JSON Serialization Failed: \(er)")
         }
         return nil
     }
@@ -78,7 +104,7 @@ extension String : JSONKeyType
 
 extension String
 {
-    public var fromJSON : [String:NSObject]?
+    public var fromJson : [String:NSObject]?
     {
         let d = JSON.fromString(self)
         return d as? [String:NSObject]
@@ -87,7 +113,7 @@ extension String
 
 public extension Dictionary where Key:JSONKeyType,Value:AnyObject
 {
-    public var toJSON : String?
+    public var toJson : String?
     {
         let any = self as! AnyObject
         return JSON.toString(any)
@@ -96,10 +122,17 @@ public extension Dictionary where Key:JSONKeyType,Value:AnyObject
 
 public extension Dictionary where Key:JSONKeyType,Value:NSObject
 {
-    public var toJSONLegacy : String?
+    public var toJsonLegacy : String?
     {
         let any = self as! AnyObject
         return JSON.toString(any)
     }
 }
 
+public extension NSDictionary
+{
+    public var toJson : String?
+    {
+        return JSON.toString(self)
+    }
+}

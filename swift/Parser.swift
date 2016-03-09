@@ -7,6 +7,158 @@ protocol IDKList : NSObjectProtocol
     func values() -> NSArray?
 }
 
+public extension UIColor
+{
+    var colorSpaceModel : CGColorSpaceModel
+        {
+            return CGColorSpaceGetModel(CGColorGetColorSpace(CGColor));
+    }
+    
+    var canProvideRGBComponents : Bool
+        {
+            let csm = colorSpaceModel
+            return csm == .RGB || csm == .Monochrome
+    }
+    
+    func rgbComponent(index:Int) -> CGFloat
+    {
+        if !canProvideRGBComponents
+        {
+            print("Must be a rgb color to get RGB components")
+            return 0
+        }
+        let c = CGColorGetComponents(CGColor);
+        if colorSpaceModel == .Monochrome { return c[0] }
+        return c[index]
+    }
+    
+    var red : CGFloat
+        {
+            return rgbComponent(0)
+    }
+    
+    var green : CGFloat
+        {
+            return rgbComponent(1)
+    }
+    
+    var blue : CGFloat
+        {
+            return rgbComponent(2)
+    }
+    
+    var alpha : CGFloat
+        {
+            return CGColorGetAlpha(CGColor)
+    }
+}
+
+public extension DKParser
+{
+    class func colorFromHexString(s:String) -> UIColor?
+    {
+        var rgbValue : UInt32 = 0;
+        let scanner = NSScanner(string: s)
+        if s.hasPrefix("#")
+        {
+            scanner.scanLocation = 1
+        }
+        scanner.scanHexInt(&rgbValue)
+        
+        let hex = Int(rgbValue)
+        
+        var red : CGFloat = 0
+        var green : CGFloat = 0
+        var blue : CGFloat = 0
+        var alpha : CGFloat = 1
+        
+        if s.characters.count == 8 || s.characters.count == 9
+        {
+            let div : CGFloat = 255
+            red     = CGFloat((hex & 0xFF000000) >> 24) / div
+            green   = CGFloat((hex & 0x00FF0000) >> 16) / div
+            blue    = CGFloat((hex & 0x0000FF00) >>  8) / div
+            alpha   = CGFloat( hex & 0x000000FF       ) / div
+        }
+        else
+        {
+            red = CGFloat((hex >> 16) & 0xff)
+            green = CGFloat((hex >> 8) & 0xff)
+            blue = CGFloat(hex & 0xff)
+        }
+        
+        return UIColor(red:red, green:green, blue:blue, alpha:alpha)
+    }
+    
+    class func colorFromRgbString(string:String) -> UIColor?
+    {
+        var r : CGFloat = 0
+        var g : CGFloat = 0
+        var b : CGFloat = 0
+        var a : CGFloat = 1.0
+        if let rs = string.rangeOfString("(")
+        {
+            if let ls = string.rangeOfString(")")
+            {
+                func floatFromComponent(s:String) -> CGFloat
+                {
+                    if let i = Float(s)
+                    {
+                        return CGFloat(i)
+                    }
+                    return 0.0
+                }
+                
+                let sub = string.substringToIndex(ls.startIndex).substringFromIndex(rs.startIndex.advancedBy(1))
+                let comps = sub.componentsSeparatedByString(",")
+                if comps.count == 4
+                {
+                    r = floatFromComponent(comps[0]) / 255.0
+                    g = floatFromComponent(comps[1]) / 255.0
+                    b = floatFromComponent(comps[2]) / 255.0
+                    a = floatFromComponent(comps[3])
+                }
+                else if comps.count == 3
+                {
+                    r = floatFromComponent(comps[0]) / 255.0
+                    g = floatFromComponent(comps[1]) / 255.0
+                    b = floatFromComponent(comps[2]) / 255.0
+                }
+            }
+        }
+        return UIColor(red:r,green:g,blue:b,alpha:a)
+    }
+    
+    class func colorFromString(s:String) -> UIColor?
+    {
+        if s.hasPrefix("rgb")
+        {
+            return colorFromRgbString(s)
+        }
+        else if s == "transparent"
+        {
+            return UIColor.clearColor()
+        }
+        else
+        {
+            return colorFromHexString(s)
+        }
+    }
+    
+    class func colorToHexRGBA(u:UIColor) -> String
+    {
+        let r = u.red
+        let g = u.green
+        let b = u.blue
+        let a = u.alpha
+        let ri = Int(r*255)
+        let gi = Int(g*255)
+        let bi = Int(b*255)
+        let ai = Int(a*255)
+        return String(format:"#%02x%02x%02x%02x",ri,gi,bi,ai)
+    }
+}
+
 public class DKParser
 {
     public class func getObject(d:NSDictionary?,ofClass classe:AnyClass,forKey key:String,fallback:AnyObject?) -> AnyObject?
@@ -69,11 +221,6 @@ public class DKParser
         return getObject(d,ofClass:NSDictionary.self,forKey:key,fallback:fallback) as? NSDictionary
     }
     
-    public class func getString(d:NSDictionary?,forKey key:String, fallback:String?) -> String?
-    {
-        return getObject(d,ofClass:object_getClass(""),forKey:key,fallback:fallback) as? String
-    }
-    
     public class func getNumber(d:NSDictionary?,forKey key:String, fallback:NSNumber?) -> NSNumber?
     {
         return getObject(d,ofClass:NSNumber.self,forKey:key,fallback:fallback) as? NSNumber
@@ -124,11 +271,6 @@ public class DKParser
         return getObject(d,ofClass:NSDictionary.self,forKeys:keys,fallback:fallback) as? NSDictionary
     }
     
-    public class func getString(d:NSDictionary?,forKeys keys:Array<String>, fallback:String?) -> String?
-    {
-        return getObject(d,ofClass:object_getClass(""),forKeys:keys,fallback:fallback) as? String
-    }
-    
     public class func getNumber(d:NSDictionary?,forKeys keys:Array<String>, fallback:NSNumber?) -> NSNumber?
     {
         return getObject(d,ofClass:NSNumber.self,forKeys:keys,fallback:fallback) as? NSNumber
@@ -162,6 +304,27 @@ public class DKParser
     public class func getLongLong(d:NSDictionary?,forKeys keys:Array<String>, fallback:Int64) -> Int64
     {
         return getSafeNumber(d, forKeys: keys, fallback:NSNumber(longLong:fallback)).longLongValue
+    }
+    
+    public class func getString(d:NSDictionary?,forKey key:String, fallback:String?) -> String?
+    {
+        if let od = d
+        {
+            if let obj = od.objectForKey(key) as? String
+            {
+                return obj
+            }
+        }
+        return fallback
+    }
+    
+    public class func getString(d:NSDictionary?,forKeys keys:Array<String>, fallback:String?) -> String?
+    {
+        for key in keys
+        {
+            if let obj = getString(d,forKey:key,fallback:nil) { return obj }
+        }
+        return fallback
     }
     
     public class func getDate(d:NSDictionary?,forKey key:String,fallback:NSDate?) -> NSDate?
@@ -206,6 +369,28 @@ public class DKParser
             }
         }
         return getArray(d,forKey:key,fallback:fallback)
+    }
+    
+    public class func getColor(d:NSDictionary?,forKey key:String,fallback:UIColor?) -> UIColor?
+    {
+        if let s = d?.objectForKey(key) as? String
+        {
+            return colorFromString(s)
+        }
+        if let u = d?.objectForKey(key) as? UIColor
+        {
+            return u
+        }
+        return fallback
+    }
+    
+    public class func getColor(d:NSDictionary?,forKeys keys:Array<String>,fallback:UIColor?) -> UIColor?
+    {
+        for key in keys
+        {
+            if let obj = getColor(d,forKey:key,fallback:nil) { return obj }
+        }
+        return fallback
     }
     
     // MARK: Setters
@@ -295,6 +480,27 @@ public class DKParser
         else
         {
             setObject(val, forKey:key, inDict:dict, replacement:replacement)
+        }
+    }
+    
+    public class func setColor(val:UIColor?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:UIColor?=nil,convert:Bool=true)
+    {
+        func convert(clr:UIColor) -> String
+        {
+            return colorToHexRGBA(clr)
+        }
+        
+        if let v = val
+        {
+            setObject(convert(v), forKey:key, inDict:dict, replacement:nil)
+        }
+        else if let r = replacement
+        {
+            setObject(convert(r), forKey:key, inDict:dict, replacement:nil)
+        }
+        else
+        {
+            setObject(nil, forKey:key, inDict:dict, replacement:nil)
         }
     }
 }
