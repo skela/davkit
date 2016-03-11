@@ -136,3 +136,12 @@ public extension NSDictionary
         return JSON.toString(self)
     }
 }
+
+public extension NSData
+{
+    public var fromJson : [String:NSObject]?
+    {
+        let d = JSON.fromData(self)
+        return d as? [String:NSObject]
+    }
+}
