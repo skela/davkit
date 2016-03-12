@@ -60,18 +60,13 @@
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
-- (void)displayWarning:(NSString*)warning
-{
-    // TODO: FIll this in.
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     [self setupScanSession];
     
-    [self updateInterfaceOrientation:self.interfaceOrientation animated:NO duration:0];
+    [self updateInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation] animated:NO duration:0];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -185,16 +180,13 @@
     [self setdownScanSession];
 }
 
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-didOutputMetadataObjects:(NSArray *)metadataObjects
-       fromConnection:(AVCaptureConnection *)connection
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
     NSString *code = nil;
     
     for (AVMetadataMachineReadableCodeObject* metadata in metadataObjects)
     {
         code = [metadata stringValue];
-        //NSLog(@"scanned code: %@ of type: %@",code,metadata.type);
     }
     
     if (!isClosing && self.delegate!=nil)
