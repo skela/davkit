@@ -139,7 +139,7 @@ context.hashObjectPointer = (uint8_t **)&hashObjectFor##hashAlgorithmName
             break;
         }
 
-        [data getBytes:buffer];
+        [data getBytes:buffer length:chunkSizeForReadingData];
         
         (*context->updateFunction)(context->hashObjectPointer, (const void *)buffer, (CC_LONG)[data length]);
     }
