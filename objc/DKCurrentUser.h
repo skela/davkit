@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 // Subclass or wrap this in your own CurrentUser / Settings class
 // for maximum potential.
