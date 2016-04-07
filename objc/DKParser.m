@@ -87,6 +87,11 @@
     return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] floatValue];
 }
 
++ (CGFloat)getCGFloat:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(CGFloat)fallBack
+{
+    return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] floatValue];
+}
+
 + (long)getLong:(NSDictionary*)d forKey:(NSString*)key fallback:(long)fallBack
 {
     return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] longValue];

@@ -10,6 +10,11 @@ import Foundation
 
 public class JSON
 {
+    internal class func log(msg:String)
+    {
+        DavKit.log("JSON",msg)
+    }
+    
     class func fromString(str:String?,encoding:NSStringEncoding=NSUTF8StringEncoding) -> NSDictionary?
     {
         if str == nil { return nil }
@@ -25,14 +30,14 @@ public class JSON
             let js = try NSJSONSerialization.JSONObjectWithData(data!,options:optns)
             guard let jsdict : NSDictionary = js as? NSDictionary else
             {
-                print("DavKit.JSON: Not a Dictionary")
+                log("Not a Dictionary")
                 return nil
             }
             return jsdict
         }
         catch let JSONError as NSError
         {
-            print("DavKit.JSON: \(JSONError)")
+            log("\(JSONError)")
         }
         return nil
     }
@@ -52,14 +57,14 @@ public class JSON
             let js = try NSJSONSerialization.JSONObjectWithData(data!,options:optns)
             guard let jsarr : NSArray = js as? NSArray else
             {
-                print("DavKit.JSON: Not an Array")
+                log("Not an Array")
                 return nil
             }
             return jsarr
         }
         catch let JSONError as NSError
         {
-            print("DavKit.JSON: \(JSONError)")
+            log("\(JSONError)")
         }
         return nil
     }
@@ -74,7 +79,7 @@ public class JSON
         }
         catch let er as NSError
         {
-            print("DavKit.JSON Serialization Failed: \(er)")
+            log("Serialization Failed: \(er)")
         }
         return nil
     }

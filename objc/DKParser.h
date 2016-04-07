@@ -28,6 +28,7 @@
 + (BOOL)getBool:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(BOOL)fallBack;
 + (double)getDouble:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(double)fallBack;
 + (CGFloat)getFloat:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(CGFloat)fallBack;
++ (CGFloat)getCGFloat:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(CGFloat)fallBack;
 + (nullable NSArray*)getArray:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable NSArray*)fallBack;
 + (nullable NSDictionary*)getDictionary:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable NSDictionary*)fallBack;
 + (long)getLong:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(long)fallBack;
