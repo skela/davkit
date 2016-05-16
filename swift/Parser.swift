@@ -381,6 +381,15 @@ public class DKParser
         return getArray(d,forKey:key,fallback:fallback)
     }
     
+    public class func getStringList(d:NSDictionary?,forKey key:String, fallback:Array<String>?) -> Array<String>?
+    {
+        if let ar = getList(d,forKey:key,fallback:nil) as? Array<String>
+        {
+            return ar
+        }
+        return fallback
+    }
+    
     public class func getColor(d:NSDictionary?,forKey key:String,fallback:UIColor?) -> UIColor?
     {
         if let s = d?.objectForKey(key) as? String
