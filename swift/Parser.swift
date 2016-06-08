@@ -465,6 +465,18 @@ public class DKParser
         return p;
     }
     
+    public class func getDateId(d:NSDictionary?,forKey key:String, fallback:DKDateId?) -> DKDateId?
+    {
+        if let s = getString(d,forKey:key,fallback:nil)
+        {
+            if let d = DKDateId(string:s)
+            {
+                return d
+            }
+        }
+        return fallback
+    }
+    
     // MARK: Setters
     
     public class func setObject(val:AnyObject?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:AnyObject?)
@@ -580,5 +592,10 @@ public class DKParser
     {
         let point = NSStringFromCGPoint(val)
         setObject(point,forKey:key,inDict:dict,replacement:nil)
+    }
+    
+    public class func setDateId(val:DKDateId?,forKey key:String,inDict dict:NSMutableDictionary?)
+    {
+        setString(val?.value,forKey:key,inDict:dict)
     }
 }
