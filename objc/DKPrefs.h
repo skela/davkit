@@ -12,7 +12,7 @@
 // Subclass or wrap this in your own CurrentUser / Settings class
 // for maximum potential.
 
-@interface DKCurrentUser : NSObject
+@interface DKPrefs : NSObject
 
 + (void)clear;
 + (BOOL)sync;

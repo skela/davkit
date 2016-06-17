@@ -12,7 +12,7 @@
 
 #import "DKApp.h"
 #import "DKDevice.h"
-#import "DKCurrentUser.h"
+#import "DKPrefs.h"
 #import "DKResources.h"
 #import "NSString+DavKit.h"
 #import "NSArray+DavKit.h"
