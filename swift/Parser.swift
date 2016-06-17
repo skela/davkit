@@ -10,21 +10,21 @@ protocol IDKList : NSObjectProtocol
 public extension UIColor
 {
     var colorSpaceModel : CGColorSpaceModel
-        {
-            return CGColorSpaceGetModel(CGColorGetColorSpace(CGColor));
+    {
+        return CGColorSpaceGetModel(CGColorGetColorSpace(CGColor));
     }
     
     var canProvideRGBComponents : Bool
-        {
-            let csm = colorSpaceModel
-            return csm == .RGB || csm == .Monochrome
+    {
+        let csm = colorSpaceModel
+        return csm == .RGB || csm == .Monochrome
     }
     
     func rgbComponent(index:Int) -> CGFloat
     {
         if !canProvideRGBComponents
         {
-            print("Must be a rgb color to get RGB components")
+            DavKit.log("UIColor","Must be a rgb color to get RGB components")
             return 0
         }
         let c = CGColorGetComponents(CGColor);
@@ -33,23 +33,23 @@ public extension UIColor
     }
     
     var red : CGFloat
-        {
-            return rgbComponent(0)
+    {
+        return rgbComponent(0)
     }
     
     var green : CGFloat
-        {
-            return rgbComponent(1)
+    {
+        return rgbComponent(1)
     }
     
     var blue : CGFloat
-        {
-            return rgbComponent(2)
+    {
+        return rgbComponent(2)
     }
     
     var alpha : CGFloat
-        {
-            return CGColorGetAlpha(CGColor)
+    {
+        return CGColorGetAlpha(CGColor)
     }
 }
 
@@ -241,6 +241,11 @@ public class DKParser
         return getSafeNumber(d, forKey: key, fallback:fallback).floatValue
     }
     
+    public class func getCGFloat(d:NSDictionary?,forKey key:String, fallback:CGFloat) -> CGFloat
+    {
+        return CGFloat(getSafeNumber(d, forKey: key, fallback:fallback).floatValue)
+    }
+    
     public class func getDouble(d:NSDictionary?,forKey key:String, fallback:Double) -> Double
     {
         return getSafeNumber(d, forKey: key, fallback:fallback).doubleValue
@@ -289,6 +294,11 @@ public class DKParser
     public class func getFloat(d:NSDictionary?,forKeys keys:Array<String>, fallback:Float) -> Float
     {
         return getSafeNumber(d, forKeys: keys, fallback:fallback).floatValue
+    }
+    
+    public class func getCGFloat(d:NSDictionary?,forKeys keys:Array<String>, fallback:CGFloat) -> CGFloat
+    {
+        return CGFloat(getSafeNumber(d, forKeys: keys, fallback:fallback).floatValue)
     }
     
     public class func getDouble(d:NSDictionary?,forKeys keys:Array<String>, fallback:Double) -> Double
@@ -371,6 +381,15 @@ public class DKParser
         return getArray(d,forKey:key,fallback:fallback)
     }
     
+    public class func getStringList(d:NSDictionary?,forKey key:String, fallback:Array<String>?) -> Array<String>?
+    {
+        if let ar = getList(d,forKey:key,fallback:nil) as? Array<String>
+        {
+            return ar
+        }
+        return fallback
+    }
+    
     public class func getColor(d:NSDictionary?,forKey key:String,fallback:UIColor?) -> UIColor?
     {
         if let s = d?.objectForKey(key) as? String
@@ -389,6 +408,71 @@ public class DKParser
         for key in keys
         {
             if let obj = getColor(d,forKey:key,fallback:nil) { return obj }
+        }
+        return fallback
+    }
+    
+    public class func getPoint(d:NSDictionary?,forKey key:String, fallback:CGPoint) -> CGPoint
+    {
+        return getPoint(d,forKeys:[key],fallback:fallback)
+    }
+    
+    public class func getPoint(d:NSDictionary?,forKeys keys:Array<String>, fallback:CGPoint) -> CGPoint
+    {
+        var p = fallback
+        for key in keys
+        {
+            let obj = d?.objectForKey(key)
+            if obj is String
+            {
+                let s = obj as! String
+                if s.hasPrefix("{")
+                {
+                    let jd = s.fromJson
+                    if jd == nil
+                    {
+                        p = CGPointFromString(s);
+                    }
+                    else
+                    {
+                        p.x = getCGFloat(jd,forKeys:["x","a"],fallback:p.x)
+                        p.y = getCGFloat(jd,forKeys:["y","b"],fallback:p.y)
+                    }
+                }
+                else
+                {
+                    p = CGPointFromString(s);
+                }
+            }
+            else if obj is NSNumber
+            {
+                let n = obj as! NSNumber
+                if key == "x" || key == "a"
+                {
+                    p.x = CGFloat(n.floatValue)
+                }
+                else if key == "y" || key == "b"
+                {
+                    p.y = CGFloat(n.floatValue)
+                }
+            }
+            else if obj is NSValue
+            {
+                let v = obj as! NSValue
+                p = v.CGPointValue()
+            }
+        }
+        return p;
+    }
+    
+    public class func getDateId(d:NSDictionary?,forKey key:String, fallback:DKDateId?) -> DKDateId?
+    {
+        if let s = getString(d,forKey:key,fallback:nil)
+        {
+            if let d = DKDateId(string:s)
+            {
+                return d
+            }
         }
         return fallback
     }
@@ -502,5 +586,16 @@ public class DKParser
         {
             setObject(nil, forKey:key, inDict:dict, replacement:nil)
         }
+    }
+    
+    public class func setPoint(val:CGPoint,forKey key:String,inDict dict:NSMutableDictionary?)
+    {
+        let point = NSStringFromCGPoint(val)
+        setObject(point,forKey:key,inDict:dict,replacement:nil)
+    }
+    
+    public class func setDateId(val:DKDateId?,forKey key:String,inDict dict:NSMutableDictionary?)
+    {
+        setString(val?.value,forKey:key,inDict:dict)
     }
 }

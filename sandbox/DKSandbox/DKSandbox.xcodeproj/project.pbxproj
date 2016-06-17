@@ -14,7 +14,9 @@
 		C63F3D4F1BAFCA0300FE96A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C63F3D4D1BAFCA0300FE96A3 /* LaunchScreen.storyboard */; };
 		C63F3D5A1BAFCA0300FE96A3 /* DKSandboxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63F3D591BAFCA0300FE96A3 /* DKSandboxTests.swift */; };
 		C63F3D651BAFCA0300FE96A3 /* DKSandboxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63F3D641BAFCA0300FE96A3 /* DKSandboxUITests.swift */; };
-		C63F3D751BAFCEAA00FE96A3 /* DKParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63F3D741BAFCEAA00FE96A3 /* DKParser.swift */; settings = {ASSET_TAGS = (); }; };
+		C69C095E1CB4ED03007EF13C /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69C095C1CB4ED03007EF13C /* JSON.swift */; };
+		C69C095F1CB4ED03007EF13C /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69C095D1CB4ED03007EF13C /* Parser.swift */; };
+		C69C09621CB4F1F9007EF13C /* DavKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69C09611CB4F1F9007EF13C /* DavKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +50,9 @@
 		C63F3D601BAFCA0300FE96A3 /* DKSandboxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DKSandboxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C63F3D641BAFCA0300FE96A3 /* DKSandboxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKSandboxUITests.swift; sourceTree = "<group>"; };
 		C63F3D661BAFCA0300FE96A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C63F3D741BAFCEAA00FE96A3 /* DKParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DKParser.swift; path = ../../swift/DKParser.swift; sourceTree = "<group>"; };
+		C69C095C1CB4ED03007EF13C /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSON.swift; path = ../../swift/JSON.swift; sourceTree = "<group>"; };
+		C69C095D1CB4ED03007EF13C /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = ../../swift/Parser.swift; sourceTree = "<group>"; };
+		C69C09611CB4F1F9007EF13C /* DavKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DavKit.swift; path = ../../swift/DavKit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +83,9 @@
 		C63F3D381BAFCA0300FE96A3 = {
 			isa = PBXGroup;
 			children = (
-				C63F3D741BAFCEAA00FE96A3 /* DKParser.swift */,
+				C69C09611CB4F1F9007EF13C /* DavKit.swift */,
+				C69C095C1CB4ED03007EF13C /* JSON.swift */,
+				C69C095D1CB4ED03007EF13C /* Parser.swift */,
 				C63F3D431BAFCA0300FE96A3 /* DKSandbox */,
 				C63F3D581BAFCA0300FE96A3 /* DKSandboxTests */,
 				C63F3D631BAFCA0300FE96A3 /* DKSandboxUITests */,
@@ -258,8 +264,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C69C095F1CB4ED03007EF13C /* Parser.swift in Sources */,
+				C69C095E1CB4ED03007EF13C /* JSON.swift in Sources */,
 				C63F3D471BAFCA0300FE96A3 /* ViewController.swift in Sources */,
-				C63F3D751BAFCEAA00FE96A3 /* DKParser.swift in Sources */,
+				C69C09621CB4F1F9007EF13C /* DavKit.swift in Sources */,
 				C63F3D451BAFCA0300FE96A3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
