@@ -36,6 +36,11 @@
     return [DKParser getObject:self ofClass:[NSDictionary class] forKey:key fallback:fallBack];
 }
 
+- (NSDate*)getDate:(NSString*)key fallback:(NSDate*)fallback
+{
+    return [DKParser getDate:self forKey:key fallback:fallback];
+}
+
 - (NSInteger)getInteger:(NSString*)key fallback:(NSInteger)fallBack
 {
     return [DKParser getInteger:self forKey:key fallback:fallBack];

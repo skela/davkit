@@ -20,6 +20,7 @@
 - (NSString*)getString:(NSString*)key fallback:(NSString*)fallBack;
 - (NSArray*)getArray:(NSString*)key fallback:(NSArray*)fallBack;
 - (NSDictionary*)getDictionary:(NSString*)key fallback:(NSDictionary*)fallBack;
+- (NSDate*)getDate:(NSString*)key fallback:(NSDate*)fallback;
 - (NSInteger)getInteger:(NSString*)key fallback:(NSInteger)fallBack;
 - (long long)getLongLong:(NSString*)key fallback:(long long)fallBack;
 - (BOOL)getBool:(NSString*)key fallback:(BOOL)fallBack;
