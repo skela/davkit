@@ -35,7 +35,7 @@
     return self;
 }
 
-- (id)initWithBlock:(void (^)(DKBarcodeScanViewController*scanner,NSString *code))aBlock
+- (id)initWithBlock:(BOOL (^)(DKBarcodeScanViewController*scanner,NSString *code))aBlock
 {
     self = [super init];
     if (self)
@@ -197,10 +197,13 @@
         }
         else
         {
-            void (^block)(DKBarcodeScanViewController*scanner,NSString *code) = [DKUtils getBlockForObject:self withKey:kScanBlock];
+            BOOL (^block)(DKBarcodeScanViewController*scanner,NSString *code) = [DKUtils getBlockForObject:self withKey:kScanBlock];
             if (block!=NULL)
             {
-                block(self,code);
+                if (block(self,code))
+                {
+                    isClosing = YES;
+                }
             }
         }
     }
@@ -249,6 +252,21 @@
     CGImageRelease(cgImage);
     
     return img;
+}
+
++ (NSString*)scanQRCode:(UIImage*)image
+{
+    NSDictionary *optns = @{CIDetectorAccuracy:CIDetectorAccuracyHigh};
+    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:optns];
+    CIImage *cimg = [[CIImage alloc] initWithImage:image];
+    
+    NSArray *features = [detector featuresInImage:cimg];
+    for (CIQRCodeFeature *feature in features)
+    {
+        NSString *code = [feature messageString];
+        return code;
+    }
+    return nil;
 }
 
 @end

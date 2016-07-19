@@ -23,7 +23,7 @@
 @property(nonatomic,assign) id<DKBarcodeScanDelegate> delegate;
 @property(nonatomic,strong) UIView *cameraPreview;
 - (id)initWithDelegate:(id<DKBarcodeScanDelegate>)delegate;
-- (id)initWithBlock:(void (^)(DKBarcodeScanViewController*scanner,NSString *code))aBlock;
+- (id)initWithBlock:(BOOL (^)(DKBarcodeScanViewController*scanner,NSString *code))aBlock;
 - (void)terminate;
 + (BOOL)canScan;
 @end
@@ -31,5 +31,6 @@
 @interface DKBarcodes : NSObject
 
 + (UIImage*)createQRcode:(NSString*)text size:(CGFloat)size;
++ (NSString*)scanQRCode:(UIImage*)image;
 
 @end
