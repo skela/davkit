@@ -189,11 +189,14 @@
         code = [metadata stringValue];
     }
     
-    if (!isClosing && self.delegate!=nil)
+    if (!isClosing)
     {
         if (self.delegate!=nil)
         {
-            [self.delegate barcodeScanner:self scannedCode:code];
+            if (self.delegate!=nil)
+            {
+                [self.delegate barcodeScanner:self scannedCode:code];
+            }
         }
         else
         {
