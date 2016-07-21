@@ -27,10 +27,3 @@
 - (void)terminate;
 + (BOOL)canScan;
 @end
-
-@interface DKBarcodes : NSObject
-
-+ (UIImage*)createQRcode:(NSString*)text size:(CGFloat)size;
-+ (NSString*)scanQRCode:(UIImage*)image;
-
-@end
