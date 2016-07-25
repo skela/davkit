@@ -108,6 +108,6 @@
 - (nullable instancetype)initWithString:(nullable NSString*)s;
 - (nonnull instancetype)initWithDate:(nonnull NSDate*)aDate andId:(nonnull NSString*)anId;
 - (void)setDate:(nonnull NSDate*)aDate andId:(nonnull NSString*)anId;
-- (nullable NSString*)Id;
-- (nullable NSDate*)date;
+@property(nullable,nonatomic,readonly) NSString *Id;
+@property(nullable,nonatomic,readonly) NSDate *date;
 @end

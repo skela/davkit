@@ -576,7 +576,7 @@
 
 - (void)setDate:(NSDate*)aDate andId:(NSString*)anId
 {
-    self.value = [NSString stringWithFormat:@"%g|%@",[aDate timeIntervalSince1970],anId];
+    self.value = [NSString stringWithFormat:@"%f|%@",[aDate timeIntervalSince1970],anId];
 }
 
 - (NSArray*)components
