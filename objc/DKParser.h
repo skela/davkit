@@ -11,7 +11,7 @@
 
 @protocol DKJSON <NSObject>
 
-- (nonnull NSDictionary*)jsonSerialized;
+- (nonnull NSDictionary<NSString*,NSObject*>*)jsonSerialized;
 + (nonnull id)jsonDeserialize:(nullable NSDictionary*)json;
 
 @end
