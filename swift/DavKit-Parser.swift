@@ -4,7 +4,7 @@ import UIKit
 
 protocol IDKList : NSObjectProtocol
 {
-    func values() -> NSArray?
+    func values() -> [AnyObject]?
 }
 
 public extension UIColor
@@ -211,12 +211,17 @@ public class DKParser
         return getObject(d,ofClass:NSValue.self,forKey:key,fallback:fallback) as? NSValue
     }
     
-    public class func getArray(d:NSDictionary?,forKey key:String, fallback:NSArray?) -> NSArray?
+    public class func getArray(d:NSDictionary?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
     {
-        return getObject(d,ofClass:NSArray.self,forKey:key,fallback:fallback) as? NSArray
+        return getObject(d,ofClass:NSArray.self,forKey:key,fallback:fallback) as? Array<AnyObject>
     }
     
-    public class func getDictionary(d:NSDictionary?,forKey key:String, fallback:NSDictionary?) -> NSDictionary?
+    public class func getDictionary(d:NSDictionary?,forKey key:String, fallback:[NSObject:AnyObject]?) -> [NSObject:AnyObject]?
+    {
+        return getObject(d,ofClass:NSDictionary.self,forKey:key,fallback:fallback) as? [NSObject:AnyObject]
+    }
+    
+    public class func getDict(d:NSDictionary?,forKey key:String, fallback:NSDictionary?) -> NSDictionary?
     {
         return getObject(d,ofClass:NSDictionary.self,forKey:key,fallback:fallback) as? NSDictionary
     }
@@ -369,7 +374,7 @@ public class DKParser
         return fallback
     }
     
-    public class func getList(d:NSDictionary?,forKey key:String, fallback:NSArray?) -> NSArray?
+    public class func getList(d:NSDictionary?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
     {
         if let classe = NSClassFromString("DBList")
         {
@@ -597,5 +602,13 @@ public class DKParser
     public class func setDateId(val:DKDateId?,forKey key:String,inDict dict:NSMutableDictionary?)
     {
         setString(val?.value,forKey:key,inDict:dict)
+    }
+}
+
+extension DKParser
+{
+    public class func fromJSONToDictionary(json:String?) -> [String:NSObject]?
+    {
+        return json?.fromJson
     }
 }

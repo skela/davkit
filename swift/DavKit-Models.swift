@@ -17,7 +17,7 @@ public class DKDateId : NSObject
         self.init()
         value = s
         
-        if Id() == nil || date() == nil { return nil }
+        if Id == nil || date == nil { return nil }
     }
     
     public override init()
@@ -36,13 +36,13 @@ public class DKDateId : NSObject
         value = valueFromComponents(date,id:id)
     }
     
-    public func Id() -> String?
+    public var Id : String?
     {
         if let c = components { if c.count == 2 { return c[1] } }
         return nil
     }
     
-    public func date() -> NSDate?
+    public var date : NSDate?
     {
         if let c = components
         {

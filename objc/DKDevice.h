@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef enum
+typedef NS_ENUM(NSUInteger,DKDeviceType)
 {
     DKDeviceTypeiPhone,
     DKDeviceTypeiPhone5,
@@ -17,7 +17,7 @@ typedef enum
     DKDeviceTypeiPhone6P,
     DKDeviceTypeiPad,
     DKDeviceTypeiPadMini
-} DKDeviceType;
+};
 
 @interface DKDevice : NSObject
 + (BOOL)isTablet;

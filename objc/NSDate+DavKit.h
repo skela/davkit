@@ -10,11 +10,11 @@
 
 @interface NSDate (DavKit)
 
-- (BOOL)isYesterday;
-- (BOOL)isToday;
-- (BOOL)isPast;
-- (BOOL)isFuture;
-- (BOOL)isPresent;
+@property(readonly) BOOL isYesterday;
+@property(readonly) BOOL isToday;
+@property(readonly) BOOL isPast;
+@property(readonly) BOOL isFuture;
+@property(readonly) BOOL isPresent;
 
 + (NSDate*)yesterday;
 + (NSDate*)ereyesterday;
