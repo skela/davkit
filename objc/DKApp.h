@@ -10,8 +10,8 @@
 
 @interface DKApp : NSObject
 
-+ (NSString *)version;
-+ (NSString *)versionNumber;
-+ (NSString *)buildNumber;
++ (nonnull NSString *)version;
++ (nonnull NSString *)versionNumber;
++ (nonnull NSString *)buildNumber;
 
 @end
