@@ -30,20 +30,20 @@
 + (DKDeviceType)type
 {
     if ([DKDevice isTablet])
-        return DKDeviceTypeiPad;
+        return DKDeviceTypePad;
     
     if ([DKDevice isPhone])
     {
         NSInteger s = self.screenMax;
         switch (s)
         {
-            case 568: return DKDeviceTypeiPhone5;
-            case 667: return DKDeviceTypeiPhone6;
-            case 736: return DKDeviceTypeiPhone6P;
+            case 568: return DKDeviceTypePhone5;
+            case 667: return DKDeviceTypePhone6;
+            case 736: return DKDeviceTypePhone6P;
         }
     }
     
-    return DKDeviceTypeiPhone;
+    return DKDeviceTypePhone;
 }
 
 + (BOOL)isPhone4OrLess { return self.isPhone && self.screenMax < 568; }

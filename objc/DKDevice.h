@@ -11,12 +11,12 @@
 
 typedef NS_ENUM(NSUInteger,DKDeviceType)
 {
-    DKDeviceTypeiPhone,
-    DKDeviceTypeiPhone5,
-    DKDeviceTypeiPhone6,
-    DKDeviceTypeiPhone6P,
-    DKDeviceTypeiPad,
-    DKDeviceTypeiPadMini
+    DKDeviceTypePhone,
+    DKDeviceTypePhone5,
+    DKDeviceTypePhone6,
+    DKDeviceTypePhone6P,
+    DKDeviceTypePad,
+    DKDeviceTypePadMini
 };
 
 @interface DKDevice : NSObject
