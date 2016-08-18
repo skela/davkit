@@ -72,6 +72,11 @@
     return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] longLongValue];
 }
 
++ (unsigned long long)getUnsignedLongLong:(NSDictionary*)d forKey:(NSString*)key fallback:(unsigned long long)fallBack
+{
+    return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] unsignedLongLongValue];
+}
+
 + (BOOL)getBool:(NSDictionary*)d forKey:(NSString*)key fallback:(BOOL)fallBack
 {
     return [[DKParser getNumber:d forKey:key fallback:@(fallBack)] boolValue];
@@ -268,6 +273,16 @@
 + (void)setInteger:(NSInteger)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
 {
     [DKParser setObject:[NSNumber numberWithInteger:val] forKey:key inDict:dict fallback:nil];
+}
+
++ (void)setLongLong:(long long)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:@(val) forKey:key inDict:dict fallback:nil];
+}
+
++ (void)setUnsignedLongLong:(unsigned long long)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    [DKParser setObject:@(val) forKey:key inDict:dict fallback:nil];
 }
 
 + (void)setBool:(BOOL)val forKey:(NSString*)key inDict:(NSMutableDictionary*)dict

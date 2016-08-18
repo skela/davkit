@@ -33,6 +33,7 @@
 + (nullable NSDictionary*)getDictionary:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable NSDictionary*)fallBack;
 + (long)getLong:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(long)fallBack;
 + (long long)getLongLong:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(long long)fallBack;
++ (unsigned long long)getUnsignedLongLong:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(unsigned long long)fallBack;
 + (nullable SEL)getSelector:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable SEL)fallBack;
 + (nullable DKDateId*)getDateId:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable DKDateId*)fallBack;
 
@@ -62,6 +63,8 @@
 + (void)setDictionary:(nullable NSDictionary*)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
 + (void)setArray:(nullable NSArray*)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
 + (void)setInteger:(NSInteger)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
++ (void)setLongLong:(long long)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
++ (void)setUnsignedLongLong:(unsigned long long)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
 + (void)setBool:(BOOL)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
 + (void)setSelector:(nullable SEL)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
 + (void)setInt:(int)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
