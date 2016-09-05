@@ -9,14 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSUInteger,DKDeviceType)
+typedef NS_ENUM(NSInteger,DKDeviceType)
 {
+    DKDeviceTypePhones,
+    DKDeviceTypePads,
+    
     DKDeviceTypePhone,
     DKDeviceTypePhone5,
     DKDeviceTypePhone6,
     DKDeviceTypePhone6P,
+    
     DKDeviceTypePad,
-    DKDeviceTypePadMini
+    DKDeviceTypePadMini,
+    DKDeviceTypePadLarge
 };
 
 @interface DKDevice : NSObject

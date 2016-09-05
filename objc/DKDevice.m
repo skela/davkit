@@ -30,20 +30,28 @@
 + (DKDeviceType)type
 {
     if ([DKDevice isTablet])
-        return DKDeviceTypePad;
-    
+    {
+        NSInteger s = self.screenMax;
+        switch (s)
+        {
+            case 1366: return DKDeviceTypePadLarge;
+            case 1024: return DKDeviceTypePad; // TODO: figure out how to distinguish Pad and PadMini
+        }
+        return DKDeviceTypePads;
+    }
     if ([DKDevice isPhone])
     {
         NSInteger s = self.screenMax;
         switch (s)
         {
+            case 480: return DKDeviceTypePhone;
             case 568: return DKDeviceTypePhone5;
             case 667: return DKDeviceTypePhone6;
             case 736: return DKDeviceTypePhone6P;
         }
     }
     
-    return DKDeviceTypePhone;
+    return DKDeviceTypePhones;
 }
 
 + (BOOL)isPhone4OrLess { return self.isPhone && self.screenMax < 568; }
