@@ -8,41 +8,29 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIAlertView (DavKit) <UIAlertViewDelegate>
-
-- (id)initWithTitle:(NSString *)title message:(NSString *)message completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...;
-
-- (id)initWithTitle:(NSString *)title
-            message:(NSString *)message
-  cancelButtonTitle:(NSString *)cancelButtonTitle
-  otherButtonTitles:(NSArray *)otherButtonTitles
-    completionBlock:(void (^)(NSUInteger buttonIndex, UIAlertView *alertView))block;
-
-- (void)addButton:(NSString*)title;
-- (void)addCancel:(NSString*)title;
-- (void)addButtons:(NSArray*)btns;
-
-@end
+typedef void(^DKStringBlock)( NSString* _Nonnull );
+typedef void(^DKTextFieldConfiguratorBlock)( UITextField* _Nonnull );
+typedef void(^DKTextFieldDoneBlock)( id _Nonnull,NSString *_Nullable );
 
 @interface DKAlertController : NSObject
 
-- (instancetype)initWithTitle:(NSString*)title;
-- (instancetype)initWithTitle:(NSString*)title andMessage:(NSString*)msg;
+- (nonnull instancetype)initWithTitle:(nullable NSString*)title;
+- (nonnull instancetype)initWithTitle:(nullable NSString*)title andMessage:(nullable NSString*)msg;
 
-- (void)addButton:(NSString*)btn action:(void (^)(NSString *btn))action;
-- (void)addCancel:(NSString*)cancel;
-- (void)addCancel:(NSString*)cancel action:(void (^)(NSString *btn))action;
+- (void)addButton:(nonnull NSString*)btn action:(nullable DKStringBlock)action;
+- (void)addCancel:(nonnull NSString*)cancel;
+- (void)addCancel:(nonnull NSString*)cancel action:(nullable DKStringBlock)action;
 
-- (void)button:(NSString*)btn action:(void (^)(NSString *btn))action;
-- (void)cancel:(NSString*)cancel action:(void (^)(NSString *btn))action;
+- (void)button:(nonnull NSString*)btn action:(nullable DKStringBlock)action;
+- (void)cancel:(nonnull NSString*)cancel action:(nullable DKStringBlock)action;
 
-- (void)show:(UIViewController*)parent;
-- (void)show:(UIViewController*)parent container:(id)container;
-- (void)show:(UIViewController*)parent container:(id)container animated:(BOOL)animated;
+- (void)show:(nonnull UIViewController*)parent;
+- (void)show:(nonnull UIViewController*)parent container:(nullable id)container;
+- (void)show:(nonnull UIViewController*)parent container:(nullable id)container animated:(BOOL)animated;
 
-- (void)addTextField:(void (^)(UITextField *textField))configurator;
-- (void)addTextDone:(NSString*)button done:(void (^)(id sender,NSString *text))done;
-- (UITextField*)textField:(NSInteger)index;
+- (void)addTextField:(nonnull DKTextFieldConfiguratorBlock)configurator;
+- (void)addTextDone:(nonnull NSString*)button done:(nullable DKTextFieldDoneBlock)done;
+- (nonnull UITextField*)textField:(NSInteger)index;
 
 - (void)dismiss;
 - (void)dismissAnimated:(BOOL)animated;
@@ -55,11 +43,11 @@
 
 @interface DKSheet : DKAlertController <UIActionSheetDelegate>
 
-- (void)addDestructive:(NSString*)destructive;
-- (void)addDestructive:(NSString*)destructive action:(void (^)(NSString *btn))action;
-- (void)addButtons:(NSArray*)btns action:(void (^)(NSString *btn))action;
+- (void)addDestructive:(nonnull NSString*)destructive;
+- (void)addDestructive:(nonnull NSString*)destructive action:(nullable DKStringBlock)action;
+- (void)addButtons:(nonnull NSArray*)btns action:(nullable DKStringBlock)action;
 
-- (void)destructive:(NSString*)destructive action:(void (^)(NSString *btn))action;
-- (void)buttons:(NSArray*)btns action:(void (^)(NSString *btn))action;
+- (void)destructive:(nonnull NSString*)destructive action:(nullable DKStringBlock)action;
+- (void)buttons:(nonnull NSArray*)btns action:(nullable DKStringBlock)action;
 
 @end

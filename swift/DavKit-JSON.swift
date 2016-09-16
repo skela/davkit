@@ -8,26 +8,26 @@
 
 import Foundation
 
-public class JSON
+open class JSON
 {
-    internal class func log(msg:String)
+    internal class func log(_ msg:String)
     {
         DavKit.log("JSON",msg)
     }
     
-    class func fromString(str:String?,encoding:NSStringEncoding=NSUTF8StringEncoding) -> NSDictionary?
+    class func fromString(_ str:String?,encoding:String.Encoding=String.Encoding.utf8) -> NSDictionary?
     {
         if str == nil { return nil }
-        return fromData(str!.dataUsingEncoding(encoding))
+        return fromData(str!.data(using: encoding))
     }
     
-    class func fromData(data:NSData?) -> NSDictionary?
+    class func fromData(_ data:Data?) -> NSDictionary?
     {
         if data == nil { return nil }
         do
         {
-            let optns = NSJSONReadingOptions(rawValue:0)
-            let js = try NSJSONSerialization.JSONObjectWithData(data!,options:optns)
+            let optns = JSONSerialization.ReadingOptions(rawValue:0)
+            let js = try JSONSerialization.jsonObject(with: data!,options:optns)
             guard let jsdict : NSDictionary = js as? NSDictionary else
             {
                 log("Not a Dictionary")
@@ -42,19 +42,19 @@ public class JSON
         return nil
     }
     
-    class func fromStringToArray(str:String?,encoding:NSStringEncoding=NSUTF8StringEncoding) -> NSArray?
+    class func fromStringToArray(_ str:String?,encoding:String.Encoding=String.Encoding.utf8) -> NSArray?
     {
         if str == nil { return nil }
-        return fromDataToArray(str!.dataUsingEncoding(encoding))
+        return fromDataToArray(str!.data(using: encoding))
     }
     
-    class func fromDataToArray(data:NSData?) -> NSArray?
+    class func fromDataToArray(_ data:Data?) -> NSArray?
     {
         if data == nil { return nil }
         do
         {
-            let optns = NSJSONReadingOptions(rawValue:0)
-            let js = try NSJSONSerialization.JSONObjectWithData(data!,options:optns)
+            let optns = JSONSerialization.ReadingOptions(rawValue:0)
+            let js = try JSONSerialization.jsonObject(with: data!,options:optns)
             guard let jsarr : NSArray = js as? NSArray else
             {
                 log("Not an Array")
@@ -69,12 +69,12 @@ public class JSON
         return nil
     }
     
-    class func toData(any:AnyObject) -> NSData?
+    class func toData(_ any:Any) -> Data?
     {
-        let optns = NSJSONWritingOptions(rawValue:0)
+        let optns = JSONSerialization.WritingOptions(rawValue:0)
         do
         {
-            let data = try NSJSONSerialization.dataWithJSONObject(any,options:optns)
+            let data = try JSONSerialization.data(withJSONObject: any,options:optns)
             return data
         }
         catch let er as NSError
@@ -84,7 +84,7 @@ public class JSON
         return nil
     }
     
-    class func toString(any:AnyObject,encoding:NSStringEncoding=NSUTF8StringEncoding) -> String?
+    class func toString(_ any:Any,encoding:String.Encoding=String.Encoding.utf8) -> String?
     {
         if let data = toData(any)
         {
@@ -109,44 +109,41 @@ extension String : JSONKeyType
 
 extension String
 {
-    public var fromJson : [String:NSObject]?
+    public var fromJson : [String:Any]?
     {
         let d = JSON.fromString(self)
-        return d as? [String:NSObject]
+        return d as? [String:Any]
     }
 }
 
-public extension Dictionary where Key:JSONKeyType,Value:AnyObject
+public extension Dictionary where Key:JSONKeyType,Value:Any
 {
     public var toJson : String?
     {
-        let any = self as! AnyObject
+        let any = self as Any
         return JSON.toString(any)
     }
-}
-
-public extension Dictionary where Key:JSONKeyType,Value:NSObject
-{
+    
     public var toJsonLegacy : String?
     {
-        let any = self as! AnyObject
+        let any = self as Any
         return JSON.toString(any)
     }
 }
 
-public extension NSDictionary
-{
-    public var toJson : String?
-    {
-        return JSON.toString(self)
-    }
-}
+//public extension NSDictionary
+//{
+//    public var toJson : String?
+//    {
+//        return JSON.toString(self)
+//    }
+//}
 
-public extension NSData
+public extension Data
 {
-    public var fromJson : [String:NSObject]?
+    public var fromJson : [String:Any]?
     {
         let d = JSON.fromData(self)
-        return d as? [String:NSObject]
+        return d as? [String:Any]
     }
 }

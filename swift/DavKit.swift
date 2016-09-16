@@ -10,8 +10,24 @@ import Foundation
 
 class DavKit
 {
-    class func log(component:String,_ msg:String)
+    class func log(_ component:String,_ msg:String)
     {
         print("DavKit.\(component): \(msg)")
+    }
+}
+
+extension DKParser
+{
+    open class func getDict(_ d: [AnyHashable : Any]?, forKey key: String, fallback:[String : Any]?) -> [String : Any]?
+    {
+        return getDictionary(d,forKey:key,fallback:fallback) as? [String:Any]
+    }
+}
+
+public extension Dictionary where Key:String,Value:Any
+{
+    open func getDate(_ key:String,fallback:Date?) -> Date?
+    {
+        return DKParser.getDate(self,forKey:key,fallback:fallback)
     }
 }

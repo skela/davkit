@@ -138,13 +138,9 @@
         NSString *title = @"Failed to start scanner";
         NSString *msg = [error localizedDescription];
         NSLog(@"Error: %@",msg);
-        UIAlertView *al = [[UIAlertView alloc] initWithTitle:title message:msg completionBlock:
-        ^(NSUInteger buttonIndex,UIAlertView*alertView)
-        {
-            [self clickedCancel:nil];
-        }
-        cancelButtonTitle:@"Understood" otherButtonTitles:nil];
-        [al show];
+        DKAlert *al = [[DKAlert alloc] initWithTitle:title andMessage:msg];
+        [al addCancel:@"Understood" action:^(NSString *btn) { [self clickedCancel:nil]; }];
+        [al show:self];
         return NO;
     }
     else
