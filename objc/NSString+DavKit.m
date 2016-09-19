@@ -59,6 +59,18 @@
     return [DKParser fromJSONString:self];
 }
 
+- (NSString *)stringByReplacingPercentEscapes
+{
+    if ([self respondsToSelector:@selector(stringByRemovingPercentEncoding)])
+    {
+        return [self stringByRemovingPercentEncoding];
+    }
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    return [self stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    #pragma GCC diagnostic pop
+}
+
 - (NSData*)stringToBase64EncodedData
 {
     NSData *data;

@@ -429,7 +429,7 @@
     for (NSString *pair in pairs)
     {
         NSArray *kv = [pair componentsSeparatedByString:@"="];
-        NSString *val =[[kv objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *val =[[kv objectAtIndex:1] stringByReplacingPercentEscapes];
         [params setObject:val forKey:[kv objectAtIndex:0]];
     }
     NSDictionary *returnDict = [NSDictionary dictionaryWithDictionary:params];

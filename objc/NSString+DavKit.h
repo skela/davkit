@@ -40,6 +40,7 @@ typedef enum
 - (NSString*)strip;
 - (NSString *)extractStringLookingFor:(NSString *)lookFor skipForwardTo:(NSInteger)skipForward andStopBefore:(NSString *)stopBefore;
 - (NSString *)extractStringLookingFor:(NSString *)lookFor andStopBefore:(NSString *)stopBefore;
+- (NSString *)stringByReplacingPercentEscapes;
 - (NSString*)first;
 - (NSString *)stringByHashing:(HashingMethod)hashMethod;
 - (NSString *)stringByEncrypting:(EncryptionMethod)encryptionMethod withKey:(NSString*)key;

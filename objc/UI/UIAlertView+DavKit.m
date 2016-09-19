@@ -35,9 +35,14 @@ NSString* const DKAlertSheetDisappeared = @"com.davkit.dkalertdisappeared";
 
 @interface DKAlertController()
 @property(nonatomic,strong) UIAlertController *alert;
+@property(nonatomic,strong) NSMutableDictionary *actions;
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 @property(nonatomic,strong) UIAlertView *view;
 @property(nonatomic,strong) UIActionSheet *sheet;
-@property(nonatomic,strong) NSMutableDictionary *actions;
+#pragma GCC diagnostic pop
+
 @end
 
 @implementation DKAlertController
@@ -320,7 +325,15 @@ static NSMutableArray *legacy = nil;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
         self.alert = [DKAlertUIViewController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     else
-        self.view = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [self legacySetup:title message:message];
+}
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+- (void)legacySetup:(NSString*)title message:(NSString*)message
+{
+    self.view = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -330,6 +343,8 @@ static NSMutableArray *legacy = nil;
         btnTitle = [alertView buttonTitleAtIndex:buttonIndex];
     [self legacyDismissedWithButtonIndex:buttonIndex andButtonTitle:btnTitle];
 }
+
+#pragma GCC diagnostic pop
 
 @end
 
@@ -342,7 +357,7 @@ static NSMutableArray *legacy = nil;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
         self.alert = [DKAlertUIViewController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
     else
-        self.sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+        [self legacySetup:title message:message];
 }
 
 - (void)addDestructive:(NSString*)destructive
@@ -371,6 +386,14 @@ static NSMutableArray *legacy = nil;
         [self addButton:DKAlertButtonDefault title:btn action:action];
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+- (void)legacySetup:(NSString*)title message:(NSString*)message
+{
+    self.sheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     NSString *btnTitle = nil;
@@ -378,5 +401,7 @@ static NSMutableArray *legacy = nil;
         btnTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
     [self legacyDismissedWithButtonIndex:buttonIndex andButtonTitle:btnTitle];
 }
+
+#pragma GCC diagnostic pop
 
 @end
