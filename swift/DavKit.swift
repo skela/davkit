@@ -15,19 +15,3 @@ class DavKit
         print("DavKit.\(component): \(msg)")
     }
 }
-
-extension DKParser
-{
-    public class func getDict(_ d: [AnyHashable : Any]?, forKey key: String, fallback:[String : Any]?) -> [String : Any]?
-    {
-        return getDictionary(d,forKey:key,fallback:fallback) as? [String:Any]
-    }
-}
-
-public extension Dictionary where Key:Comparable,Value:Any
-{
-    public func getDate(_ key:String,fallback:Date?) -> Date?
-    {
-        return DKParser.getDate(self,forKey:key,fallback:fallback)
-    }
-}

@@ -25,13 +25,13 @@ public class DKDateId : NSObject
         
     }
     
-    public convenience init(date aDate: NSDate, andId id: String)
+    public convenience init(date aDate: Date, andId id: String)
     {
         self.init()
         setDate(aDate,andId:id)
     }
     
-    public func setDate(date: NSDate, andId id: String)
+    public func setDate(_ date: Date, andId id: String)
     {
         value = valueFromComponents(date,id:id)
     }
@@ -59,10 +59,10 @@ public class DKDateId : NSObject
     
     var components : [String]?
     {
-        return value?.componentsSeparatedByString("|")
+        return value?.components(separatedBy:"|")
     }
     
-    func valueFromComponents(date:NSDate,id:String) -> String
+    func valueFromComponents(_ date:Date,id:String) -> String
     {
         return String(format:"%g|%@",date.timeIntervalSince1970,id)
     }

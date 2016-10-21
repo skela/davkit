@@ -9,27 +9,27 @@ protocol IDKList : NSObjectProtocol
 
 public extension UIColor
 {
-    var colorSpaceModel : CGColorSpaceModel
+    var colorSpaceModel : CGColorSpaceModel?
     {
-        return CGColorSpaceGetModel(CGColorGetColorSpace(CGColor));
+        return self.cgColor.colorSpace?.model
     }
     
     var canProvideRGBComponents : Bool
     {
         let csm = colorSpaceModel
-        return csm == .RGB || csm == .Monochrome
+        return csm == .rgb || csm == .monochrome
     }
     
-    func rgbComponent(index:Int) -> CGFloat
+    func rgbComponent(_ index:Int) -> CGFloat
     {
         if !canProvideRGBComponents
         {
             DavKit.log("UIColor","Must be a rgb color to get RGB components")
             return 0
         }
-        let c = CGColorGetComponents(CGColor);
-        if colorSpaceModel == .Monochrome { return c[0] }
-        return c[index]
+        let c = cgColor.components;
+        if colorSpaceModel == .monochrome { return c![0] }
+        return c![index]
     }
     
     var red : CGFloat
@@ -49,21 +49,21 @@ public extension UIColor
     
     var alpha : CGFloat
     {
-        return CGColorGetAlpha(CGColor)
+        return cgColor.alpha
     }
 }
 
 public extension DKParser
 {
-    class func colorFromHexString(s:String) -> UIColor?
+    class func colorFromHexString(_ s:String) -> UIColor?
     {
         var rgbValue : UInt32 = 0;
-        let scanner = NSScanner(string: s)
+        let scanner = Scanner(string: s)
         if s.hasPrefix("#")
         {
             scanner.scanLocation = 1
         }
-        scanner.scanHexInt(&rgbValue)
+        scanner.scanHexInt32(&rgbValue)
         
         let hex = Int(rgbValue)
         
@@ -90,17 +90,17 @@ public extension DKParser
         return UIColor(red:red, green:green, blue:blue, alpha:alpha)
     }
     
-    class func colorFromRgbString(string:String) -> UIColor?
+    class func colorFromRgbString(_ string:String) -> UIColor?
     {
         var r : CGFloat = 0
         var g : CGFloat = 0
         var b : CGFloat = 0
         var a : CGFloat = 1.0
-        if let rs = string.rangeOfString("(")
+        if let rs = string.range(of: "(")
         {
-            if let ls = string.rangeOfString(")")
+            if let ls = string.range(of: ")")
             {
-                func floatFromComponent(s:String) -> CGFloat
+                func floatFromComponent(_ s:String) -> CGFloat
                 {
                     if let i = Float(s)
                     {
@@ -109,8 +109,8 @@ public extension DKParser
                     return 0.0
                 }
                 
-                let sub = string.substringToIndex(ls.startIndex).substringFromIndex(rs.startIndex.advancedBy(1))
-                let comps = sub.componentsSeparatedByString(",")
+                let sub = string.substring(to: ls.lowerBound).substring(from:string.index(rs.lowerBound, offsetBy: 1))
+                let comps = sub.components(separatedBy: ",")
                 if comps.count == 4
                 {
                     r = floatFromComponent(comps[0]) / 255.0
@@ -129,7 +129,7 @@ public extension DKParser
         return UIColor(red:r,green:g,blue:b,alpha:a)
     }
     
-    class func colorFromString(s:String) -> UIColor?
+    class func colorFromString(_ s:String) -> UIColor?
     {
         if s.hasPrefix("rgb")
         {
@@ -137,7 +137,7 @@ public extension DKParser
         }
         else if s == "transparent"
         {
-            return UIColor.clearColor()
+            return UIColor.clear
         }
         else
         {
@@ -145,7 +145,7 @@ public extension DKParser
         }
     }
     
-    class func colorToHexRGBA(u:UIColor) -> String
+    class func colorToHexRGBA(_ u:UIColor) -> String
     {
         let r = u.red
         let g = u.green
@@ -159,36 +159,9 @@ public extension DKParser
     }
 }
 
-public class DKParser
+open class DKParser
 {
-    public class func getObject(d:NSDictionary?,ofClass classe:AnyClass,forKey key:String,fallback:AnyObject?) -> AnyObject?
-    {
-        if let od = d
-        {
-            if let obj = od.objectForKey(key)
-            {
-                if obj.isKindOfClass(classe) { return obj }
-            }
-        }
-        return fallback
-    }
-    
-    public class func getObject(d:NSDictionary?,ofClass classe:AnyClass,forKeys keys:Array<String>,fallback:AnyObject?) -> AnyObject?
-    {
-        for key in keys
-        {
-            if let od = d
-            {
-                if let obj = od.objectForKey(key)
-                {
-                    if obj.isKindOfClass(classe) { return obj }
-                }
-            }
-        }
-        return fallback
-    }
-    
-    public class func getSafeNumber(d:NSDictionary?,forKey key:String, fallback:NSNumber) -> NSNumber
+    open class func getSafeNumber(_ d:[String:Any]?,forKey key:String, fallback:NSNumber) -> NSNumber
     {
         if let ret = getNumber(d, forKey: key, fallback: fallback)
         {
@@ -197,7 +170,7 @@ public class DKParser
         return fallback
     }
     
-    public class func getSafeNumber(d:NSDictionary?,forKeys keys:Array<String>,fallback:NSNumber) -> NSNumber
+    open class func getSafeNumber(_ d:[String:Any]?,forKeys keys:Array<String>,fallback:NSNumber) -> NSNumber
     {
         if let ret = getNumber(d, forKeys: keys, fallback: fallback)
         {
@@ -206,126 +179,21 @@ public class DKParser
         return fallback
     }
     
-    public class func getValue(d:NSDictionary?,forKey key:String, fallback:NSValue?) -> NSValue?
+    open class func getValue(_ d:[String:Any]?,forKey key:String, fallback:NSValue?) -> NSValue?
     {
-        return getObject(d,ofClass:NSValue.self,forKey:key,fallback:fallback) as? NSValue
+        if let obj = d?[key] as? NSValue { return obj }; return fallback
     }
     
-    public class func getArray(d:NSDictionary?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
+    open class func getArray(_ d:[String:Any]?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
     {
-        return getObject(d,ofClass:NSArray.self,forKey:key,fallback:fallback) as? Array<AnyObject>
+        if let obj = d?[key] as? Array<AnyObject> { return obj }; return fallback
     }
     
-    public class func getDictionary(d:NSDictionary?,forKey key:String, fallback:[NSObject:AnyObject]?) -> [NSObject:AnyObject]?
-    {
-        return getObject(d,ofClass:NSDictionary.self,forKey:key,fallback:fallback) as? [NSObject:AnyObject]
-    }
-    
-    public class func getDict(d:NSDictionary?,forKey key:String, fallback:NSDictionary?) -> NSDictionary?
-    {
-        return getObject(d,ofClass:NSDictionary.self,forKey:key,fallback:fallback) as? NSDictionary
-    }
-    
-    public class func getNumber(d:NSDictionary?,forKey key:String, fallback:NSNumber?) -> NSNumber?
-    {
-        return getObject(d,ofClass:NSNumber.self,forKey:key,fallback:fallback) as? NSNumber
-    }
-    
-    public class func getInteger(d:NSDictionary?,forKey key:String, fallback:Int) -> Int
-    {
-        return getSafeNumber(d, forKey: key, fallback:fallback).integerValue
-    }
-    
-    public class func getBool(d:NSDictionary?,forKey key:String, fallback:Bool) -> Bool
-    {
-        return getSafeNumber(d, forKey: key, fallback:fallback).boolValue
-    }
-    
-    public class func getFloat(d:NSDictionary?,forKey key:String, fallback:Float) -> Float
-    {
-        return getSafeNumber(d, forKey: key, fallback:fallback).floatValue
-    }
-    
-    public class func getCGFloat(d:NSDictionary?,forKey key:String, fallback:CGFloat) -> CGFloat
-    {
-        return CGFloat(getSafeNumber(d, forKey: key, fallback:fallback).floatValue)
-    }
-    
-    public class func getDouble(d:NSDictionary?,forKey key:String, fallback:Double) -> Double
-    {
-        return getSafeNumber(d, forKey: key, fallback:fallback).doubleValue
-    }
-    
-    public class func getInt(d:NSDictionary?,forKey key:String, fallback:Int32) -> Int32
-    {
-        return getSafeNumber(d, forKey: key, fallback:NSNumber(int:fallback)).intValue
-    }
-    
-    public class func getLongLong(d:NSDictionary?,forKey key:String, fallback:Int64) -> Int64
-    {
-        return getSafeNumber(d, forKey: key, fallback:NSNumber(longLong:fallback)).longLongValue
-    }
-    
-    public class func getValue(d:NSDictionary?,forKeys keys:Array<String>, fallback:NSValue?) -> NSValue?
-    {
-        return getObject(d,ofClass:NSValue.self,forKeys:keys,fallback:fallback) as? NSValue
-    }
-    
-    public class func getArray(d:NSDictionary?,forKeys keys:Array<String>, fallback:NSArray?) -> NSArray?
-    {
-        return getObject(d,ofClass:NSArray.self,forKeys:keys,fallback:fallback) as? NSArray
-    }
-    
-    public class func getDictionary(d:NSDictionary?,forKeys keys:Array<String>, fallback:NSDictionary?) -> NSDictionary?
-    {
-        return getObject(d,ofClass:NSDictionary.self,forKeys:keys,fallback:fallback) as? NSDictionary
-    }
-    
-    public class func getNumber(d:NSDictionary?,forKeys keys:Array<String>, fallback:NSNumber?) -> NSNumber?
-    {
-        return getObject(d,ofClass:NSNumber.self,forKeys:keys,fallback:fallback) as? NSNumber
-    }
-    
-    public class func getInteger(d:NSDictionary?,forKeys keys:Array<String>, fallback:Int) -> Int
-    {
-        return getSafeNumber(d, forKeys:keys, fallback:fallback).integerValue
-    }
-    
-    public class func getBool(d:NSDictionary?,forKeys keys:Array<String>, fallback:Bool) -> Bool
-    {
-        return getSafeNumber(d, forKeys: keys, fallback:fallback).boolValue
-    }
-    
-    public class func getFloat(d:NSDictionary?,forKeys keys:Array<String>, fallback:Float) -> Float
-    {
-        return getSafeNumber(d, forKeys: keys, fallback:fallback).floatValue
-    }
-    
-    public class func getCGFloat(d:NSDictionary?,forKeys keys:Array<String>, fallback:CGFloat) -> CGFloat
-    {
-        return CGFloat(getSafeNumber(d, forKeys: keys, fallback:fallback).floatValue)
-    }
-    
-    public class func getDouble(d:NSDictionary?,forKeys keys:Array<String>, fallback:Double) -> Double
-    {
-        return getSafeNumber(d, forKeys: keys, fallback:fallback).doubleValue
-    }
-    
-    public class func getInt(d:NSDictionary?,forKeys keys:Array<String>, fallback:Int32) -> Int32
-    {
-        return getSafeNumber(d, forKeys: keys, fallback:NSNumber(int:fallback)).intValue
-    }
-    
-    public class func getLongLong(d:NSDictionary?,forKeys keys:Array<String>, fallback:Int64) -> Int64
-    {
-        return getSafeNumber(d, forKeys: keys, fallback:NSNumber(longLong:fallback)).longLongValue
-    }
-    
-    public class func getString(d:NSDictionary?,forKey key:String, fallback:String?) -> String?
+    open class func getDictionary(_ d:[String:Any]?,forKey key:String, fallback:[AnyHashable: Any]?) -> [AnyHashable: Any]?
     {
         if let od = d
         {
-            if let obj = od.objectForKey(key) as? String
+            if let obj = od[key] as? [AnyHashable: Any]
             {
                 return obj
             }
@@ -333,7 +201,126 @@ public class DKParser
         return fallback
     }
     
-    public class func getString(d:NSDictionary?,forKeys keys:Array<String>, fallback:String?) -> String?
+    open class func getDict(_ d:[String:Any]?,forKey key:String, fallback:[String:Any]?) -> [String:Any]?
+    {
+        if let od = d
+        {
+            if let obj = od[key] as? [String:Any]
+            {
+                return obj
+            }
+        }
+        return fallback
+    }
+    
+    open class func getNumber(_ d:[String:Any]?,forKey key:String, fallback:NSNumber?) -> NSNumber?
+    {
+        if let obj = d?[key] as? NSNumber { return obj }; return fallback
+    }
+    
+    open class func getInteger(_ d:[String:Any]?,forKey key:String, fallback:Int) -> Int
+    {
+        return getSafeNumber(d, forKey: key, fallback:NSNumber(value:fallback)).intValue
+    }
+    
+    open class func getBool(_ d:[String:Any]?,forKey key:String, fallback:Bool) -> Bool
+    {
+        return getSafeNumber(d, forKey: key, fallback:fallback as NSNumber).boolValue
+    }
+    
+    open class func getFloat(_ d:[String:Any]?,forKey key:String, fallback:Float) -> Float
+    {
+        return getSafeNumber(d, forKey: key, fallback:NSNumber(value:fallback)).floatValue
+    }
+    
+    open class func getCGFloat(_ d:[String:Any]?,forKey key:String, fallback:CGFloat) -> CGFloat
+    {
+        return CGFloat(getSafeNumber(d, forKey: key, fallback:NSNumber(value:Float(fallback))).floatValue)
+    }
+    
+    open class func getDouble(_ d:[String:Any]?,forKey key:String, fallback:Double) -> Double
+    {
+        return getSafeNumber(d, forKey: key, fallback:NSNumber(value:fallback)).doubleValue
+    }
+    
+    open class func getInt(_ d:[String:Any]?,forKey key:String, fallback:Int32) -> Int32
+    {
+        return getSafeNumber(d, forKey: key, fallback:NSNumber(value: fallback as Int32)).int32Value
+    }
+    
+    open class func getLongLong(_ d:[String:Any]?,forKey key:String, fallback:Int64) -> Int64
+    {
+        return getSafeNumber(d, forKey: key, fallback:NSNumber(value: fallback as Int64)).int64Value
+    }
+    
+    open class func getValue(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:NSValue?) -> NSValue?
+    {
+        for key in keys { if let obj = getValue(d,forKey:key,fallback:nil) { return obj } }; return fallback
+    }
+    
+    open class func getArray(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Array<AnyObject>?) -> Array<AnyObject>?
+    {
+        for key in keys { if let obj = getArray(d,forKey:key,fallback:nil) { return obj } }; return fallback
+    }
+    
+    open class func getDict(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:[String:Any]?) -> [String:Any]?
+    {
+        for key in keys { if let obj = getDict(d,forKey:key,fallback:nil) { return obj } }; return fallback
+    }
+    
+    open class func getNumber(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:NSNumber?) -> NSNumber?
+    {
+        for key in keys { if let obj = getNumber(d,forKey:key,fallback:nil) { return obj } }; return fallback
+    }
+    
+    open class func getInteger(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Int) -> Int
+    {
+        return getSafeNumber(d, forKeys:keys, fallback:NSNumber(value:fallback)).intValue
+    }
+    
+    open class func getBool(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Bool) -> Bool
+    {
+        return getSafeNumber(d, forKeys: keys, fallback:fallback as NSNumber).boolValue
+    }
+    
+    open class func getFloat(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Float) -> Float
+    {
+        return getSafeNumber(d, forKeys: keys, fallback:NSNumber(value:fallback)).floatValue
+    }
+    
+    open class func getCGFloat(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:CGFloat) -> CGFloat
+    {
+        return CGFloat(getSafeNumber(d, forKeys: keys, fallback:NSNumber(value:Float(fallback))).floatValue)
+    }
+    
+    open class func getDouble(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Double) -> Double
+    {
+        return getSafeNumber(d, forKeys: keys, fallback:NSNumber(value:fallback)).doubleValue
+    }
+    
+    open class func getInt(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Int32) -> Int32
+    {
+        return getSafeNumber(d, forKeys: keys, fallback:NSNumber(value: fallback as Int32)).int32Value
+    }
+    
+    open class func getLongLong(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Int64) -> Int64
+    {
+        return getSafeNumber(d, forKeys: keys, fallback:NSNumber(value: fallback as Int64)).int64Value
+    }
+    
+    open class func getString(_ d:[String:Any]?,forKey key:String, fallback:String?) -> String?
+    {
+        if let od = d
+        {
+            if let obj = od[key] as? String
+            {
+                return obj
+            }
+        }
+        return fallback
+    }
+    
+    open class func getString(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:String?) -> String?
     {
         for key in keys
         {
@@ -342,30 +329,30 @@ public class DKParser
         return fallback
     }
     
-    public class func getDate(d:NSDictionary?,forKey key:String,fallback:NSDate?) -> NSDate?
+    open class func getDate(_ d:[String:Any]?,forKey key:String,fallback:Date?) -> Date?
     {
-        if let n = d?.objectForKey(key) as? NSNumber
+        if let n = d?[key] as? NSNumber
         {
-            return NSDate(timeIntervalSince1970:n.doubleValue)
+            return Date(timeIntervalSince1970:n.doubleValue)
         }
-        if let date = d?.objectForKey(key) as? NSDate
+        if let date = d?[key] as? Date
         {
             return date
         }
         return fallback
     }
     
-    public class func getDate(d:NSDictionary?,forKeys keys:Array<String>,fallback:NSDate?) -> NSDate?
+    open class func getDate(_ d:[String:Any]?,forKeys keys:Array<String>,fallback:Date?) -> Date?
     {
         for key in keys
         {
             if let od = d
             {
-                if let n = od.objectForKey(key) as? NSNumber
+                if let n = od[key] as? NSNumber
                 {
-                    return NSDate(timeIntervalSince1970:n.doubleValue)
+                    return Date(timeIntervalSince1970:n.doubleValue)
                 }
-                if let date = od.objectForKey(key) as? NSDate
+                if let date = od[key] as? Date
                 {
                     return date
                 }
@@ -374,41 +361,41 @@ public class DKParser
         return fallback
     }
     
-    public class func getList(d:NSDictionary?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
-    {
-        if let classe = NSClassFromString("DBList")
-        {
-            if let obj = getObject(d,ofClass:classe,forKey:key,fallback:nil) as? IDKList
-            {
-                return obj.values()
-            }
-        }
-        return getArray(d,forKey:key,fallback:fallback)
-    }
+//    open class func getList(_ d:[String:Any]?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
+//    {
+//        if let classe = NSClassFromString("DBList")
+//        {
+//            if let obj = getObject(d,ofClass:classe,forKey:key,fallback:nil) as? IDKList
+//            {
+//                return obj.values()
+//            }
+//        }
+//        return getArray(d,forKey:key,fallback:fallback)
+//    }
     
-    public class func getStringList(d:NSDictionary?,forKey key:String, fallback:Array<String>?) -> Array<String>?
-    {
-        if let ar = getList(d,forKey:key,fallback:nil) as? Array<String>
-        {
-            return ar
-        }
-        return fallback
-    }
+//    open class func getStringList(_ d:[String:Any]?,forKey key:String, fallback:Array<String>?) -> Array<String>?
+//    {
+//        if let ar = getList(d,forKey:key,fallback:nil) as? Array<String>
+//        {
+//            return ar
+//        }
+//        return fallback
+//    }
     
-    public class func getColor(d:NSDictionary?,forKey key:String,fallback:UIColor?) -> UIColor?
+    open class func getColor(_ d:[String:Any]?,forKey key:String,fallback:UIColor?) -> UIColor?
     {
-        if let s = d?.objectForKey(key) as? String
+        if let s = d?[key] as? String
         {
             return colorFromString(s)
         }
-        if let u = d?.objectForKey(key) as? UIColor
+        if let u = d?[key] as? UIColor
         {
             return u
         }
         return fallback
     }
     
-    public class func getColor(d:NSDictionary?,forKeys keys:Array<String>,fallback:UIColor?) -> UIColor?
+    open class func getColor(_ d:[String:Any]?,forKeys keys:Array<String>,fallback:UIColor?) -> UIColor?
     {
         for key in keys
         {
@@ -417,17 +404,20 @@ public class DKParser
         return fallback
     }
     
-    public class func getPoint(d:NSDictionary?,forKey key:String, fallback:CGPoint) -> CGPoint
+    open class func getPoint(_ d:[String:Any]?,forKey key:String, fallback:CGPoint) -> CGPoint
     {
         return getPoint(d,forKeys:[key],fallback:fallback)
     }
     
-    public class func getPoint(d:NSDictionary?,forKeys keys:Array<String>, fallback:CGPoint) -> CGPoint
+    open class func getPoint(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:CGPoint) -> CGPoint
     {
         var p = fallback
+        
+        guard let d = d else { return p }
+        
         for key in keys
         {
-            let obj = d?.objectForKey(key)
+            let obj = d[key]
             if obj is String
             {
                 let s = obj as! String
@@ -464,13 +454,13 @@ public class DKParser
             else if obj is NSValue
             {
                 let v = obj as! NSValue
-                p = v.CGPointValue()
+                p = v.cgPointValue
             }
         }
         return p;
     }
     
-    public class func getDateId(d:NSDictionary?,forKey key:String, fallback:DKDateId?) -> DKDateId?
+    open class func getDateId(_ d:[String:Any]?,forKey key:String, fallback:DKDateId?) -> DKDateId?
     {
         if let s = getString(d,forKey:key,fallback:nil)
         {
@@ -484,75 +474,75 @@ public class DKParser
     
     // MARK: Setters
     
-    public class func setObject(val:AnyObject?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:AnyObject?)
+    open class func setObject(_ val:Any?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:Any?)
     {
         if let v = val
         {
-            dict?.setObject(v,forKey:key)
+            dict?.setObject(v,forKey:key as NSCopying)
         }
         else
         {
             if let fb = replacement
             {
-                dict?.setObject(fb,forKey:key)
+                dict?.setObject(fb,forKey:key as NSCopying)
             }
             else
             {
-                dict?.removeObjectForKey(key)
+                dict?.removeObject(forKey: key)
             }
         }
     }
     
-    public class func setNumber(val:NSNumber?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:NSNumber?=nil)
+    open class func setNumber(_ val:NSNumber?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:NSNumber?=nil)
     {
         setObject(val, forKey:key, inDict:dict, replacement:replacement)
     }
     
-    public class func setString(val:String?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:String?=nil)
+    open class func setString(_ val:String?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:String?=nil)
+    {
+        setObject(val, forKey:key, inDict:dict, replacement:replacement as AnyObject?)
+    }
+    
+    open class func setDictionary(_ val:[String:Any]?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:[String:Any]?=nil)
     {
         setObject(val, forKey:key, inDict:dict, replacement:replacement)
     }
     
-    public class func setDictionary(val:NSDictionary?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:NSDictionary?=nil)
+    open class func setArray(_ val:NSArray?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:NSArray?=nil)
     {
         setObject(val, forKey:key, inDict:dict, replacement:replacement)
     }
     
-    public class func setArray(val:NSArray?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:NSArray?=nil)
+    open class func setInt(_ val:Int32,forKey key:String,inDict dict:NSMutableDictionary?)
     {
-        setObject(val, forKey:key, inDict:dict, replacement:replacement)
+        setObject(NSNumber(value:val), forKey:key, inDict:dict, replacement:nil)
     }
     
-    public class func setInt(val:Int32,forKey key:String,inDict dict:NSMutableDictionary?)
+    open class func setInteger(_ val:Int,forKey key:String,inDict dict:NSMutableDictionary?)
     {
-        setObject(NSNumber(int:val), forKey:key, inDict:dict, replacement:nil)
+        setObject(NSNumber(value:val), forKey:key, inDict:dict, replacement:nil)
     }
     
-    public class func setInteger(val:Int,forKey key:String,inDict dict:NSMutableDictionary?)
+    open class func setBool(_ val:Bool,forKey key:String,inDict dict:NSMutableDictionary?)
     {
-        setObject(NSNumber(integer:val), forKey:key, inDict:dict, replacement:nil)
+        setObject(NSNumber(value:val), forKey:key, inDict:dict, replacement:nil)
     }
     
-    public class func setBool(val:Bool,forKey key:String,inDict dict:NSMutableDictionary?)
+    open class func setDouble(_ val:Double,forKey key:String,inDict dict:NSMutableDictionary?)
     {
-        setObject(NSNumber(bool:val), forKey:key, inDict:dict, replacement:nil)
+        setObject(NSNumber(value: val), forKey:key, inDict:dict, replacement:nil)
     }
     
-    public class func setDouble(val:Double,forKey key:String,inDict dict:NSMutableDictionary?)
+    open class func setFloat(_ val:Float,forKey key:String,inDict dict:NSMutableDictionary?)
     {
-        setObject(NSNumber(double:val), forKey:key, inDict:dict, replacement:nil)
+        setObject(NSNumber(value: val), forKey:key, inDict:dict, replacement:nil)
     }
     
-    public class func setFloat(val:Float,forKey key:String,inDict dict:NSMutableDictionary?)
-    {
-        setObject(NSNumber(float:val), forKey:key, inDict:dict, replacement:nil)
-    }
-    
-    public class func setSelector(val:Selector?,forKey key:String,inDict dict:NSMutableDictionary?)
+    open class func setSelector(_ val:Selector?,forKey key:String,inDict dict:NSMutableDictionary?)
     {
         if let s = val
         {
-            setObject(NSStringFromSelector(s), forKey:key, inDict:dict, replacement:nil)
+            setObject(NSStringFromSelector(s) as AnyObject?, forKey:key, inDict:dict, replacement:nil)
         }
         else
         {
@@ -560,32 +550,32 @@ public class DKParser
         }
     }
     
-    public class func setDate(val:NSDate?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:NSDate?=nil)
+    open class func setDate(_ val:Date?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:Date?=nil)
     {
         if let v = val
         {
-            setObject(NSNumber(double:v.timeIntervalSince1970), forKey:key, inDict:dict, replacement:replacement)
+            setObject(NSNumber(value: v.timeIntervalSince1970 as Double), forKey:key, inDict:dict, replacement:replacement as AnyObject?)
         }
         else
         {
-            setObject(val, forKey:key, inDict:dict, replacement:replacement)
+            setObject(val as AnyObject?, forKey:key, inDict:dict, replacement:replacement as AnyObject?)
         }
     }
     
-    public class func setColor(val:UIColor?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:UIColor?=nil,convert:Bool=true)
+    open class func setColor(_ val:UIColor?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:UIColor?=nil,convert:Bool=true)
     {
-        func convert(clr:UIColor) -> String
+        func convertColor(_ clr:UIColor) -> String
         {
             return colorToHexRGBA(clr)
         }
         
         if let v = val
         {
-            setObject(convert(v), forKey:key, inDict:dict, replacement:nil)
+            setString(convertColor(v), forKey:key, inDict:dict, replacement:nil)
         }
         else if let r = replacement
         {
-            setObject(convert(r), forKey:key, inDict:dict, replacement:nil)
+            setString(convertColor(r), forKey:key, inDict:dict, replacement:nil)
         }
         else
         {
@@ -593,22 +583,15 @@ public class DKParser
         }
     }
     
-    public class func setPoint(val:CGPoint,forKey key:String,inDict dict:NSMutableDictionary?)
+    open class func setPoint(_ val:CGPoint,forKey key:String,inDict dict:NSMutableDictionary?)
     {
         let point = NSStringFromCGPoint(val)
-        setObject(point,forKey:key,inDict:dict,replacement:nil)
+        setObject(point as AnyObject?,forKey:key,inDict:dict,replacement:nil)
     }
     
-    public class func setDateId(val:DKDateId?,forKey key:String,inDict dict:NSMutableDictionary?)
+    open class func setDateId(_ val:DKDateId?,forKey key:String,inDict dict:NSMutableDictionary?)
     {
         setString(val?.value,forKey:key,inDict:dict)
     }
 }
 
-extension DKParser
-{
-    public class func fromJSONToDictionary(json:String?) -> [String:NSObject]?
-    {
-        return json?.fromJson
-    }
-}
