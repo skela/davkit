@@ -35,7 +35,7 @@
     return self;
 }
 
-- (id)initWithBlock:(BOOL (^)(DKBarcodeScanViewController*scanner,NSString *code))aBlock
+- (id)initWithBlock:(DKBarcodeScannerBlock)aBlock
 {
     self = [super init];
     if (self)

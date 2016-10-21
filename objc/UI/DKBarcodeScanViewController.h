@@ -14,6 +14,9 @@
 - (void)barcodeScanner:(DKBarcodeScanViewController*)scanner scannedCode:(NSString*)code;
 @end
 
+@class DKBarcodeScanViewController;
+typedef BOOL(^DKBarcodeScannerBlock)(DKBarcodeScanViewController*scanner,NSString *code);
+
 @interface DKBarcodeScanViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
 {
     AVCaptureSession *session;
@@ -23,7 +26,7 @@
 @property(nonatomic,assign) id<DKBarcodeScanDelegate> delegate;
 @property(nonatomic,strong) UIView *cameraPreview;
 - (id)initWithDelegate:(id<DKBarcodeScanDelegate>)delegate;
-- (id)initWithBlock:(BOOL (^)(DKBarcodeScanViewController*scanner,NSString *code))aBlock;
+- (id)initWithBlock:(DKBarcodeScannerBlock)aBlock;
 - (void)terminate;
 + (BOOL)canScan;
 @end
