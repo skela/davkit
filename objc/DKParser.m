@@ -10,6 +10,7 @@
 
 #import "UIColor+DavKit.h"
 #import "NSDate+DavKit.h"
+#import "NSString+DavKit.h"
 
 @implementation DKParser
 
