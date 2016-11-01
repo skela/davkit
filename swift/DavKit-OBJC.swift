@@ -10,7 +10,7 @@ import Foundation
 
 extension DKParser
 {
-    public class func getDict(_ d: [AnyHashable : Any]?, forKey key: String, fallback:[String : Any]?) -> [String : Any]?
+    public class func getDict(_ d: [String : Any]?, forKey key: String, fallback:[String : Any]?) -> [String : Any]?
     {
         return getDictionary(d,forKey:key,fallback:fallback) as? [String:Any]
     }
@@ -24,10 +24,10 @@ public extension Dictionary where Key:Comparable,Value:Any
     }
 }
 
-extension DKParser
-{
-    public class func fromJSONToDictionary(_ json:String?) -> [String:NSObject]?
-    {
-        return json?.fromJson
-    }
-}
+//extension DKParser
+//{
+//    public class func fromJSONToDictionary(_ json:String?) -> [String:NSObject]?
+//    {
+//        return json?.fromJson
+//    }
+//}

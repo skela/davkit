@@ -201,18 +201,6 @@ open class DKParser
         return fallback
     }
     
-    open class func getDict(_ d:[String:Any]?,forKey key:String, fallback:[String:Any]?) -> [String:Any]?
-    {
-        if let od = d
-        {
-            if let obj = od[key] as? [String:Any]
-            {
-                return obj
-            }
-        }
-        return fallback
-    }
-    
     open class func getNumber(_ d:[String:Any]?,forKey key:String, fallback:NSNumber?) -> NSNumber?
     {
         if let obj = d?[key] as? NSNumber { return obj }; return fallback
@@ -361,26 +349,17 @@ open class DKParser
         return fallback
     }
     
-//    open class func getList(_ d:[String:Any]?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
-//    {
-//        if let classe = NSClassFromString("DBList")
-//        {
-//            if let obj = getObject(d,ofClass:classe,forKey:key,fallback:nil) as? IDKList
-//            {
-//                return obj.values()
-//            }
-//        }
-//        return getArray(d,forKey:key,fallback:fallback)
-//    }
-    
-//    open class func getStringList(_ d:[String:Any]?,forKey key:String, fallback:Array<String>?) -> Array<String>?
-//    {
-//        if let ar = getList(d,forKey:key,fallback:nil) as? Array<String>
-//        {
-//            return ar
-//        }
-//        return fallback
-//    }
+    open class func getDict(_ d:[String:Any]?,forKey key:String, fallback:[String:Any]?) -> [String:Any]?
+    {
+        if let od = d
+        {
+            if let obj = od[key] as? [String:Any]
+            {
+                return obj
+            }
+        }
+        return fallback
+    }
     
     open class func getColor(_ d:[String:Any]?,forKey key:String,fallback:UIColor?) -> UIColor?
     {
@@ -472,6 +451,33 @@ open class DKParser
         return fallback
     }
     
+    open class func getList(_ d:[String:Any]?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
+    {
+        if let obj = d?[key] as? IDKList
+        {
+            return obj.values()
+        }
+        return getArray(d,forKey:key,fallback:fallback)
+    }
+    
+    open class func getStringList(_ d:[String:Any]?,forKey key:String, fallback:Array<String>?) -> Array<String>?
+    {
+        if let ar = getList(d,forKey:key,fallback:nil) as? Array<String>
+        {
+            return ar
+        }
+        return fallback
+    }
+    
+    open class func getNumberList(_ d:[String:Any]?,forKey key:String, fallback:Array<NSNumber>?) -> Array<NSNumber>?
+    {
+        if let ar = getList(d,forKey:key,fallback:nil) as? Array<NSNumber>
+        {
+            return ar
+        }
+        return fallback
+    }
+    
     // MARK: Setters
     
     open class func setObject(_ val:Any?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:Any?)
@@ -509,6 +515,11 @@ open class DKParser
     }
     
     open class func setArray(_ val:NSArray?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:NSArray?=nil)
+    {
+        setObject(val, forKey:key, inDict:dict, replacement:replacement)
+    }
+    
+    open class func setArray(_ val:Array<Any>?,forKey key:String,inDict dict:NSMutableDictionary?,replacement:Array<Any>?=nil)
     {
         setObject(val, forKey:key, inDict:dict, replacement:replacement)
     }
@@ -593,5 +604,18 @@ open class DKParser
     {
         setString(val?.value,forKey:key,inDict:dict)
     }
+    
+    open class func setDateId(_ val:Date?,withId id:String?,forKey key:String,inDict dict:NSMutableDictionary?)
+    {
+        if val == nil || id == nil { setString(nil,forKey:key,inDict:dict) }
+        else { setDateId(DKDateId(date:val!,andId:id!),forKey:key,inDict:dict) }
+    }
 }
 
+//public extension Dictionary where Key:Comparable,Value:Any
+//{
+//    public func getDate(_ key:String,fallback:Date?) -> Date?
+//    {
+//        return DKParser.getDate(self,forKey:key,fallback:fallback)
+//    }
+//}

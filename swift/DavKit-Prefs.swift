@@ -11,12 +11,12 @@ import Foundation
 public protocol DKPrefsContainer
 {
     func synchronize() -> Bool
-    func objectForKey(key:String) -> AnyObject?
-    func removeObjectForKey(key:String)
-    func setObject(obj:AnyObject?,forKey:String)
+    func object(forKey key:String) -> Any?
+    func removeObject(forKey key:String)
+    func set(_ obj:Any?,forKey key:String)
 }
 
-extension NSUserDefaults : DKPrefsContainer
+extension UserDefaults : DKPrefsContainer
 {
     
 }
@@ -32,70 +32,74 @@ public class DKPrefs : NSObject
     
     public class var defaults : DKPrefsContainer
     {
-        return NSUserDefaults.standardUserDefaults()
+        return UserDefaults.standard
     }
     
+    @discardableResult
     public class func sync() -> Bool
     {
         return defaults.synchronize()
     }
     
-    public class func getObjectOfClass(classe:AnyClass,forKey key:String,defaultValue def:AnyObject?) -> AnyObject?
+    public class func getObjectOfClass(_ classe:AnyClass,forKey key:String,defaultValue def:AnyObject?) -> AnyObject?
     {
-        let obj = defaults.objectForKey(key)
-        if obj == nil || !obj!.isKindOfClass(classe)
-        {
-            return def
-        }
-        return obj
+        guard let ao = defaults.object(forKey:key) else { return def }
+        
+        let obj = ao as AnyObject
+        if obj.isKind(of:classe) { return obj }
+        
+        return def
     }
     
-    public class func removeObjectForKey(key:String)
+    public class func removeObjectForKey(_ key:String)
     {
-        defaults.removeObjectForKey(key)
+        defaults.removeObject(forKey:key)
     }
     
-    public class func setObject(obj:AnyObject?,ofClass classe:AnyClass,withKey key:String)
+    public class func setObject(_ obj:AnyObject?,ofClass classe:AnyClass,withKey key:String)
     {
-        if obj == nil || !obj!.isKindOfClass(classe)
+        if obj == nil || !obj!.isKind(of:classe)
         {
             removeObjectForKey(key)
         }
         else
         {
-            defaults.setObject(obj!,forKey:key)
+            defaults.set(obj!,forKey:key)
         }
         sync()
     }
     
-    public class func hasObjectOfClass(classe:AnyClass,withKey key:String) -> Bool
+    public class func hasObjectOfClass(_ classe:AnyClass,withKey key:String) -> Bool
     {
-        let obj = defaults.objectForKey(key)
-        if obj == nil || !obj!.isKindOfClass(classe)
+        guard let ao = defaults.object(forKey:key) else { return false }
+        
+        let obj = ao as AnyObject
+        if !obj.isKind(of:classe)
         {
             return false
         }
+        
         return true
     }
     
-    public class func hasObjectWithKey(key:String) -> Bool
+    public class func hasObjectWithKey(_ key:String) -> Bool
     {
-        let obj = defaults.objectForKey(key)
+        let obj = defaults.object(forKey:key)
         return obj != nil
     }
     
     // MARK: Strings
     
-    public class func getStringForKey(key:String,defaultValue def:String?) -> String?
+    public class func getStringForKey(_ key:String,defaultValue def:String?) -> String?
     {
-        if let obj = defaults.objectForKey(key) as? String
+        if let obj = defaults.object(forKey:key) as? String
         {
             return obj
         }
         return def
     }
     
-    public class func setString(obj:String?,withKey key:String)
+    public class func setString(_ obj:String?,withKey key:String)
     {
         if obj == nil
         {
@@ -103,147 +107,161 @@ public class DKPrefs : NSObject
         }
         else
         {
-            defaults.setObject(obj!,forKey:key)
+            defaults.set(obj!,forKey:key)
         }
         sync()
     }
     
-    public class func hasStringWithKey(key:String) -> Bool
+    public class func hasStringWithKey(_ key:String) -> Bool
     {
-        if let _ = defaults.objectForKey(key) as? String
+        if let _ = defaults.object(forKey:key) as? String
         {
             return true
         }
         return false
     }
     
+    // MARK: Data
+    
+    public class func getData(forKey key:String,default def:Data?) -> Data?
+    {
+        if let obj = defaults.object(forKey:key) as? Data
+        {
+            return obj
+        }
+        return def
+    }
+    
+    public class func setData(_ obj:Data?,withKey key:String)
+    {
+        if obj == nil
+        {
+            removeObjectForKey(key)
+        }
+        else
+        {
+            defaults.set(obj!,forKey:key)
+        }
+        sync()
+    }
+    
     // MARK: Setters
     
-    public class func setNumber(n:NSNumber?,withKey key:String)
+    public class func setNumber(_ n:NSNumber?,withKey key:String)
     {
         setObject(n,ofClass:NSNumber.self,withKey:key)
     }
     
-    public class func setBool(b:Bool,withKey key:String)
+    public class func setBool(_ b:Bool,withKey key:String)
     {
-        setNumber(NSNumber(bool:b),withKey:key)
+        setNumber(NSNumber(value:b),withKey:key)
     }
     
-    public class func setInteger(i:Int,withKey key:String)
+    public class func setInteger(_ i:Int,withKey key:String)
     {
-        setNumber(NSNumber(integer:i),withKey:key)
+        setNumber(NSNumber(value:i),withKey:key)
     }
     
-    public class func setLong(l:CLong,withKey key:String)
+    public class func setLong(_ l:CLong,withKey key:String)
     {
-        setNumber(NSNumber(long:l),withKey:key)
+        setNumber(NSNumber(value:l),withKey:key)
     }
     
-    public class func setLongLong(l:CLongLong,withKey key:String)
+    public class func setLongLong(_ l:CLongLong,withKey key:String)
     {
-        setNumber(NSNumber(longLong:l),withKey:key)
+        setNumber(NSNumber(value:l),withKey:key)
     }
     
-    public class func setDouble(d:Double,withKey key:String)
+    public class func setDouble(_ d:Double,withKey key:String)
     {
-        setNumber(NSNumber(double:d),withKey:key)
+        setNumber(NSNumber(value:d),withKey:key)
     }
     
-    public class func setFloat(f:Float,withKey key:String)
+    public class func setFloat(_ f:Float,withKey key:String)
     {
-        setNumber(NSNumber(float:f),withKey:key)
+        setNumber(NSNumber(value:f),withKey:key)
     }
     
-    public class func setDate(dt:NSDate?,withKey key:String)
+    public class func setDate(_ dt:Date?,withKey key:String)
     {
         guard let d = dt else { setNumber(nil, withKey: key); return }
-        setNumber(NSNumber(double:d.timeIntervalSince1970),withKey:key)
+        setNumber(NSNumber(value:d.timeIntervalSince1970),withKey:key)
     }
     
-    public class func setDictionary(d:NSDictionary?,withKey key:String)
+    public class func setDictionary(_ d:NSDictionary?,withKey key:String)
     {
         setObject(d,ofClass:NSDictionary.self,withKey:key)
     }
     
-    public class func setArray(ar:Array<AnyObject>?,withKey key:String)
+    public class func setArray(_ ar:NSArray?,withKey key:String)
     {
         setObject(ar,ofClass:NSArray.self,withKey:key)
     }
     
-    public class func setData(ar:NSData?,withKey key:String)
-    {
-        setObject(ar,ofClass:NSData.self,withKey:key)
-    }
-    
-    public class func hasArrayWithKey(key:String) -> Bool
+    public class func hasArrayWithKey(_ key:String) -> Bool
     {
         return hasObjectOfClass(NSArray.self,withKey:key)
     }
     
-    public class func hasDictionaryWithKey(key:String) -> Bool
+    public class func hasDictionaryWithKey(_ key:String) -> Bool
     {
         return hasObjectOfClass(NSDictionary.self,withKey:key)
     }
     
-    public class func hasNumberWithKey(key:String) -> Bool
+    public class func hasNumberWithKey(_ key:String) -> Bool
     {
         return hasObjectOfClass(NSNumber.self,withKey:key)
     }
     
     // MARK: Getters
     
-    public class func getBoolForKey(key:String,defaultValue def:Bool) -> Bool
+    public class func getBoolForKey(_ key:String,defaultValue def:Bool) -> Bool
     {
         return getNumberForKey(key,defaultValue:nil)?.boolValue ?? def
     }
     
-    public class func getIntegerForKey(key:String,defaultValue def:Int) -> Int
+    public class func getIntegerForKey(_ key:String,defaultValue def:Int) -> Int
     {
-        return getNumberForKey(key,defaultValue:nil)?.integerValue ?? def
+        return getNumberForKey(key,defaultValue:nil)?.intValue ?? def
     }
     
-    public class func getLongForKey(key:String,defaultValue def:CLong) -> CLong
+    public class func getLongForKey(_ key:String,defaultValue def:CLong) -> CLong
     {
-        return getNumberForKey(key,defaultValue:nil)?.longValue ?? def
+        return getNumberForKey(key,defaultValue:nil)?.intValue ?? def
     }
     
-    public class func getLongLongForKey(key:String,defaultValue def:CLongLong) -> CLongLong
+    public class func getLongLongForKey(_ key:String,defaultValue def:CLongLong) -> CLongLong
     {
-        return getNumberForKey(key,defaultValue:nil)?.longLongValue ?? def
+        return getNumberForKey(key,defaultValue:nil)?.int64Value ?? def
     }
     
-    public class func getDoubleForKey(key:String,defaultValue def:Double) -> Double
+    public class func getDoubleForKey(_ key:String,defaultValue def:Double) -> Double
     {
         return getNumberForKey(key,defaultValue:nil)?.doubleValue ?? def
     }
     
-    public class func getFloatForKey(key:String,defaultValue def:Float) -> Float
+    public class func getFloatForKey(_ key:String,defaultValue def:Float) -> Float
     {
         return getNumberForKey(key,defaultValue:nil)?.floatValue ?? def
     }
     
-    public class func getDateForKey(key:String,defaultValue def:NSDate?) -> NSDate?
+    public class func getDateForKey(_ key:String,defaultValue def:Date?) -> Date?
     {
-        if let n = getNumberForKey(key,defaultValue:nil) { return NSDate(timeIntervalSince1970:n.doubleValue) }
+        if let n = getNumberForKey(key,defaultValue:nil) { return Date(timeIntervalSince1970:n.doubleValue) }
         return def
     }
     
-    public class func getDictionaryForKey(key:String,defaultValue def:NSDictionary?) -> NSDictionary?
+    public class func getDictionaryForKey(_ key:String,defaultValue def:NSDictionary?) -> NSDictionary?
     {
         return getObjectOfClass(NSDictionary.self,forKey:key,defaultValue:def) as? NSDictionary ?? def
     }
     
-    public class func getArrayForKey(key:String,defaultValue def:Array<AnyObject>?) -> Array<AnyObject>?
+    public class func getArrayForKey(_ key:String,defaultValue def:NSArray?) -> NSArray?
     {
-        return getObjectOfClass(NSArray.self,forKey:key,defaultValue:def) as? Array<AnyObject> ?? def
+        return getObjectOfClass(NSArray.self,forKey:key,defaultValue:def) as? NSArray ?? def
     }
-    
-    public class func getDataForKey(key:String,defaultValue def:NSData?) -> NSData?
-    {
-        return getObjectOfClass(NSData.self,forKey:key,defaultValue:def) as? NSData ?? def
-    }
-    
-    public class func getNumberForKey(key:String,defaultValue def:NSNumber?) -> NSNumber?
+        
+    public class func getNumberForKey(_ key:String,defaultValue def:NSNumber?) -> NSNumber?
     {
         return getObjectOfClass(NSNumber.self,forKey:key,defaultValue:def) as? NSNumber ?? def
     }
