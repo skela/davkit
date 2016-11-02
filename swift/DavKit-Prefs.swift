@@ -21,7 +21,7 @@ extension UserDefaults : DKPrefsContainer
     
 }
 
-public class DKPrefs : NSObject
+open class DKPrefs : NSObject
 {
     public class func clear()
     {
@@ -82,7 +82,7 @@ public class DKPrefs : NSObject
         return true
     }
     
-    public class func hasObjectWithKey(_ key:String) -> Bool
+    public class func hasObject(withKey key:String) -> Bool
     {
         let obj = defaults.object(forKey:key)
         return obj != nil
@@ -112,7 +112,7 @@ public class DKPrefs : NSObject
         sync()
     }
     
-    public class func hasStringWithKey(_ key:String) -> Bool
+    public class func hasString(withKey key:String) -> Bool
     {
         if let _ = defaults.object(forKey:key) as? String
         {
@@ -193,14 +193,22 @@ public class DKPrefs : NSObject
         setObject(d,ofClass:NSDictionary.self,withKey:key)
     }
     
-    public class func setArray(_ ar:NSArray?,withKey key:String)
-    {
-        setObject(ar,ofClass:NSArray.self,withKey:key)
-    }
-    
     public class func hasArrayWithKey(_ key:String) -> Bool
     {
         return hasObjectOfClass(NSArray.self,withKey:key)
+    }
+    
+    public class func setArray(_ obj:Array<Any>?,withKey key:String)
+    {
+        if obj == nil
+        {
+            removeObjectForKey(key)
+        }
+        else
+        {
+            defaults.set(obj!,forKey:key)
+        }
+        sync()
     }
     
     public class func hasDictionaryWithKey(_ key:String) -> Bool

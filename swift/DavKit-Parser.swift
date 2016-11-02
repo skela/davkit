@@ -32,22 +32,22 @@ public extension UIColor
         return c![index]
     }
     
-    var red : CGFloat
+    var redComponent : CGFloat
     {
         return rgbComponent(0)
     }
     
-    var green : CGFloat
+    var greenComponent : CGFloat
     {
         return rgbComponent(1)
     }
     
-    var blue : CGFloat
+    var blueComponent : CGFloat
     {
         return rgbComponent(2)
     }
     
-    var alpha : CGFloat
+    var alphaComponent : CGFloat
     {
         return cgColor.alpha
     }
@@ -147,10 +147,10 @@ public extension DKParser
     
     class func colorToHexRGBA(_ u:UIColor) -> String
     {
-        let r = u.red
-        let g = u.green
-        let b = u.blue
-        let a = u.alpha
+        let r = u.redChannel
+        let g = u.greenChannel
+        let b = u.blueChannel
+        let a = u.alphaChannel
         let ri = Int(r*255)
         let gi = Int(g*255)
         let bi = Int(b*255)
@@ -161,7 +161,7 @@ public extension DKParser
 
 open class DKParser
 {
-    open class func getSafeNumber(_ d:[String:Any]?,forKey key:String, fallback:NSNumber) -> NSNumber
+    open class func getSafeNumber(_ d:[AnyHashable:Any]?,forKey key:String, fallback:NSNumber) -> NSNumber
     {
         if let ret = getNumber(d, forKey: key, fallback: fallback)
         {
@@ -170,7 +170,7 @@ open class DKParser
         return fallback
     }
     
-    open class func getSafeNumber(_ d:[String:Any]?,forKeys keys:Array<String>,fallback:NSNumber) -> NSNumber
+    open class func getSafeNumber(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>,fallback:NSNumber) -> NSNumber
     {
         if let ret = getNumber(d, forKeys: keys, fallback: fallback)
         {
@@ -179,17 +179,17 @@ open class DKParser
         return fallback
     }
     
-    open class func getValue(_ d:[String:Any]?,forKey key:String, fallback:NSValue?) -> NSValue?
+    open class func getValue(_ d:[AnyHashable:Any]?,forKey key:String, fallback:NSValue?) -> NSValue?
     {
         if let obj = d?[key] as? NSValue { return obj }; return fallback
     }
     
-    open class func getArray(_ d:[String:Any]?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
+    open class func getArray(_ d:[AnyHashable:Any]?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
     {
         if let obj = d?[key] as? Array<AnyObject> { return obj }; return fallback
     }
     
-    open class func getDictionary(_ d:[String:Any]?,forKey key:String, fallback:[AnyHashable: Any]?) -> [AnyHashable: Any]?
+    open class func getDictionary(_ d:[AnyHashable:Any]?,forKey key:String, fallback:[AnyHashable: Any]?) -> [AnyHashable: Any]?
     {
         if let od = d
         {
@@ -201,102 +201,112 @@ open class DKParser
         return fallback
     }
     
-    open class func getNumber(_ d:[String:Any]?,forKey key:String, fallback:NSNumber?) -> NSNumber?
+    open class func getNumber(_ d:[AnyHashable:Any]?,forKey key:String, fallback:NSNumber?) -> NSNumber?
     {
         if let obj = d?[key] as? NSNumber { return obj }; return fallback
     }
     
-    open class func getInteger(_ d:[String:Any]?,forKey key:String, fallback:Int) -> Int
+    open class func getInteger(_ d:[AnyHashable:Any]?,forKey key:String, fallback:Int) -> Int
     {
         return getSafeNumber(d, forKey: key, fallback:NSNumber(value:fallback)).intValue
     }
     
-    open class func getBool(_ d:[String:Any]?,forKey key:String, fallback:Bool) -> Bool
+    open class func getBool(_ d:[AnyHashable:Any]?,forKey key:String, fallback:Bool) -> Bool
     {
         return getSafeNumber(d, forKey: key, fallback:fallback as NSNumber).boolValue
     }
     
-    open class func getFloat(_ d:[String:Any]?,forKey key:String, fallback:Float) -> Float
+    open class func getFloat(_ d:[AnyHashable:Any]?,forKey key:String, fallback:Float) -> Float
     {
         return getSafeNumber(d, forKey: key, fallback:NSNumber(value:fallback)).floatValue
     }
     
-    open class func getCGFloat(_ d:[String:Any]?,forKey key:String, fallback:CGFloat) -> CGFloat
+    open class func getCGFloat(_ d:[AnyHashable:Any]?,forKey key:String, fallback:CGFloat) -> CGFloat
     {
         return CGFloat(getSafeNumber(d, forKey: key, fallback:NSNumber(value:Float(fallback))).floatValue)
     }
     
-    open class func getDouble(_ d:[String:Any]?,forKey key:String, fallback:Double) -> Double
+    open class func getDouble(_ d:[AnyHashable:Any]?,forKey key:String, fallback:Double) -> Double
     {
         return getSafeNumber(d, forKey: key, fallback:NSNumber(value:fallback)).doubleValue
     }
     
-    open class func getInt(_ d:[String:Any]?,forKey key:String, fallback:Int32) -> Int32
+    open class func getInt(_ d:[AnyHashable:Any]?,forKey key:String, fallback:Int32) -> Int32
     {
         return getSafeNumber(d, forKey: key, fallback:NSNumber(value: fallback as Int32)).int32Value
     }
     
-    open class func getLongLong(_ d:[String:Any]?,forKey key:String, fallback:Int64) -> Int64
+    open class func getLongLong(_ d:[AnyHashable:Any]?,forKey key:String, fallback:Int64) -> Int64
     {
         return getSafeNumber(d, forKey: key, fallback:NSNumber(value: fallback as Int64)).int64Value
     }
     
-    open class func getValue(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:NSValue?) -> NSValue?
+    open class func getUnsignedLongLong(_ d:[AnyHashable:Any]?,forKey key:String, fallback:UInt64) -> UInt64
+    {
+        return getSafeNumber(d, forKey: key, fallback:NSNumber(value: fallback as UInt64)).uint64Value
+    }
+    
+    open class func getValue(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:NSValue?) -> NSValue?
     {
         for key in keys { if let obj = getValue(d,forKey:key,fallback:nil) { return obj } }; return fallback
     }
     
-    open class func getArray(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Array<AnyObject>?) -> Array<AnyObject>?
+    open class func getArray(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:Array<AnyObject>?) -> Array<AnyObject>?
     {
         for key in keys { if let obj = getArray(d,forKey:key,fallback:nil) { return obj } }; return fallback
     }
     
-    open class func getDict(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:[String:Any]?) -> [String:Any]?
+    open class func getDict(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:[String:Any]?) -> [String:Any]?
     {
         for key in keys { if let obj = getDict(d,forKey:key,fallback:nil) { return obj } }; return fallback
     }
     
-    open class func getNumber(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:NSNumber?) -> NSNumber?
+    open class func getNumber(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:NSNumber?) -> NSNumber?
     {
         for key in keys { if let obj = getNumber(d,forKey:key,fallback:nil) { return obj } }; return fallback
     }
     
-    open class func getInteger(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Int) -> Int
+    open class func getInteger(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:Int) -> Int
     {
         return getSafeNumber(d, forKeys:keys, fallback:NSNumber(value:fallback)).intValue
     }
     
-    open class func getBool(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Bool) -> Bool
+    open class func getBool(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:Bool) -> Bool
     {
         return getSafeNumber(d, forKeys: keys, fallback:fallback as NSNumber).boolValue
     }
     
-    open class func getFloat(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Float) -> Float
+    open class func getFloat(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:Float) -> Float
     {
         return getSafeNumber(d, forKeys: keys, fallback:NSNumber(value:fallback)).floatValue
     }
     
-    open class func getCGFloat(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:CGFloat) -> CGFloat
+    open class func getCGFloat(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:CGFloat) -> CGFloat
     {
         return CGFloat(getSafeNumber(d, forKeys: keys, fallback:NSNumber(value:Float(fallback))).floatValue)
     }
     
-    open class func getDouble(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Double) -> Double
+    open class func getDouble(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:Double) -> Double
     {
         return getSafeNumber(d, forKeys: keys, fallback:NSNumber(value:fallback)).doubleValue
     }
     
-    open class func getInt(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Int32) -> Int32
+    open class func getInt(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:Int32) -> Int32
     {
         return getSafeNumber(d, forKeys: keys, fallback:NSNumber(value: fallback as Int32)).int32Value
     }
     
-    open class func getLongLong(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:Int64) -> Int64
+    open class func getLongLong(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:Int64) -> Int64
     {
         return getSafeNumber(d, forKeys: keys, fallback:NSNumber(value: fallback as Int64)).int64Value
     }
     
-    open class func getString(_ d:[String:Any]?,forKey key:String, fallback:String?) -> String?
+    open class func getUnsignedLongLong(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:UInt64) -> UInt64
+    {
+        return getSafeNumber(d, forKeys: keys, fallback:NSNumber(value:fallback as UInt64)).uint64Value
+    }
+    
+    open class func getString(_ d:[AnyHashable:Any]?,forKey key:String, fallback:String?) -> String?
     {
         if let od = d
         {
@@ -308,7 +318,7 @@ open class DKParser
         return fallback
     }
     
-    open class func getString(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:String?) -> String?
+    open class func getString(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:String?) -> String?
     {
         for key in keys
         {
@@ -317,7 +327,7 @@ open class DKParser
         return fallback
     }
     
-    open class func getDate(_ d:[String:Any]?,forKey key:String,fallback:Date?) -> Date?
+    open class func getDate(_ d:[AnyHashable:Any]?,forKey key:String,fallback:Date?) -> Date?
     {
         if let n = d?[key] as? NSNumber
         {
@@ -330,7 +340,7 @@ open class DKParser
         return fallback
     }
     
-    open class func getDate(_ d:[String:Any]?,forKeys keys:Array<String>,fallback:Date?) -> Date?
+    open class func getDate(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>,fallback:Date?) -> Date?
     {
         for key in keys
         {
@@ -349,7 +359,7 @@ open class DKParser
         return fallback
     }
     
-    open class func getDict(_ d:[String:Any]?,forKey key:String, fallback:[String:Any]?) -> [String:Any]?
+    open class func getDict(_ d:[AnyHashable:Any]?,forKey key:String, fallback:[String:Any]?) -> [String:Any]?
     {
         if let od = d
         {
@@ -361,7 +371,7 @@ open class DKParser
         return fallback
     }
     
-    open class func getColor(_ d:[String:Any]?,forKey key:String,fallback:UIColor?) -> UIColor?
+    open class func getColor(_ d:[AnyHashable:Any]?,forKey key:String,fallback:UIColor?) -> UIColor?
     {
         if let s = d?[key] as? String
         {
@@ -374,7 +384,7 @@ open class DKParser
         return fallback
     }
     
-    open class func getColor(_ d:[String:Any]?,forKeys keys:Array<String>,fallback:UIColor?) -> UIColor?
+    open class func getColor(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>,fallback:UIColor?) -> UIColor?
     {
         for key in keys
         {
@@ -383,12 +393,12 @@ open class DKParser
         return fallback
     }
     
-    open class func getPoint(_ d:[String:Any]?,forKey key:String, fallback:CGPoint) -> CGPoint
+    open class func getPoint(_ d:[AnyHashable:Any]?,forKey key:String, fallback:CGPoint) -> CGPoint
     {
         return getPoint(d,forKeys:[key],fallback:fallback)
     }
     
-    open class func getPoint(_ d:[String:Any]?,forKeys keys:Array<String>, fallback:CGPoint) -> CGPoint
+    open class func getPoint(_ d:[AnyHashable:Any]?,forKeys keys:Array<String>, fallback:CGPoint) -> CGPoint
     {
         var p = fallback
         
@@ -439,7 +449,7 @@ open class DKParser
         return p;
     }
     
-    open class func getDateId(_ d:[String:Any]?,forKey key:String, fallback:DKDateId?) -> DKDateId?
+    open class func getDateId(_ d:[AnyHashable:Any]?,forKey key:String, fallback:DKDateId?) -> DKDateId?
     {
         if let s = getString(d,forKey:key,fallback:nil)
         {
@@ -451,7 +461,7 @@ open class DKParser
         return fallback
     }
     
-    open class func getList(_ d:[String:Any]?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
+    open class func getList(_ d:[AnyHashable:Any]?,forKey key:String, fallback:Array<AnyObject>?) -> Array<AnyObject>?
     {
         if let obj = d?[key] as? IDKList
         {
@@ -460,7 +470,7 @@ open class DKParser
         return getArray(d,forKey:key,fallback:fallback)
     }
     
-    open class func getStringList(_ d:[String:Any]?,forKey key:String, fallback:Array<String>?) -> Array<String>?
+    open class func getStringList(_ d:[AnyHashable:Any]?,forKey key:String, fallback:Array<String>?) -> Array<String>?
     {
         if let ar = getList(d,forKey:key,fallback:nil) as? Array<String>
         {
@@ -469,7 +479,7 @@ open class DKParser
         return fallback
     }
     
-    open class func getNumberList(_ d:[String:Any]?,forKey key:String, fallback:Array<NSNumber>?) -> Array<NSNumber>?
+    open class func getNumberList(_ d:[AnyHashable:Any]?,forKey key:String, fallback:Array<NSNumber>?) -> Array<NSNumber>?
     {
         if let ar = getList(d,forKey:key,fallback:nil) as? Array<NSNumber>
         {
@@ -545,6 +555,11 @@ open class DKParser
     }
     
     open class func setFloat(_ val:Float,forKey key:String,inDict dict:NSMutableDictionary?)
+    {
+        setObject(NSNumber(value: val), forKey:key, inDict:dict, replacement:nil)
+    }
+    
+    open class func setUnsignedLongLong(_ val:UInt64,forKey key:String,inDict dict:NSMutableDictionary?)
     {
         setObject(NSNumber(value: val), forKey:key, inDict:dict, replacement:nil)
     }
