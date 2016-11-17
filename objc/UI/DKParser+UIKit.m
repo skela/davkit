@@ -139,12 +139,28 @@ void processPathElement (void *info, const CGPathElement *element)
 
 + (UIColor*)getColor:(NSDictionary*)d forKey:(NSString*)key fallback:(UIColor*)fallBack
 {
-    NSString *n=[d objectForKey:key];
-    if (n!=nil && [n isKindOfClass:[NSString class]])
+    id obj = [d objectForKey:key];
+    if (obj!=nil && [obj isKindOfClass:[NSString class]])
     {
+        NSString *n = (NSString*)obj;
         id val = [UIColor colorFromHexRGBOrRGBAString:n];
         if (val!=nil && [val isKindOfClass:[UIColor class]])
             return val;
+    }
+    if (obj!=nil && [obj isKindOfClass:[UIColor class]])
+    {
+        UIColor *clr = (UIColor*)obj;
+        return clr;
+    }
+    return fallBack;
+}
+
++ (UIColor*)getColor:(NSDictionary*)d forKeys:(NSArray*)keys fallback:(UIColor*)fallBack
+{
+    for(NSString *key in keys)
+    {
+        UIColor *clr = [DKParser getColor:d forKey:key fallback:nil];
+        if (clr!=nil) return clr;
     }
     return fallBack;
 }

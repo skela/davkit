@@ -11,6 +11,7 @@
 @interface DKParser (UIKit)
 
 + (nullable UIColor*)getColor:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable UIColor*)fallBack;
++ (nullable UIColor*)getColor:(nullable NSDictionary*)d forKeys:(nonnull NSArray*)keys fallback:(nullable UIColor*)fallBack;
 + (void)setColor:(nullable UIColor*)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
 + (nullable UIBezierPath*)getBezierPath:(nullable NSDictionary*)d forKey:(nonnull NSString*)key fallback:(nullable UIBezierPath*)fallBack;
 + (void)setBezierPath:(nullable UIBezierPath*)val forKey:(nonnull NSString*)key inDict:(nullable NSMutableDictionary*)dict;
