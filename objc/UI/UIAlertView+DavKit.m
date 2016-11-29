@@ -36,6 +36,7 @@ NSString* const DKAlertSheetDisappeared = @"com.davkit.dkalertdisappeared";
 @interface DKAlertController()
 @property(nonatomic,strong) UIAlertController *alert;
 @property(nonatomic,strong) NSMutableDictionary *actions;
+@property(nonatomic,strong) NSMutableDictionary *clicks;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -52,7 +53,9 @@ static NSMutableArray *legacy = nil;
 + (void)initialize
 {
     if (! legacy)
+    {
         legacy = [[NSMutableArray alloc] init];
+    }
 }
 
 - (instancetype)initWithTitle:(NSString*)title
@@ -78,6 +81,7 @@ static NSMutableArray *legacy = nil;
 - (void)setup:(NSString*)title message:(NSString*)message
 {
     self.actions = [NSMutableDictionary new];
+    self.clicks = [NSMutableDictionary new];
 }
 
 - (void)addButton:(DKAlertButton)type title:(NSString*)title action:(void (^)(NSString *btn))action
@@ -121,6 +125,52 @@ static NSMutableArray *legacy = nil;
     }
 }
 
+- (void)addButton:(DKAlertButton)type title:(NSString*)title clicked:(DKEmptyBlock)clicked
+{
+    if (self.alert!=nil)
+    {
+        UIAlertActionStyle style = UIAlertActionStyleDefault;
+        switch (type)
+        {
+            case DKAlertButtonCancel: style = UIAlertActionStyleCancel; break;
+            case DKAlertButtonDestructive: style = UIAlertActionStyleDestructive; break;
+            case DKAlertButtonDefault: style = UIAlertActionStyleDefault; break;
+        }
+        if (style==UIAlertActionStyleDestructive && self.view!=nil)
+            style = UIAlertActionStyleDefault;
+        
+        if (style==UIAlertActionStyleCancel)
+            if (clicked!=nil) [self.clicks setObject:clicked forKey:@(UIAlertActionStyleCancel)];
+        
+        [self.alert addAction:[UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *act)
+        {
+           if (clicked!=NULL)
+               clicked();
+        }]];
+    }
+    if (self.view!=nil)
+    {
+        NSInteger index = [self.view addButtonWithTitle:title];
+        if (type==DKAlertButtonCancel)
+            self.view.cancelButtonIndex = index;
+        if (clicked!=nil) [self.clicks setObject:clicked forKey:@(index)];
+    }
+    if (self.sheet!=nil)
+    {
+        NSInteger index = [self.sheet addButtonWithTitle:title];
+        if (type==DKAlertButtonCancel)
+            self.sheet.cancelButtonIndex = index;
+        if (type==DKAlertButtonDestructive)
+            self.sheet.destructiveButtonIndex = index;
+        if (clicked!=nil) [self.clicks setObject:clicked forKey:@(index)];
+    }
+}
+
+- (void)addButton:(NSString*)button clicked:(DKEmptyBlock)clicked
+{
+    [self button:button clicked:clicked];
+}
+
 - (void)addButton:(NSString*)btn action:(void (^)(NSString *btn))action
 {
     [self button:btn action:action];
@@ -129,6 +179,11 @@ static NSMutableArray *legacy = nil;
 - (void)button:(NSString*)btn action:(void (^)(NSString *btn))action
 {
     [self addButton:DKAlertButtonDefault title:btn action:action];
+}
+
+- (void)button:(NSString*)btn clicked:(DKEmptyBlock)clicked
+{
+    [self addButton:DKAlertButtonDefault title:btn clicked:clicked];
 }
 
 - (void)addCancel:(NSString*)cancel
@@ -154,6 +209,13 @@ static NSMutableArray *legacy = nil;
         void (^action)()  = obj;
         action(btnTitle);
     }
+    id click = [self.clicks objectForKey:@(buttonIndex)];
+    if (click!=nil)
+    {
+        void (^action)()  = click;
+        action();
+    }
+
     [legacy removeObject:self];
 }
 

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^DKEmptyBlock)(void);
 typedef void(^DKStringBlock)( NSString* _Nonnull );
 typedef void(^DKTextFieldConfiguratorBlock)( UITextField* _Nonnull );
 typedef void(^DKTextFieldDoneBlock)( id _Nonnull,NSString *_Nullable );
@@ -17,6 +18,7 @@ typedef void(^DKTextFieldDoneBlock)( id _Nonnull,NSString *_Nullable );
 - (nonnull instancetype)initWithTitle:(nullable NSString*)title;
 - (nonnull instancetype)initWithTitle:(nullable NSString*)title andMessage:(nullable NSString*)msg;
 
+- (void)addButton:(nonnull NSString*)button clicked:(nonnull DKEmptyBlock)action;
 - (void)addButton:(nonnull NSString*)btn action:(nullable DKStringBlock)action;
 - (void)addCancel:(nonnull NSString*)cancel;
 - (void)addCancel:(nonnull NSString*)cancel action:(nullable DKStringBlock)action;
