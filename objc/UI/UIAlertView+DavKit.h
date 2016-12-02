@@ -47,6 +47,7 @@ typedef void(^DKTextFieldDoneBlock)( id _Nonnull,NSString *_Nullable );
 
 - (void)addDestructive:(nonnull NSString*)destructive;
 - (void)addDestructive:(nonnull NSString*)destructive action:(nullable DKStringBlock)action;
+- (void)addDestructive:(nonnull NSString*)destructive clicked:(nonnull DKEmptyBlock)action;
 - (void)addButtons:(nonnull NSArray*)btns action:(nullable DKStringBlock)action;
 
 - (void)destructive:(nonnull NSString*)destructive action:(nullable DKStringBlock)action;

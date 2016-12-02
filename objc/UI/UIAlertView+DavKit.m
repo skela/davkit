@@ -432,6 +432,11 @@ static NSMutableArray *legacy = nil;
     [self destructive:destructive action:action];
 }
 
+- (void)addDestructive:(NSString*)destructive clicked:(DKEmptyBlock)action
+{
+    [self addButton:DKAlertButtonDestructive title:destructive clicked:action];
+}
+
 - (void)destructive:(NSString*)destructive action:(void (^)(NSString *btn))action
 {
     [self addButton:DKAlertButtonDestructive title:destructive action:action];
