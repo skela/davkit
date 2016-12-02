@@ -131,6 +131,15 @@ public extension Dictionary where Key:JSONKeyType,Value:Any
     }
 }
 
+public extension ExpressibleByArrayLiteral where Element == [String:Any]
+{
+    public var toJson : String?
+    {
+        let any = self as Any
+        return JSON.toString(any)
+    }
+}
+
 //public extension NSDictionary
 //{
 //    public var toJson : String?
