@@ -38,6 +38,9 @@ NSString* const DKAlertSheetDisappeared = @"com.davkit.dkalertdisappeared";
 @property(nonatomic,strong) NSMutableDictionary *actions;
 @property(nonatomic,strong) NSMutableDictionary *clicks;
 
+@property(nonatomic,strong) UIAlertAction *textDoneAction;
+@property(strong) BOOL(^textValidator)(NSString*);
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 @property(nonatomic,strong) UIAlertView *view;
@@ -307,15 +310,39 @@ static NSMutableArray *legacy = nil;
     }
 }
 
-
-- (void)addTextDone:(NSString*)button done:(void (^)(id sender,NSString *text))done
+- (void)addTextValidator:(DKTextFieldValidatorBlock)validator
 {
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
     {
-        [self.alert addAction:[UIAlertAction actionWithTitle:button style:UIAlertActionStyleDefault handler:^(UIAlertAction*action)
+        self.textValidator = validator;
+        UITextField *defaultField = [self textField:0];
+        [self textChanged:defaultField];
+        [defaultField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
+    }
+}
+
+- (void)textChanged:(UITextField*)tf
+{
+    BOOL enabled = self.textValidator != nil ? self.textValidator(tf.text) : YES;
+    self.textDoneAction.enabled = enabled;
+}
+
+- (void)addTextDone:(NSString*)button done:(DKTextFieldDoneBlock)done
+{
+    [self addTextDone:button done:done validator:nil];
+}
+
+- (void)addTextDone:(NSString*)button done:(DKTextFieldDoneBlock)done validator:(DKTextFieldValidatorBlock)validator
+{
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
+    {
+        self.textDoneAction = [UIAlertAction actionWithTitle:button style:UIAlertActionStyleDefault handler:^(UIAlertAction*action)
         {
-            done(self,[self textField:0].text);
-        }]];
+           done(self,[self textField:0].text);
+        }];
+        [self.alert addAction:self.textDoneAction];
+        if (validator!=nil)
+            [self addTextValidator:validator];
     }
     else
     {

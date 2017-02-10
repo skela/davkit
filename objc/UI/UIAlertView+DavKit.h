@@ -12,6 +12,7 @@ typedef void(^DKEmptyBlock)(void);
 typedef void(^DKStringBlock)( NSString* _Nonnull );
 typedef void(^DKTextFieldConfiguratorBlock)( UITextField* _Nonnull );
 typedef void(^DKTextFieldDoneBlock)( id _Nonnull,NSString *_Nullable );
+typedef BOOL(^DKTextFieldValidatorBlock)( NSString* _Nonnull );
 
 @interface DKAlertController : NSObject
 
@@ -31,7 +32,9 @@ typedef void(^DKTextFieldDoneBlock)( id _Nonnull,NSString *_Nullable );
 - (void)show:(nonnull UIViewController*)parent container:(nullable id)container animated:(BOOL)animated;
 
 - (void)addTextField:(nonnull DKTextFieldConfiguratorBlock)configurator;
-- (void)addTextDone:(nonnull NSString*)button done:(nullable DKTextFieldDoneBlock)done;
+- (void)addTextDone:(nonnull NSString*)button done:(nonnull DKTextFieldDoneBlock)done;
+- (void)addTextDone:(nonnull NSString*)button done:(nonnull DKTextFieldDoneBlock)done validator:(nullable DKTextFieldValidatorBlock)validator;
+- (void)addTextValidator:(nonnull DKTextFieldValidatorBlock)validator;
 - (nonnull UITextField*)textField:(NSInteger)index;
 
 - (void)dismiss;
