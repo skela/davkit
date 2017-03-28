@@ -354,31 +354,6 @@
     return fallBack;
 }
 
-+ (void)setDateId:(NSDate*)date withId:(NSString*)Id forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
-{
-    if (date==nil || Id==nil)
-        [self setString:nil forKey:key inDict:dict];
-    else
-        [self setDateId:[[DKDateId alloc] initWithDate:date andId:Id] forKey:key inDict:dict];
-}
-
-+ (void)setDateId:(DKDateId*)dateId forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
-{
-    [self setString:[dateId value] forKey:key inDict:dict];
-}
-
-+ (DKDateId*)getDateId:(NSDictionary*)d forKey:(NSString*)key fallback:(DKDateId*)fallBack
-{
-    NSString *s = [DKParser getString:d forKey:key fallback:nil];
-    if (s!=nil)
-    {
-        DKDateId *dateId = [[DKDateId alloc] initWithString:s];
-        if (dateId!=nil)
-            return dateId;
-    }
-    return fallBack;
-}
-
 #pragma mark - Specials
 
 + (double)getDoubleFromString:(NSDictionary*)d forKey:(NSString*)key startsWith:(NSString*)start endsWith:(NSString*)end fallback:(double)fallBack
@@ -561,65 +536,6 @@
         }
     }
     return md;
-}
-
-@end
-
-@implementation DKDateId
-
-- (instancetype)initWithString:(NSString*)s
-{
-    self = [super init];
-    if (self)
-    {
-        self.value = s;
-    }
-    
-    if (self.Id!=nil && self.date!=nil)
-        return self;
-    return nil;
-}
-
-- (instancetype)initWithDate:(NSDate*)aDate andId:(NSString*)anId
-{
-    self = [super init];
-    if (self)
-    {
-        [self setDate:aDate andId:anId];
-    }
-    return self;
-}
-
-- (void)setDate:(NSDate*)aDate andId:(NSString*)anId
-{
-    self.value = [NSString stringWithFormat:@"%f|%@",[aDate timeIntervalSince1970],anId];
-}
-
-- (NSArray*)components
-{
-    return [self.value componentsSeparatedByString:@"|"];
-}
-
-- (NSString*)Id
-{
-    NSArray *c = [self components];
-    if (c.count==2)
-    {
-        return [c objectAtIndex:1];
-    }
-    return nil;
-}
-
-- (NSDate*)date
-{
-    NSArray *c = [self components];
-    if (c.count==2)
-    {
-        NSString *c1 = [c firstObject];
-        NSTimeInterval interval = [c1 doubleValue];
-        return [NSDate dateWithTimeIntervalSince1970:interval];
-    }
-    return nil;
 }
 
 @end
