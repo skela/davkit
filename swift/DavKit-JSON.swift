@@ -155,4 +155,10 @@ public extension Data
         let d = JSON.fromData(self)
         return d as? [String:Any]
     }
+    
+    public var fromJsonArray : [Any]?
+    {
+        let d = JSON.fromDataToArray(self)
+        return d as? [Any]
+    }
 }
