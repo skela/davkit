@@ -114,6 +114,12 @@ extension String
         let d = JSON.fromString(self)
         return d as? [String:Any]
     }
+    
+    public var fromJsonArray : [Any]?
+    {
+        let d = JSON.fromStringToArray(self)
+        return d as? [Any]
+    }
 }
 
 public extension Dictionary where Key:JSONKeyType,Value:Any
