@@ -204,6 +204,26 @@ static NSMutableArray *legacy = nil;
     [self addButton:DKAlertButtonCancel title:cancel action:action];
 }
 
+- (void)addDestructive:(NSString*)destructive
+{
+    [self destructive:destructive action:nil];
+}
+    
+- (void)addDestructive:(NSString*)destructive action:(void (^)(NSString *btn))action
+{
+    [self destructive:destructive action:action];
+}
+    
+- (void)addDestructive:(NSString*)destructive clicked:(DKEmptyBlock)action
+{
+    [self addButton:DKAlertButtonDestructive title:destructive clicked:action];
+}
+    
+- (void)destructive:(NSString*)destructive action:(void (^)(NSString *btn))action
+{
+    [self addButton:DKAlertButtonDestructive title:destructive action:action];
+}
+    
 - (void)legacyDismissedWithButtonIndex:(NSInteger)buttonIndex andButtonTitle:(NSString*)btnTitle
 {
     id obj = [self.actions objectForKey:@(buttonIndex)];
@@ -447,26 +467,6 @@ static NSMutableArray *legacy = nil;
         self.alert = [DKAlertUIViewController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
     else
         [self legacySetup:title message:message];
-}
-
-- (void)addDestructive:(NSString*)destructive
-{
-    [self destructive:destructive action:nil];
-}
-
-- (void)addDestructive:(NSString*)destructive action:(void (^)(NSString *btn))action
-{
-    [self destructive:destructive action:action];
-}
-
-- (void)addDestructive:(NSString*)destructive clicked:(DKEmptyBlock)action
-{
-    [self addButton:DKAlertButtonDestructive title:destructive clicked:action];
-}
-
-- (void)destructive:(NSString*)destructive action:(void (^)(NSString *btn))action
-{
-    [self addButton:DKAlertButtonDestructive title:destructive action:action];
 }
 
 - (void)addButtons:(NSArray*)btns action:(void (^)(NSString *btn))action

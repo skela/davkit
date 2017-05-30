@@ -40,6 +40,10 @@ typedef BOOL(^DKTextFieldValidatorBlock)( NSString* _Nonnull );
 - (void)dismiss;
 - (void)dismissAnimated:(BOOL)animated;
 
+- (void)addDestructive:(nonnull NSString*)destructive;
+- (void)addDestructive:(nonnull NSString*)destructive action:(nullable DKStringBlock)action;
+- (void)addDestructive:(nonnull NSString*)destructive clicked:(nonnull DKEmptyBlock)action;
+    
 @end
 
 @interface DKAlert : DKAlertController <UIAlertViewDelegate>
@@ -48,9 +52,6 @@ typedef BOOL(^DKTextFieldValidatorBlock)( NSString* _Nonnull );
 
 @interface DKSheet : DKAlertController <UIActionSheetDelegate>
 
-- (void)addDestructive:(nonnull NSString*)destructive;
-- (void)addDestructive:(nonnull NSString*)destructive action:(nullable DKStringBlock)action;
-- (void)addDestructive:(nonnull NSString*)destructive clicked:(nonnull DKEmptyBlock)action;
 - (void)addButtons:(nonnull NSArray*)btns action:(nullable DKStringBlock)action;
 
 - (void)destructive:(nonnull NSString*)destructive action:(nullable DKStringBlock)action;
