@@ -26,6 +26,7 @@ typedef BOOL(^DKTextFieldValidatorBlock)( NSString* _Nonnull );
 
 - (void)button:(nonnull NSString*)btn action:(nullable DKStringBlock)action;
 - (void)cancel:(nonnull NSString*)cancel action:(nullable DKStringBlock)action;
+- (void)destructive:(nonnull NSString*)destructive action:(nullable DKStringBlock)action;
 
 - (void)show:(nonnull UIViewController*)parent;
 - (void)show:(nonnull UIViewController*)parent container:(nullable id)container;
@@ -54,7 +55,6 @@ typedef BOOL(^DKTextFieldValidatorBlock)( NSString* _Nonnull );
 
 - (void)addButtons:(nonnull NSArray*)btns action:(nullable DKStringBlock)action;
 
-- (void)destructive:(nonnull NSString*)destructive action:(nullable DKStringBlock)action;
 - (void)buttons:(nonnull NSArray*)btns action:(nullable DKStringBlock)action;
 
 @end
