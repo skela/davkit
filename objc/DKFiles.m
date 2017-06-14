@@ -225,6 +225,11 @@ context.hashObjectPointer = (uint8_t **)&hashObjectFor##hashAlgorithmName
     return [DKFiles fileHash:HashingMethodSHA512 forFile:filePath];
 }
 
++ (NSString *)sha256ForFileAtPath:(NSString *)filePath
+{
+    return [DKFiles fileHash:HashingMethodSHA256 forFile:filePath];
+}
+
 + (NSString*)md5ForFileAtURL:(NSURL*)url
 {
     return [DKFiles fileHash:HashingMethodMD5 forFile:url];
@@ -233,6 +238,11 @@ context.hashObjectPointer = (uint8_t **)&hashObjectFor##hashAlgorithmName
 + (NSString*)sha1ForFileAtURL:(NSURL*)url
 {
     return [DKFiles fileHash:HashingMethodSHA1 forFile:url];
+}
+
++ (NSString*)sha256ForFileAtURL:(NSURL*)url
+{
+    return [DKFiles fileHash:HashingMethodSHA256 forFile:url];
 }
 
 + (NSString*)sha512ForFileAtURL:(NSURL*)url

@@ -13,6 +13,8 @@
 + (NSString*)md5ForFileAtURL:(NSURL*)url;
 + (NSString*)sha1ForFileAtPath:(NSString *)filePath;
 + (NSString*)sha1ForFileAtURL:(NSURL*)url;
++ (NSString*)sha256ForFileAtPath:(NSString *)filePath;
++ (NSString*)sha256ForFileAtURL:(NSURL*)url;
 + (NSString*)sha512ForFileAtPath:(NSString *)filePath;
 + (NSString*)sha512ForFileAtURL:(NSURL*)url;
 + (NSString*)md5ForFileWithHandle:(NSFileHandle*)fileHandle;
