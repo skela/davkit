@@ -137,7 +137,7 @@ public extension Dictionary where Key:JSONKeyType,Value:Any
     }
 }
 
-public extension ExpressibleByArrayLiteral where Element == [String:Any]
+public extension ExpressibleByArrayLiteral where ArrayLiteralElement == [String:Any]
 {
     public var toJson : String?
     {
