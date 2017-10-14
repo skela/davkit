@@ -229,13 +229,13 @@ static NSMutableArray *legacy = nil;
     id obj = [self.actions objectForKey:@(buttonIndex)];
     if (obj!=nil)
     {
-        void (^action)()  = obj;
+        void (^action)(NSString*)  = obj;
         action(btnTitle);
     }
     id click = [self.clicks objectForKey:@(buttonIndex)];
     if (click!=nil)
     {
-        void (^action)()  = click;
+        void (^action)(void)  = click;
         action();
     }
 
@@ -410,7 +410,7 @@ static NSMutableArray *legacy = nil;
         
         if (obj!=nil)
         {
-            void (^action)()  = obj;
+            void (^action)(NSString*)  = obj;
             action(btnTitle);
         }
     }
