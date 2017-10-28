@@ -61,6 +61,16 @@ static NSMutableArray *legacy = nil;
     }
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self setup:nil message:nil];
+    }
+    return self;
+}
+
 - (instancetype)initWithTitle:(NSString*)title
 {
     self = [super init];
