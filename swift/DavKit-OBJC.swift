@@ -50,6 +50,7 @@ extension DKParser
     }
 }
 
+@objcMembers
 public class DKDateId : NSObject
 {
     public var value: String?
