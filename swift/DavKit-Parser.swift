@@ -72,7 +72,7 @@ public extension DKParser
         var blue : CGFloat = 0
         var alpha : CGFloat = 1
         
-        if s.characters.count == 8 || s.characters.count == 9
+        if s.count == 8 || s.count == 9
         {
             let div : CGFloat = 255
             red     = CGFloat((hex & 0xFF000000) >> 24) / div
@@ -102,14 +102,14 @@ public extension DKParser
             {
                 func floatFromComponent(_ s:String) -> CGFloat
                 {
-                    if let i = Float(s)
+                    if let i = Float(s.trim())
                     {
                         return CGFloat(i)
                     }
                     return 0.0
                 }
                 
-                let sub = string.substring(to: ls.lowerBound).substring(from:string.index(rs.lowerBound, offsetBy: 1))
+                let sub = String(string[string.index(rs.lowerBound,offsetBy:1)..<ls.lowerBound])                
                 let comps = sub.components(separatedBy: ",")
                 if comps.count == 4
                 {
