@@ -627,6 +627,27 @@ open class DKParser
     }
 }
 
+public extension Dictionary
+{
+    func getDate(_ key:Key,fallback:Date?=nil) -> Date?
+    {
+        let v = self[key]
+        if let nd = v as? Double
+        {
+            return Date(timeIntervalSince1970:nd)
+        }
+        if let nv = v as? NSNumber
+        {
+            return Date(timeIntervalSince1970:nv.doubleValue)
+        }
+        if let dv = v as? Date
+        {
+            return dv
+        }
+        return fallback
+    }
+}
+
 //public extension Dictionary where Key:Comparable,Value:Any
 //{
 //    public func getDate(_ key:String,fallback:Date?) -> Date?

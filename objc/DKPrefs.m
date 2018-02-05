@@ -71,7 +71,12 @@
     [DKPrefs setObject:[NSNumber numberWithDouble:d] ofClass:[NSNumber class] withKey:key];
 }
 
-+ (void)setFloat:(CGFloat)f withKey:(NSString*)key
++ (void)setFloat:(float)f withKey:(NSString*)key
+{
+    [DKPrefs setObject:[NSNumber numberWithFloat:f] ofClass:[NSNumber class] withKey:key];
+}
+
++ (void)setCGFloat:(CGFloat)f withKey:(NSString*)key
 {
     [DKPrefs setObject:[NSNumber numberWithFloat:f] ofClass:[NSNumber class] withKey:key];
 }
@@ -101,7 +106,12 @@
     NSNumber *n = [DKPrefs getNumberForKey:key defaultValue:nil]; return n==nil ? def : [n doubleValue];
 }
 
-+ (CGFloat)getFloatForKey:(NSString*)key defaultValue:(CGFloat)def
++ (float)getFloatForKey:(NSString*)key defaultValue:(float)def
+{
+    NSNumber *n = [DKPrefs getNumberForKey:key defaultValue:nil]; return n==nil ? def : [n floatValue];
+}
+
++ (CGFloat)getCGFloatForKey:(NSString*)key defaultValue:(CGFloat)def
 {
     NSNumber *n = [DKPrefs getNumberForKey:key defaultValue:nil]; return n==nil ? def : [n floatValue];
 }

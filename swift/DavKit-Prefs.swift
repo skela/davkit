@@ -182,6 +182,11 @@ open class DKPrefs : NSObject
         setNumber(NSNumber(value:f),withKey:key)
     }
     
+    public class func setCGFloat(_ f:CGFloat,withKey key:String)
+    {
+        setNumber(NSNumber(value:Float(f)),withKey:key)
+    }
+    
     public class func setDate(_ dt:Date?,withKey key:String)
     {
         guard let d = dt else { setNumber(nil, withKey: key); return }
@@ -251,6 +256,15 @@ open class DKPrefs : NSObject
     public class func getFloatForKey(_ key:String,defaultValue def:Float) -> Float
     {
         return getNumberForKey(key,defaultValue:nil)?.floatValue ?? def
+    }
+    
+    public class func getCGFloat(forKey key:String,defaultValue def:CGFloat) -> CGFloat
+    {
+        if let num = getNumberForKey(key,defaultValue:nil)
+        {
+            return CGFloat(num.floatValue)
+        }
+        return def
     }
     
     public class func getDateForKey(_ key:String,defaultValue def:Date?) -> Date?

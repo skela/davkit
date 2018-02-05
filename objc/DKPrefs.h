@@ -26,7 +26,8 @@
 + (void)setInteger:(NSInteger)i withKey:(nonnull NSString*)key;
 + (void)setDate:(nullable NSDate*)d withKey:(nonnull NSString*)key;
 + (void)setDouble:(double)d withKey:(nonnull NSString*)key;
-+ (void)setFloat:(CGFloat)f withKey:(nonnull NSString*)key;
++ (void)setFloat:(float)f withKey:(nonnull NSString*)key;
++ (void)setCGFloat:(CGFloat)f withKey:(nonnull NSString*)key;
 + (void)setDictionary:(nullable NSDictionary*)d withKey:(nonnull NSString*)key;
 + (BOOL)getBoolForKey:(nonnull NSString*)key defaultValue:(BOOL)def;
 + (NSInteger)getIntegerForKey:(nonnull NSString*)key defaultValue:(NSInteger)def;
@@ -35,7 +36,8 @@
 + (double)getDoubleForKey:(nonnull NSString*)key defaultValue:(double)def;
 + (nullable NSDate*)getDateForKey:(nonnull NSString*)key defaultValue:(nullable NSDate*)def;
 + (nullable NSDictionary*)getDictionaryForKey:(nonnull NSString*)key defaultValue:(nullable NSDictionary*)def;
-+ (CGFloat)getFloatForKey:(nonnull NSString*)key defaultValue:(CGFloat)def;
++ (CGFloat)getCGFloatForKey:(nonnull NSString*)key defaultValue:(CGFloat)def;
++ (float)getFloatForKey:(nonnull NSString*)key defaultValue:(float)def;
 + (nullable NSArray*)getArrayForKey:(nonnull NSString*)key defaultValue:(nullable NSArray*)def;
 + (void)setArray:(nullable NSArray*)ar withKey:(nonnull NSString*)key;
 + (nullable NSString*)getStringForKey:(nonnull NSString*)key defaultValue:(nullable NSString*)def;
