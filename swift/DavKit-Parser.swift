@@ -2,6 +2,14 @@
 import Foundation
 import UIKit
 
+extension String
+{
+    func trim() -> String
+    {
+        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    }
+}
+
 protocol IDKList : NSObjectProtocol
 {
     func values() -> [AnyObject]?
