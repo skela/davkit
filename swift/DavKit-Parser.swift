@@ -73,7 +73,7 @@ public extension DKParser
         }
         scanner.scanHexInt32(&rgbValue)
         
-        let hex = Int(rgbValue)
+        let hex = UInt32(rgbValue)
         
         var red : CGFloat = 0
         var green : CGFloat = 0
