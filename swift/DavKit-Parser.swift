@@ -147,10 +147,10 @@ public extension DKParser
     
     class func colorToHexRGBA(_ u:UIColor) -> String
     {
-        let r = u.redChannel
-        let g = u.greenChannel
-        let b = u.blueChannel
-        let a = u.alphaChannel
+        let r = u.redComponent
+        let g = u.greenComponent
+        let b = u.blueComponent
+        let a = u.alphaComponent
         let ri = Int(r*255)
         let gi = Int(g*255)
         let bi = Int(b*255)
