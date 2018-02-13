@@ -22,6 +22,16 @@ public extension Dictionary where Key:Comparable,Value:Any
     {
         return DKParser.getDate(self,forKey:key,fallback:fallback)
     }
+    
+    public func getColor(_ key:String,fallback:UIColor?) -> UIColor?
+    {
+        return DKParser.getColor(self,forKey:key,fallback:fallback)
+    }
+    
+    public func getPoint(_ key:String,fallback:CGPoint) -> CGPoint
+    {
+        return DKParser.getPoint(self,forKey:key,fallback:fallback)
+    }
 }
 
 extension DKParser
