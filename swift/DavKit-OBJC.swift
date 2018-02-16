@@ -34,6 +34,24 @@ public extension Dictionary where Key:Comparable,Value:Any
     }
 }
 
+public extension Dictionary where Key:Comparable,Value:Any
+{
+    public mutating func setDate(_ val:Date?,forKey key:Key)
+    {
+        set(val?.timeIntervalSince1970 as? Value,forKey:key)
+    }
+    
+    public mutating func setPoint(_ val:CGPoint,forKey key:Key)
+    {
+        set(NSStringFromCGPoint(val) as? Value,forKey:key)
+    }
+    
+    public mutating func setColor(_ val:UIColor?,forKey key:Key)
+    {
+        set(val?.hexRGBA as? Value,forKey:key)
+    }
+}
+
 extension DKParser
 {
     open class func setDateId(_ val:DKDateId?,forKey key:String,inDict dict:NSMutableDictionary?)

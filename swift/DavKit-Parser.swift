@@ -654,12 +654,32 @@ public extension Dictionary
         }
         return fallback
     }
+    
+    public func getColor(_ key:String,fallback:UIColor?) -> UIColor?
+    {
+        return DKParser.getColor(self,forKey:key,fallback:fallback)
+    }
+    
+    public func getPoint(_ key:String,fallback:CGPoint) -> CGPoint
+    {
+        return DKParser.getPoint(self,forKey:key,fallback:fallback)
+    }
 }
 
-//public extension Dictionary where Key:Comparable,Value:Any
-//{
-//    public func getDate(_ key:String,fallback:Date?) -> Date?
-//    {
-//        return DKParser.getDate(self,forKey:key,fallback:fallback)
-//    }
-//}
+public extension Dictionary where Key:Comparable,Value:Any
+{
+    public mutating func setDate(_ val:Date?,forKey key:Key)
+    {
+        set(val?.timeIntervalSince1970 as? Value,forKey:key)
+    }
+    
+    public mutating func setPoint(_ val:CGPoint,forKey key:Key)
+    {
+        set(NSStringFromCGPoint(val) as? Value,forKey:key)
+    }
+    
+    public mutating func setColor(_ val:UIColor?,forKey key:Key)
+    {
+        set(val?.hexRGBA as? Value,forKey:key)
+    }
+}
