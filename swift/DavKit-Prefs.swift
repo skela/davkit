@@ -193,9 +193,17 @@ open class DKPrefs : NSObject
         setNumber(NSNumber(value:d.timeIntervalSince1970),withKey:key)
     }
     
-    public class func setDictionary(_ d:NSDictionary?,withKey key:String)
+    public class func setDictionary(_ obj:[String:Any]?,withKey key:String)
     {
-        setObject(d,ofClass:NSDictionary.self,withKey:key)
+        if obj == nil
+        {
+            removeObjectForKey(key)
+        }
+        else
+        {
+            defaults.set(obj!,forKey:key)
+        }
+        sync()
     }
     
     public class func hasArrayWithKey(_ key:String) -> Bool
