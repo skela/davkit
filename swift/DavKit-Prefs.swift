@@ -51,7 +51,7 @@ open class DKPrefs : NSObject
         return def
     }
     
-    public class func removeObjectForKey(_ key:String)
+    public class func removeObject(forKey key:String)
     {
         defaults.removeObject(forKey:key)
     }
@@ -60,7 +60,7 @@ open class DKPrefs : NSObject
     {
         if obj == nil || !obj!.isKind(of:classe)
         {
-            removeObjectForKey(key)
+            removeObject(forKey:key)
         }
         else
         {
@@ -103,7 +103,7 @@ open class DKPrefs : NSObject
     {
         if obj == nil
         {
-            removeObjectForKey(key)
+            removeObject(forKey:key)
         }
         else
         {
@@ -136,7 +136,7 @@ open class DKPrefs : NSObject
     {
         if obj == nil
         {
-            removeObjectForKey(key)
+            removeObject(forKey:key)
         }
         else
         {
@@ -197,7 +197,7 @@ open class DKPrefs : NSObject
     {
         if obj == nil
         {
-            removeObjectForKey(key)
+            removeObject(forKey:key)
         }
         else
         {
@@ -215,7 +215,7 @@ open class DKPrefs : NSObject
     {
         if obj == nil
         {
-            removeObjectForKey(key)
+            removeObject(forKey:key)
         }
         else
         {
@@ -294,5 +294,11 @@ open class DKPrefs : NSObject
     public class func getNumberForKey(_ key:String,defaultValue def:NSNumber?) -> NSNumber?
     {
         return getObjectOfClass(NSNumber.self,forKey:key,defaultValue:def) as? NSNumber ?? def
+    }
+    
+    public class func getStrings(_ key:String,defaultValue def:Array<String>?) -> Array<String>?
+    {
+        guard let ao = defaults.object(forKey:key) as? Array<String> else { return def }
+        return ao
     }
 }

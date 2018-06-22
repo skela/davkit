@@ -118,7 +118,8 @@
 
 + (NSDate*)getDateForKey:(NSString*)key defaultValue:(NSDate*)def
 {
-    NSNumber *n = [DKPrefs getNumberForKey:key defaultValue:nil]; return n==nil ? def : [NSDate dateWithTimeIntervalSince1970:[n doubleValue]];
+    NSNumber *n = [DKPrefs getNumberForKey:key defaultValue:nil];
+    return n==nil ? def : [NSDate dateWithTimeIntervalSince1970:[n doubleValue]];
 }
 
 + (NSDictionary*)getDictionaryForKey:(NSString*)key defaultValue:(NSDictionary*)def
