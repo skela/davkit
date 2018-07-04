@@ -23,6 +23,11 @@ public extension Dictionary where Key:Comparable,Value:Any
         return DKParser.getDate(self,forKey:key,fallback:fallback)
     }
     
+    public func getDateId(_ key:String,fallback:DKDateId?) -> DKDateId?
+    {
+        return DKParser.getDateId(self,forKey:key,fallback:fallback)
+    }
+    
     public func getColor(_ key:String,fallback:UIColor?) -> UIColor?
     {
         return DKParser.getColor(self,forKey:key,fallback:fallback)
@@ -39,6 +44,14 @@ public extension Dictionary where Key:Comparable,Value:Any
     public mutating func setDate(_ val:Date?,forKey key:Key)
     {
         set(val?.timeIntervalSince1970 as? Value,forKey:key)
+    }
+    
+    public mutating func setDate(_ val:Date?,withId id:String?,forKey key:Key)
+    {
+        guard let val = val else { set(nil,forKey:key); return }
+        guard let id = id else { set(nil,forKey:key); return }
+        let did = DKDateId(date:val,andId:id)
+        set(did.value as? Value,forKey:key)
     }
     
     public mutating func setPoint(_ val:CGPoint,forKey key:Key)
