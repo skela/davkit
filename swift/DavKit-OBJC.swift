@@ -46,6 +46,11 @@ public extension Dictionary where Key:Comparable,Value:Any
         set(val?.timeIntervalSince1970 as? Value,forKey:key)
     }
     
+    public mutating func setDate(_ val:DKDateId?,forKey key:Key)
+    {
+        set(val?.value as? Value,forKey:key)
+    }
+    
     public mutating func setDate(_ val:Date?,withId id:String?,forKey key:Key)
     {
         guard let val = val else { set(nil,forKey:key); return }
