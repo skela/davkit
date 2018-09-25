@@ -12,6 +12,7 @@
 @interface DKKeyboardHelper : NSObject
 @property(nonatomic,strong) NSMutableArray *adjustableViews;
 @property(nonatomic,strong) NSNotification *lastNotification;
+@property(nonatomic,readwrite) CGFloat topBarHeight;
 
 - (id)initWithView:(UIScrollView*)scrollView;
 

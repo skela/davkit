@@ -121,7 +121,7 @@
 
         if (scrollView != nil)
         {
-            UIEdgeInsets contentInsets = UIEdgeInsetsMake (0.0f, 0.0f, kbSize.height, 0.0f);
+            UIEdgeInsets contentInsets = UIEdgeInsetsMake (0.0f, 0.0f, kbSize.height+self.topBarHeight, 0.0f);
             scrollView.contentInset = contentInsets;
             scrollView.scrollIndicatorInsets = contentInsets;
         }
