@@ -28,6 +28,11 @@ public extension Dictionary where Key:Comparable,Value:Any
         return DKParser.getDateId(self,forKey:key,fallback:fallback)
     }
     
+    public func getColor(_ key:String) -> UIColor?
+    {
+        return getColor(key,fallback:nil)
+    }
+    
     public func getColor(_ key:String,fallback:UIColor?) -> UIColor?
     {
         return DKParser.getColor(self,forKey:key,fallback:fallback)
