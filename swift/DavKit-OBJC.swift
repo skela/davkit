@@ -66,7 +66,7 @@ public extension Dictionary where Key:Comparable,Value:Any
     
     public mutating func setPoint(_ val:CGPoint,forKey key:Key)
     {
-        set(NSStringFromCGPoint(val) as? Value,forKey:key)
+        set(NSCoder.string(for: val) as? Value,forKey:key)
     }
     
     public mutating func setColor(_ val:UIColor?,forKey key:Key)
