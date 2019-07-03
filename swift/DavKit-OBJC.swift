@@ -164,6 +164,6 @@ public class DKDateId : NSObject
     
     func valueFromComponents(_ date:Date,id:String) -> String
     {
-        return String(format:"%g|%@",date.timeIntervalSince1970,id)
+        return String(format:"%f|%@",date.timeIntervalSince1970,id)
     }
 }
