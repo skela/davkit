@@ -449,6 +449,7 @@ static NSMutableArray *legacy = nil;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
 - (void)legacySetup:(NSString*)title message:(NSString*)message
 {
@@ -463,6 +464,7 @@ static NSMutableArray *legacy = nil;
     [self legacyDismissedWithButtonIndex:buttonIndex andButtonTitle:btnTitle];
 }
 
+#pragma clang diagnostic pop
 #pragma GCC diagnostic pop
 
 @end
@@ -492,6 +494,7 @@ static NSMutableArray *legacy = nil;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 
 - (void)legacySetup:(NSString*)title message:(NSString*)message
 {
@@ -506,6 +509,7 @@ static NSMutableArray *legacy = nil;
     [self legacyDismissedWithButtonIndex:buttonIndex andButtonTitle:btnTitle];
 }
 
+#pragma clang diagnostic pop
 #pragma GCC diagnostic pop
 
 @end

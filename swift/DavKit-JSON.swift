@@ -124,13 +124,13 @@ extension String
 
 public extension Dictionary where Key:JSONKeyType,Value:Any
 {
-    public var toJson : String?
+    var toJson : String?
     {
         let any = self as Any
         return JSON.toString(any)
     }
     
-    public var toJsonLegacy : String?
+    var toJsonLegacy : String?
     {
         let any = self as Any
         return JSON.toString(any)
@@ -139,7 +139,7 @@ public extension Dictionary where Key:JSONKeyType,Value:Any
 
 public extension ExpressibleByArrayLiteral where ArrayLiteralElement == [String:Any]
 {
-    public var toJson : String?
+    var toJson : String?
     {
         let any = self as Any
         return JSON.toString(any)
@@ -156,13 +156,13 @@ public extension ExpressibleByArrayLiteral where ArrayLiteralElement == [String:
 
 public extension Data
 {
-    public var fromJson : [String:Any]?
+    var fromJson : [String:Any]?
     {
         let d = JSON.fromData(self)
         return d as? [String:Any]
     }
     
-    public var fromJsonArray : [Any]?
+    var fromJsonArray : [Any]?
     {
         let d = JSON.fromDataToArray(self)
         return d as? [Any]

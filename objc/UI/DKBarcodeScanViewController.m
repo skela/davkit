@@ -116,10 +116,14 @@
     }
 }
 
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self updateInterfaceOrientation:toInterfaceOrientation animated:YES duration:duration];
 }
+
+#pragma clang diagnostic pop
 
 #pragma mark - Scanning
 
