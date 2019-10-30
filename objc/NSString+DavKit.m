@@ -166,42 +166,6 @@
     return nil;
 }
 
-- (NSString*)MD5
-{
-    return [self stringByHashing:HashingMethodMD5];
-}
-
-- (NSString*)SHA1
-{
-    return [self stringByHashing:HashingMethodSHA1];
-}
-
-- (NSString*)SHA224
-{
-    return [self stringByHashing:HashingMethodSHA224];
-}
-
-- (NSString*)SHA256
-{
-    return [self stringByHashing:HashingMethodSHA256];
-}
-
-- (NSString*)SHA384
-{
-    return [self stringByHashing:HashingMethodSHA384];
-}
-
-- (NSString*)SHA512
-{
-    return [self stringByHashing:HashingMethodSHA512];
-}
-
-- (NSString *)stringByHashing:(HashingMethod)hashMethod
-{
-    NSData *hexData = [DKStringHelper hexDataForString:self usingHashMethod:hashMethod];
-    return [DKStringHelper hexDataToString:hexData];
-}
-
 - (NSString *)stringForPath
 {
     return [DKStringHelper stringForPath:self];

@@ -42,16 +42,11 @@ typedef enum
 - (NSString *)extractStringLookingFor:(NSString *)lookFor andStopBefore:(NSString *)stopBefore;
 - (NSString *)stringByReplacingPercentEscapes;
 - (NSString*)first;
-- (NSString *)stringByHashing:(HashingMethod)hashMethod;
 - (NSString *)stringByEncrypting:(EncryptionMethod)encryptionMethod withKey:(NSString*)key;
 - (NSString *)stringByDecrypting:(EncryptionMethod)encryptionMethod withKey:(NSString*)key;
 - (NSString *)stringForPath;
 + (NSString*)uuid;
 
-- (NSString*)MD5;
-- (NSString*)SHA1;
-- (NSString*)SHA224;
-- (NSString*)SHA256;
 - (NSString *)base64;
 
 @end
